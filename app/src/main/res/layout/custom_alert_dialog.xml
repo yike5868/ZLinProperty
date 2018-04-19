@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_arlert_content"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/uz_alert_dialog_title"
+        style="@style/Theme_Message_Content"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_arlert_title"
+        android:gravity="center_horizontal|center_vertical"
+        android:paddingBottom="5dip" />
+
+    <LinearLayout
+        android:id="@+id/uz_alert_dialog_content"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+    </LinearLayout>
+
+</LinearLayout>

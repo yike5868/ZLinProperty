@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/edit_info"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
+        android:background="@drawable/bg_item_color_blue"
+        android:gravity="center_vertical"
+        android:paddingLeft="10dp"
+        android:text="编辑"
+        android:textColor="@color/bg_black"
+        android:textSize="14sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
+        android:background="@color/gray" />
+
+    <TextView
+        android:id="@+id/delete_info"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
+        android:background="@drawable/bg_item_color_blue"
+        android:gravity="center_vertical"
+        android:paddingLeft="10dp"
+        android:text="删除"
+        android:textColor="@color/bg_black"
+        android:textSize="14sp" />
+
+</LinearLayout>

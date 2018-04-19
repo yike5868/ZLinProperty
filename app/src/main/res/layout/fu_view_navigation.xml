@@ -1,0 +1,114 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="54dp"
+    android:background="@color/bg_bottom_menu"
+    android:baselineAligned="false"
+    android:orientation="horizontal" >
+
+    <RelativeLayout
+        android:id="@+id/fu_home"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center" >
+
+        <ImageView
+            android:id="@+id/ic_fu_home"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:contentDescription="@string/fu_bottom_menu_des"
+            android:src="@mipmap/ic_select_home" />
+
+        <TextView
+            android:id="@+id/tv_fu_home"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ic_fu_home"
+            android:layout_centerHorizontal="true"
+            android:text="@string/fu_home"
+            android:textColor="@color/bg_withe"
+            android:textIsSelectable="false" />
+    </RelativeLayout>
+
+
+    
+    <RelativeLayout
+        android:id="@+id/fu_news"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center" >
+
+        <ImageView
+            android:id="@+id/ic_fu_news"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:src="@mipmap/ic_news" />
+
+        <TextView
+            android:id="@+id/tv_fu_news"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ic_fu_news"
+            android:layout_centerHorizontal="true"
+            android:text="@string/fu_news"
+            android:textColor="@color/bg_bottom_menu_tv_no"
+            android:textIsSelectable="false" />
+    </RelativeLayout>
+    
+     <RelativeLayout
+        android:id="@+id/fu_health"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center" >
+
+        <ImageView
+            android:id="@+id/ic_fu_health"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:contentDescription="@string/fu_bottom_menu_des"
+            android:src="@mipmap/ic_health" />
+
+        <TextView
+            android:id="@+id/tv_fu_health"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ic_fu_health"
+            android:layout_centerHorizontal="true"
+            android:text="@string/fu_health"
+            android:textColor="@color/bg_bottom_menu_tv_no"
+            android:textIsSelectable="false" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/fu_more"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center" >
+
+        <ImageView
+            android:id="@+id/ic_fu_more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:contentDescription="@string/fu_bottom_menu_des"
+            android:src="@mipmap/ic_more" />
+
+        <TextView
+            android:id="@+id/tv_fu_more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ic_fu_more"
+            android:layout_centerHorizontal="true"
+            android:text="@string/fu_more"
+            android:textColor="@color/bg_bottom_menu_tv_no"
+            android:textIsSelectable="false" />
+    </RelativeLayout>
+
+</LinearLayout>
