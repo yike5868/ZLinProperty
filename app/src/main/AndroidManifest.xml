@@ -13,7 +13,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.zlin.property.activity.FuInitNavActivity">
+        <activity android:name="com.zlin.property.activity.FuLoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,6 +21,10 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name="com.zlin.property.activity.FuRegisterActivity"
+            android:launchMode="singleInstance"
+            android:configChanges="screenSize|orientation|keyboardHidden"/>
         <activity
             android:name="com.zlin.property.activity.FuMainActivity"
             android:launchMode="singleInstance"

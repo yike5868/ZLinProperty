@@ -21,6 +21,15 @@ public class BannerDto extends Dto {
     public static class DataEntity {
         private String bannerMessage;
         private String bannerUrl;
+        private String version;
+
+        public String getVersion() {
+            return version;
+        }
+
+        public void setVersion(String version) {
+            this.version = version;
+        }
 
         public String getBannerMessage() {
             return bannerMessage;
