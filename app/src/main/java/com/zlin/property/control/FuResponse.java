@@ -1,21 +1,28 @@
 package com.zlin.property.control;
 
 
-import com.zlin.property.net.NetWorkManager;
+import com.alibaba.fastjson.JSON;
 
 public class FuResponse {
 
-	private String code;
-	private String message;
-	private String result;
-
-
+	private Boolean success = true;
+	private Boolean hasSuccess = false;
+	private String errMessage = "";
+	private Object data;
+	String code;
 	public FuResponse() {
 	}
-
 	public FuResponse(String message, String code) {
-		this.message = message;
+		this.errMessage = message;
 		this.code = code;
+	}
+
+	public Boolean getSuccess() {
+		return success;
+	}
+
+	public void setSuccess(Boolean success) {
+		this.success = success;
 	}
 
 	public String getCode() {
@@ -26,24 +33,32 @@ public class FuResponse {
 		this.code = code;
 	}
 
-	public String getMessage() {
-		return message;
+
+	public Boolean getHasSuccess() {
+		return hasSuccess;
 	}
 
-	public void setMessage(String message) {
-		this.message = message;
+	public void setHasSuccess(Boolean hasSuccess) {
+		this.hasSuccess = hasSuccess;
 	}
 
-	public String getResult() {
-		return result;
+	public String getErrMessage() {
+		return errMessage;
 	}
 
-	public void setResult(String result) {
-		this.result = result;
+	public void setErrMessage(String errMessage) {
+		this.errMessage = errMessage;
 	}
 
-	public boolean isSuccess() {
-		return NetWorkManager.kNetWork_Code_Success.equals(code);
+	public Object getData() {
+		return data;
 	}
 
+	public static <T> T getData(String text, Class<T> clazz) {
+		return JSON.parseObject(text,clazz);
+	}
+
+	public void setData(Object data) {
+		this.data = data;
+	}
 }

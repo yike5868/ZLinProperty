@@ -11,18 +11,21 @@ import com.zlin.property.db.helper.ALocalSqlHelper;
 
 
 public class FuApp extends Application {
+	private static Application _instance = null;
 
 	private boolean isNeedCaughtExeption = true;// 是否捕获未知异常
 	private PendingIntent mRestartIntent;
 
-
+	public static Application getInstance(){
+		return _instance;
+	}
 
 	private ALocalSqlHelper sqlHelper;
 
 	@Override
 	public void onCreate() {
 		super.onCreate();
-
+		_instance = this;
 		if (isNeedCaughtExeption) {
 //			cauchException();
 		}

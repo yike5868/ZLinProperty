@@ -33,6 +33,10 @@ public class MyTask {
 
     public static final int ERROR = 2;
 
+    public static final int LOGIN = 1;//登录
+
+    public static final int BANNER = 3;//获取banner
+
 
     public static final String METHOD_GET = "GET";
     public static final String METHOD_POST = "POST";
@@ -49,7 +53,7 @@ public class MyTask {
 
     public Entry mRequestData; // 请求数据的对象
 
-    public String method;//请求方式
+    public String method = METHOD_POST;//请求方式
 
     public File[] files;//需要上传的文件
 
@@ -132,12 +136,10 @@ public class MyTask {
         Request request;
         if (method == METHOD_GET)
             request = new Request.Builder().url(mUrl)
-                    .addHeader("access_token", mRequestHeader.get("access_token"))
                     .addHeader("Content-Type", "application/json")
                     .addHeader("charset", "UTF-8").method(method, null).build();
         else
             request = new Request.Builder().url(mUrl)
-                    .addHeader("access_token", mRequestHeader.get("access_token"))
                     .addHeader("Content-Type", "application/json")
                     .addHeader("charset", "UTF-8").method(method, body).build();
 

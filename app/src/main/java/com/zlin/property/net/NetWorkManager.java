@@ -64,10 +64,10 @@ public class NetWorkManager {
                 Log.d(kNetWork_Tag, JSONObject.toJSON(error).toString());
                 FuResponse response = error("发生错误");
                 if (errorResponse != null) {
-                    errorResponse.onError(response, response.getMessage());
+                    errorResponse.onError(response, response.getErrMessage());
                 }
                 if (finishedResponse != null) {
-                    finishedResponse.onFinished(response, response.getMessage());
+                    finishedResponse.onFinished(response, response.getErrMessage());
                 }
             }
 
@@ -100,12 +100,12 @@ public class NetWorkManager {
                         fuResponse = error("发生错误");
                     }
                     if (errorResponse != null) {
-                        errorResponse.onError(fuResponse, fuResponse.getMessage());
+                        errorResponse.onError(fuResponse, fuResponse.getErrMessage());
                     }
                 } finally {
                     Log.d(kNetWork_Tag, JSONObject.toJSON(fuResponse).toString());
                     if (finishedResponse != null) {
-                        finishedResponse.onFinished(fuResponse, fuResponse.getMessage());
+                        finishedResponse.onFinished(fuResponse, fuResponse.getErrMessage());
                     }
                 }
             }

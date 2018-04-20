@@ -1,6 +1,8 @@
 package com.zlin.property.control;
 
 import android.app.Activity;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -14,6 +16,7 @@ import com.zlin.property.activity.FuContentActivity;
 import com.zlin.property.db.helper.ALocalSqlHelper;
 import com.zlin.property.net.MyTask;
 import com.zlin.property.net.NetCallBack;
+import com.zlin.property.net.NetManager;
 import com.zlin.property.tools.ToastUtil;
 import com.zlin.property.tools.ToolUtil;
 
@@ -33,7 +36,7 @@ public abstract class FragmentParent extends Fragment {
 
 
     protected int type;//分类
-    Activity activity;//主页面
+    Activity activity =null;//主页面
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -78,6 +81,13 @@ public abstract class FragmentParent extends Fragment {
     public void onResume() {
         super.onResume();
     }
+    NetManager manager;
+    public void excuteNetTask(MyTask myTask){
+        if(manager==null)
+            manager = NetManager.getInstance(getActivity());
+        manager.addNetTask(myTask);
+        manager.excuteNetTask(myTask);
+    }
 
     class mNetCallBack implements NetCallBack {
 
@@ -98,7 +108,7 @@ public abstract class FragmentParent extends Fragment {
             if (taskId == MyTask.UP_LOAD_FILE) {
                 Message error = Message.obtain(parentHandler);
                 error.what = MyTask.UP_LOAD_FILE;
-                error.obj = rspObj.getMessage();
+                error.obj = rspObj.getErrMessage();
                 error.sendToTarget();
                 return;
             }
@@ -118,6 +128,21 @@ public abstract class FragmentParent extends Fragment {
 
             netErrorChild(taskId, msg);
         }
+    }
+    /**
+     * 获取本地软件版本号
+     */
+    public int getLocalVersion() {
+        int localVersion = 0;
+        try {
+            PackageInfo packageInfo = activity
+                    .getPackageManager()
+                    .getPackageInfo(activity.getPackageName(), 0);
+            localVersion = packageInfo.versionCode;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return localVersion;
     }
 
     private Handler parentHandler = new Handler() {

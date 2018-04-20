@@ -4,12 +4,18 @@ package com.zlin.property.net;
 
 import android.content.Context;
 
+import com.zlin.property.db.po.Banner;
 import com.zlin.property.db.po.DownLoadFile;
+import com.zlin.property.db.po.UserInfo;
 
 /**
  *
  */
 public class TaskManager {
+
+    public final static String HTTP="http://192.168.159.69:8088";
+    public final static String LOGIN = "/user/login";
+    public final static String FINDBANNER = "/service/findBannerByVersion";
 
     private static TaskManager mTaskManager;
     public static TaskManager getInstace(Context context) {
@@ -40,5 +46,24 @@ public class TaskManager {
         task.mLoadFile = file;
         return task;
 
+    }
+
+    public MyTask login(NetCallBack mCallBack, UserInfo userInfo){
+        MyTask myTask = new MyTask();
+        myTask.mUrl = HTTP+LOGIN;
+        myTask.mCallBack = mCallBack;
+        myTask.mRequestData = userInfo;
+        myTask.mIsEncryption = false;
+        myTask.mTaskId = MyTask.LOGIN;
+        return myTask;
+    }
+    public MyTask findBannerByVersion(NetCallBack mCallBack, Banner banner){
+        MyTask myTask = new MyTask();
+        myTask.mUrl = HTTP+FINDBANNER;
+        myTask.mCallBack = mCallBack;
+        myTask.mRequestData = banner;
+        myTask.mIsEncryption = false;
+        myTask.mTaskId = MyTask.BANNER;
+        return myTask;
     }
 }

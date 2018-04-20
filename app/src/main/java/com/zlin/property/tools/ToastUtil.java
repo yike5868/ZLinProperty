@@ -3,6 +3,8 @@ package com.zlin.property.tools;
 import android.content.Context;
 import android.widget.Toast;
 
+import com.zlin.property.FuApp;
+
 public class ToastUtil {
 	
 	private static Toast mToast;
@@ -18,7 +20,14 @@ public class ToastUtil {
 		}
 		mToast.show();
 	}
-
+	public static void showToast(String msg) {
+		if (mToast == null) {
+			mToast = Toast.makeText(FuApp.getInstance(), msg, Toast.LENGTH_SHORT);
+		} else {
+			mToast.setText(msg);
+		}
+		mToast.show();
+	}
 	/**
 	 * 立即取消Toast
 	 */

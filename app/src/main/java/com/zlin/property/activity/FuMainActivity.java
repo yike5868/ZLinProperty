@@ -34,7 +34,7 @@ public class FuMainActivity extends FuParentActivity {
                 getSupportFragmentManager());
         mManager.deleteAllFragment(CustomFragmentManager.MAIN);
         mManager.addFragment(R.id.fu_fragment_contain,
-                FuUiFrameManager.FU_CONTENT);
+                FuUiFrameManager.FU_MAIN_HOME);
 //                FuUiFrameManager.FU_WELCOME);
 
 

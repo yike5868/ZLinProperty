@@ -8,43 +8,14 @@ import java.util.ArrayList;
 
 public class BannerDto extends Dto {
 
-    private ArrayList<DataEntity> data;
+    private ArrayList<Banner> data;
 
-    public ArrayList<DataEntity> getData() {
+    public ArrayList<Banner> getData() {
         return data;
     }
 
-    public void setData(ArrayList<DataEntity> data) {
+    public void setData(ArrayList<Banner> data) {
         this.data = data;
     }
 
-    public static class DataEntity {
-        private String bannerMessage;
-        private String bannerUrl;
-        private String version;
-
-        public String getVersion() {
-            return version;
-        }
-
-        public void setVersion(String version) {
-            this.version = version;
-        }
-
-        public String getBannerMessage() {
-            return bannerMessage;
-        }
-
-        public void setBannerMessage(String bannerMessage) {
-            this.bannerMessage = bannerMessage;
-        }
-
-        public String getBannerUrl() {
-            return bannerUrl;
-        }
-
-        public void setBannerUrl(String bannerUrl) {
-            this.bannerUrl = bannerUrl;
-        }
-    }
 }

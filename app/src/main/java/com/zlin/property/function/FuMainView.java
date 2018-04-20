@@ -15,8 +15,12 @@ import com.zlin.property.R;
 import com.zlin.property.control.FuEventCallBack;
 import com.zlin.property.control.FuUiFrameModel;
 import com.zlin.property.db.po.BannerDto;
+import com.zlin.property.net.MyTask;
+import com.zlin.property.net.NetManager;
+import com.zlin.property.net.TaskManager;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by zhanglin03 on 2018/4/19.
@@ -25,7 +29,6 @@ import java.util.ArrayList;
 public class FuMainView extends FuUiFrameModel implements OnBannerListener {
 
     Banner banner;
-    BannerDto bannerDto;
     public FuMainView(Context cxt, FuEventCallBack callBack) {
         super(cxt, callBack);
     }
@@ -47,16 +50,18 @@ public class FuMainView extends FuUiFrameModel implements OnBannerListener {
 
     }
 
-    private void initBanner() {
+
+
+    public void initBanner(List<com.zlin.property.db.po.Banner> bannerList) {
         banner = (Banner) mFuView.findViewById(R.id.banner);
 
         ArrayList<String> list_path = new ArrayList<String>();
         ArrayList<String> list_title = new ArrayList<String>();
-        if(bannerDto==null||bannerDto.getData()==null||bannerDto.getData().size()<1)
+        if(bannerList==null||bannerList.size()<1)
             return;
-        for (int i = 0; i < bannerDto.getData().size(); i++) {
-            list_path.add(bannerDto.getData().get(i).getBannerUrl());
-            list_title.add(bannerDto.getData().get(i).getBannerMessage());
+        for (int i = 0; i < bannerList.size(); i++) {
+            list_path.add(bannerList.get(i).getBannerUrl());
+            list_title.add(bannerList.get(i).getBannerMessage());
         }
         //设置内置样式，共有六种可以点入方法内逐一体验使用。
         banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR_TITLE_INSIDE);
