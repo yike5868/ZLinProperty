@@ -29,6 +29,7 @@ public class TimePickerDialog extends DialogFragment implements View.OnClickList
     private static TimePickerDialog newIntance(PickerConfig pickerConfig) {
         TimePickerDialog timePickerDialog = new TimePickerDialog();
         timePickerDialog.initialize(pickerConfig);
+
         return timePickerDialog;
     }
 
@@ -47,7 +48,7 @@ public class TimePickerDialog extends DialogFragment implements View.OnClickList
 
         Window window = getDialog().getWindow();
         window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, height);//Here!
-        window.setGravity(Gravity.CENTER);
+        window.setGravity(Gravity.BOTTOM);
     }
 
     private void initialize(PickerConfig pickerConfig) {

@@ -1,8 +1,14 @@
 package com.zlin.property.function;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
+import android.widget.GridView;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -12,15 +18,20 @@ import com.youth.banner.Transformer;
 import com.youth.banner.listener.OnBannerListener;
 import com.youth.banner.loader.ImageLoader;
 import com.zlin.property.R;
+import com.zlin.property.activity.FuMainActivity;
 import com.zlin.property.control.FuEventCallBack;
 import com.zlin.property.control.FuUiFrameModel;
 import com.zlin.property.db.po.BannerDto;
 import com.zlin.property.net.MyTask;
 import com.zlin.property.net.NetManager;
 import com.zlin.property.net.TaskManager;
+import com.zlin.property.view.FuTextView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 /**
  * Created by zhanglin03 on 2018/4/19.
@@ -29,6 +40,8 @@ import java.util.List;
 public class FuMainView extends FuUiFrameModel implements OnBannerListener {
 
     Banner banner;
+    GridView gv_main;
+    public static final String[] mainTitles = new String[]{"报修","保洁","快腿","医疗服务"};
     public FuMainView(Context cxt, FuEventCallBack callBack) {
         super(cxt, callBack);
     }
@@ -47,11 +60,57 @@ public class FuMainView extends FuUiFrameModel implements OnBannerListener {
 
     @Override
     protected void initWidget() {
-
+        gv_main = (GridView)mFuView.findViewById(R.id.gv_main);
+        gv_main.setAdapter(new MainAdapter());
+        gv_main.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Bundle bundle = new Bundle();
+                bundle.putInt("listPosition", position);
+                mEventCallBack.EventClick(
+                        FuMainFragment.EVENT_GRID, bundle);
+            }
+        });
     }
 
+    class MainAdapter extends BaseAdapter{
+        private LayoutInflater mInflater;
+        public MainAdapter() {
+            mInflater = LayoutInflater.from(mContext);
+        }
+        @Override
+        public int getCount() {
+            return mainTitles.length;
+        }
 
+        @Override
+        public Object getItem(int position) {
+            return mainTitles[position];
+        }
 
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            Holder holder;
+            if (convertView == null) {
+                convertView = mInflater.inflate(R.layout.fu_main_grid_item, null);
+                holder = new Holder();
+                holder.tv_body = (FuTextView) convertView.findViewById(R.id.tv_body);
+                convertView.setTag(holder);
+            } else {
+                holder = (Holder) convertView.getTag();
+            }
+            holder.tv_body.setText(mainTitles[position]);
+            return convertView;
+        }
+        class Holder {
+            FuTextView tv_body;
+        }
+    }
     public void initBanner(List<com.zlin.property.db.po.Banner> bannerList) {
         banner = (Banner) mFuView.findViewById(R.id.banner);
 

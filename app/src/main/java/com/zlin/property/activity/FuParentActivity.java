@@ -70,13 +70,13 @@ public class FuParentActivity extends FragmentActivity {
     }
 
 
-    SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+    SimpleDateFormat sf = new SimpleDateFormat("MM月dd号 hh时mm分");
 
     public TimePickerDialog showTimeDialog(final TextView tv) {
-        long hundredYears = 100L * 365 * 1000 * 60 * 60 * 24L;
+        long hundredYears = 1L * 365 * 1000 * 60 * 60 * 24L;
         long tenYears = 10L * 365 * 1000 * 60 * 60 * 24L;
         TimePickerDialog mDialogYearMonthDay = new TimePickerDialog.Builder()
-                .setType(Type.YEAR_MONTH_DAY)
+                .setType(Type.MONTH_DAY_HOUR_MIN)
                 .setCallBack(new OnDateSetListener() {
                     @Override
                     public void onDateSet(TimePickerDialog timePickerView, long millseconds) {
@@ -97,6 +97,8 @@ public class FuParentActivity extends FragmentActivity {
                 .setYearText("年")
                 .setMonthText("月")
                 .setDayText("号")
+                .setHourText("时")
+                .setMinuteText("分")
                 .setThemeColor(getResources().getColor(R.color.bg_title_top_bottom))
                 .setMinMillseconds(System.currentTimeMillis() - hundredYears)
                 .setMaxMillseconds(System.currentTimeMillis() + tenYears)

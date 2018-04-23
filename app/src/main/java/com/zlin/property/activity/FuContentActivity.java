@@ -35,7 +35,7 @@ public class FuContentActivity extends FuParentActivity {
 
         mManager.addFragment(R.id.fu_fragment_contain, getFragmentId());
 
-        getScreenSizeOfDevice();
+//        getScreenSizeOfDevice();
 
     }
 

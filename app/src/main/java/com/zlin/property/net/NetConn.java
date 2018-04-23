@@ -39,25 +39,7 @@ public class NetConn {
     OkHttpClient client;
 
     public FuResponse httpPost(MyTask task) throws IOException, ClassNotFoundException {
-        client = new OkHttpClient.Builder()
-                .connectTimeout(20, TimeUnit.SECONDS)
-                .readTimeout(20, TimeUnit.SECONDS)
-                .build();
-        client.newBuilder().cookieJar(new CookieJar() {
-            private final HashMap<String, List<Cookie>> cookieStore = new HashMap<>();
-
-            @Override
-            public void saveFromResponse(HttpUrl url, List<Cookie> cookies) {
-                cookieStore.put(url.host(), cookies);
-            }
-
-            @Override
-            public List<Cookie> loadForRequest(HttpUrl url) {
-                List<Cookie> cookies = cookieStore.get(url.host());
-                return cookies != null ? cookies : new ArrayList<Cookie>();
-            }
-        });
-
+        getClient();
         Request request = task.buildRequest();
         Response response = null;
         FuResponse fuResponseBase = null;
@@ -81,6 +63,16 @@ public class NetConn {
             fuResponseBase.setErrMessage("服务器连接错误！请检查网络！");
             return fuResponseBase;
         }
+    }
+
+    public OkHttpClient getClient(){
+        if(client == null){
+            client = new OkHttpClient.Builder()
+                    .connectTimeout(20, TimeUnit.SECONDS)
+                    .readTimeout(20, TimeUnit.SECONDS).cookieJar(new CookiesManager())
+                    .build();
+        }
+        return client;
     }
 
 }

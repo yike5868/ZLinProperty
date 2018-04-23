@@ -81,13 +81,25 @@ public abstract class FragmentParent extends Fragment {
     public void onResume() {
         super.onResume();
     }
-    NetManager manager;
-    public void excuteNetTask(MyTask myTask){
-        if(manager==null)
-            manager = NetManager.getInstance(getActivity());
-        manager.addNetTask(myTask);
-        manager.excuteNetTask(myTask);
+
+    public void excuteNetTask(final MyTask lTask, boolean animRefresh) {
+
+        if (!animRefresh) {
+
+            ToolUtil.showPopWindowLoading(getActivity());
+        }
+
+        Runnable netRunnable = new Runnable() {
+            @Override
+            public void run() {
+                NetManager manager = NetManager.getInstance(getActivity());
+                manager.addNetTask(lTask);
+                manager.excuteNetTask(lTask);
+            }
+        };
+        parentHandler.post(netRunnable);
     }
+
 
     class mNetCallBack implements NetCallBack {
 

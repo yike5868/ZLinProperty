@@ -12,7 +12,7 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp" >
 
-        <net.greatsoft.main.view.FuTextView
+        <com.zlin.property.view.FuTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="*"
@@ -50,7 +50,7 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp" >
 
-        <net.greatsoft.main.view.FuTextView
+        <com.zlin.property.view.FuTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="*"

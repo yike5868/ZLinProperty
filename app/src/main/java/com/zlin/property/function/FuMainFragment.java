@@ -10,7 +10,9 @@ import android.view.ViewGroup;
 
 import com.alibaba.fastjson.JSON;
 import com.zlin.property.FuApp;
+import com.zlin.property.activity.FuMainActivity;
 import com.zlin.property.control.FragmentParent;
+import com.zlin.property.control.FuEventCallBack;
 import com.zlin.property.control.FuResponse;
 import com.zlin.property.control.FuUiFrameManager;
 import com.zlin.property.db.po.Banner;
@@ -31,6 +33,8 @@ public class FuMainFragment extends FragmentParent {
 
     public static final int MSG_BANNER = 0;
 
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -40,7 +44,7 @@ public class FuMainFragment extends FragmentParent {
 
         mModel = lFuUiFrameManager.createFuModel(
                 FuUiFrameManager.FU_MAIN_HOME, getActivity(),
-                null);
+                new OnEventClick());
         findBannerByVersion();
         fuMainView = (FuMainView) mModel;
         return mModel.getFuView();
@@ -63,19 +67,31 @@ public class FuMainFragment extends FragmentParent {
         Banner banner = new Banner();
         banner.setVersion(getLocalVersion()+"");
         MyTask bannerTask = TaskManager.getInstace().findBannerByVersion(getCallBackInstance(), banner);
-        excuteNetTask(bannerTask);
+        excuteNetTask(bannerTask,true);
     }
 
     @Override
     protected void loadDataChild(int taskId, FuResponse rspObj) {
         switch (taskId){
             case MyTask.BANNER:
+                if(rspObj!=null&&rspObj.getData()!=null)
                 bannerList= JSON.parseArray(rspObj.getData().toString(),Banner.class);
                 handler.sendEmptyMessage(MSG_BANNER);
                 break;
         }
     }
-
+    public static final int EVENT_GRID = 1;
+    class OnEventClick implements FuEventCallBack {
+        @Override
+        public void EventClick(int event, Object object) {
+            switch (event){
+                case EVENT_GRID:
+                    ((FuMainActivity) getActivity()).replaceFragment(
+                            FuUiFrameManager.FU_CONTENT_ID, FuUiFrameManager.FU_SERVER, null);
+                    break;
+            }
+        }
+    }
     @Override
     protected void netErrorChild(int taskId, String msg) {
 

@@ -37,6 +37,10 @@ public class FuApp extends Application {
 		sqlHelper = new ALocalSqlHelper(this);
 	}
 
+	public static Context getContext(){
+		return _instance.getApplicationContext();
+	}
+
 
 //	private void cauchException() {
 //
