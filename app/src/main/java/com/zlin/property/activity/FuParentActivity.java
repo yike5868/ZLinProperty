@@ -1,6 +1,7 @@
 package com.zlin.property.activity;
 
 
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
 import android.graphics.Point;
@@ -10,6 +11,8 @@ import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
+import com.zlin.property.Constant;
 import com.zlin.property.FuApp;
 import com.zlin.property.R;
 import com.zlin.property.view.TimePicker.OnDateSetListener;
@@ -68,7 +71,18 @@ public class FuParentActivity extends FragmentActivity {
 
         return screenInches;
     }
+    public void saveSP(String name,Object entry){
+        SharedPreferences lPreferences =getSharedPreferences(
+                Constant.LOGIN_CONFIG, MODE_PRIVATE);
+        lPreferences.edit().putString(name, JSON.toJSONString(entry)).commit();
+    }
 
+    public <T> T getSP(String name, Class<T> clazz){
+        SharedPreferences lPreferences =getSharedPreferences(
+                Constant.LOGIN_CONFIG,MODE_PRIVATE);
+        String str = lPreferences.getString("name","");
+        return JSON.parseObject(str,clazz);
+    }
 
     SimpleDateFormat sf = new SimpleDateFormat("MM月dd号 hh时mm分");
 

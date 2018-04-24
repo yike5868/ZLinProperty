@@ -80,6 +80,15 @@ public class FuMainFragment extends FragmentParent {
                 break;
         }
     }
+    @Override
+    protected void netErrorChild(int taskId, String msg) {
+
+    }
+
+    @Override
+    protected void cancelChild(int taskId) {
+
+    }
     public static final int EVENT_GRID = 1;
     class OnEventClick implements FuEventCallBack {
         @Override
@@ -91,14 +100,5 @@ public class FuMainFragment extends FragmentParent {
                     break;
             }
         }
-    }
-    @Override
-    protected void netErrorChild(int taskId, String msg) {
-
-    }
-
-    @Override
-    protected void cancelChild(int taskId) {
-
     }
 }

@@ -3,81 +3,81 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:orientation="vertical"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp">
+    android:orientation="vertical">
 
     <include
         android:id="@+id/main_title"
         layout="@layout/title_layout" />
 
-    <com.zlin.property.view.FuEditText
-        android:id="@+id/et_body"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:layout_marginTop="10dp"
-        android:gravity="top"
-        android:padding="10dp"
-        android:textColor="@color/bg_black"
-        android:background="@drawable/shape_corner"
-        />
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <com.zlin.property.view.FuEditText
+            android:id="@+id/et_body"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/shape_corner"
+            android:gravity="top"
+            android:padding="10dp"
+            android:textColor="@color/bg_black" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal">
+
+            <com.zlin.property.view.FuTextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="方便维修时间："
+                android:textColor="@color/bg_black" />
+
+            <com.zlin.property.view.FuTextView
+                android:id="@+id/tv_begin_time"
+                android:layout_width="110dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/shape_corner"
+                android:gravity="center"
+                android:text=""
+                android:textColor="@color/bg_black" />
+
+            <com.zlin.property.view.FuTextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="--"
+                android:textColor="@color/bg_black" />
+
+            <com.zlin.property.view.FuTextView
+                android:id="@+id/tv_end_time"
+                android:layout_width="110dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/shape_corner"
+                android:gravity="center"
+                android:text=""
+                android:textColor="@color/bg_black" />
+        </LinearLayout>
+
+        <GridView
+            android:id="@+id/gv_photos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
         <com.zlin.property.view.FuTextView
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:textColor="@color/bg_black"
-            android:gravity="center"
-            android:text="方便维修时间："
-            />
-        <com.zlin.property.view.FuTextView
-            android:id="@+id/tv_begin_time"
-            android:layout_width="110dp"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:background="@drawable/shape_corner"
-            android:textColor="@color/bg_black"
-            android:text=""
-            />
-        <com.zlin.property.view.FuTextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:textColor="@color/bg_black"
-            android:text="--"
-            />
+            android:layout_height="wrap_content"
+            android:text="提示：如果不填写则代表任何时间都可" />
 
-        <com.zlin.property.view.FuTextView
-            android:id="@+id/tv_end_time"
-            android:layout_width="110dp"
-            android:gravity="center"
-            android:textColor="@color/bg_black"
-            android:layout_height="match_parent"
-            android:text=""
-            android:background="@drawable/shape_corner"
-            />
+        <com.zlin.property.view.FuButton
+            android:id="@+id/btn_save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="保存" />
     </LinearLayout>
-
-    <GridView
-        android:id="@+id/gv_photos"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <com.zlin.property.view.FuTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="提示：如果不填写则代表任何时间都可"
-        />
-
-    <com.zlin.property.view.FuButton
-        android:id="@+id/btn_save"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="保存"
-        />
-
 </LinearLayout>

@@ -1,6 +1,7 @@
 package com.zlin.property.control;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -10,10 +11,12 @@ import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.zlin.property.Constant;
 import com.zlin.property.FuApp;
 import com.zlin.property.activity.FuContentActivity;
 import com.zlin.property.db.helper.ALocalSqlHelper;
+import com.zlin.property.db.po.Entry;
 import com.zlin.property.net.MyTask;
 import com.zlin.property.net.NetCallBack;
 import com.zlin.property.net.NetManager;
@@ -98,6 +101,20 @@ public abstract class FragmentParent extends Fragment {
             }
         };
         parentHandler.post(netRunnable);
+    }
+
+
+    public void saveSP(String name,Object entry){
+        SharedPreferences lPreferences =activity.getSharedPreferences(
+                Constant.LOGIN_CONFIG, activity.MODE_PRIVATE);
+        lPreferences.edit().putString(name, JSON.toJSONString(entry)).commit();
+    }
+
+    public <T> T getSP(String name, Class<T> clazz){
+        SharedPreferences lPreferences =activity.getSharedPreferences(
+                Constant.LOGIN_CONFIG, activity.MODE_PRIVATE);
+        String str = lPreferences.getString("name","");
+       return JSON.parseObject(str,clazz);
     }
 
 

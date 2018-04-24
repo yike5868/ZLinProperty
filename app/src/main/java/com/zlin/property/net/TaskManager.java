@@ -6,6 +6,7 @@ import android.content.Context;
 
 import com.zlin.property.db.po.Banner;
 import com.zlin.property.db.po.DownLoadFile;
+import com.zlin.property.db.po.Repair;
 import com.zlin.property.db.po.UserInfo;
 
 /**
@@ -13,9 +14,10 @@ import com.zlin.property.db.po.UserInfo;
  */
 public class TaskManager {
 
-    public final static String HTTP="http://192.168.159.69:8088";
+    public final static String HTTP="http://192.168.161.70:8088";
     public final static String LOGIN = "/user/login";
     public final static String FINDBANNER = "/service/findBannerByVersion";
+    public final static String GETREPAIRS = "/service/getRepairs";
 
     private static TaskManager mTaskManager;
     public static TaskManager getInstace(Context context) {
@@ -66,4 +68,14 @@ public class TaskManager {
         myTask.mTaskId = MyTask.BANNER;
         return myTask;
     }
+    public MyTask getRepairs(NetCallBack mCallBack, Repair repair){
+        MyTask myTask = new MyTask();
+        myTask.mUrl = HTTP+GETREPAIRS;
+        myTask.mCallBack = mCallBack;
+        myTask.mRequestData = repair;
+        myTask.mIsEncryption = false;
+        myTask.mTaskId = MyTask.BANNER;
+        return myTask;
+    }
+
 }

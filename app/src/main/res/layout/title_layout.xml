@@ -35,6 +35,17 @@
         android:layout_centerVertical="true"
         android:textSize="15sp"
         />
+
+    <com.zlin.property.view.FuImageView
+        android:id="@+id/iv_right"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:src="@mipmap/icon_right"
+        android:layout_marginRight="15dp"
+        android:visibility="gone"
+        />
     
     
 </RelativeLayout>

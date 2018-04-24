@@ -1,9 +1,12 @@
 package com.zlin.property.control;
 
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.util.DisplayMetrics;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -12,13 +15,16 @@ import android.widget.TextView;
 
 import com.zlin.property.FuApp;
 import com.zlin.property.db.helper.ALocalSqlHelper;
+import com.zlin.property.uview.TopMiddlePopup;
 import com.zlin.property.view.FuEditText;
 
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public abstract class FuUiFrameModel {
 
@@ -31,6 +37,8 @@ public abstract class FuUiFrameModel {
     ALocalSqlHelper sqlHelper;
 
     private Calendar m_Calendar;        //时间
+
+    private TopMiddlePopup middlePopup;//上面的弹出框
 
     public FuUiFrameModel(Context cxt, FuEventCallBack callBack) {
 
@@ -190,6 +198,28 @@ public abstract class FuUiFrameModel {
     }
 
 
+    int screenW;
+    int screenH;
+    /**
+     * 设置弹窗
+     *
+     * @param type
+     */
+    public void setPopup(View v,int type, AdapterView.OnItemClickListener onItemClickListener, ArrayList<String> listName) {
+        getScreenPixels();
+        middlePopup = new TopMiddlePopup(mContext, screenW, screenH,
+                onItemClickListener, listName, type);
+        middlePopup.show(v);
+    }
 
+    /**
+     * 获取屏幕的宽和高
+     */
+    public void getScreenPixels() {
+        DisplayMetrics metrics = new DisplayMetrics();
+        ((Activity)mContext).getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        screenW = metrics.widthPixels;
+        screenH = metrics.heightPixels;
+    }
 
 }

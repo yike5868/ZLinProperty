@@ -29,6 +29,7 @@ public class FuServerFragment  extends FragmentParent {
                 FuUiFrameManager.FU_SERVER, getActivity(),
                 null);
         fuView = (FuServerView) mModel;
+
         return mModel.getFuView();
     }
     @Override

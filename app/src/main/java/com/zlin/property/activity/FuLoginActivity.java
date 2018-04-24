@@ -171,8 +171,10 @@ public class FuLoginActivity extends FuParentActivity implements View.OnClickLis
         @Override
         public void loadData(int taskId, FuResponse rspObj) {
             Message message = handler.obtainMessage();
-            if (rspObj.getSuccess()) {
+
+            if (rspObj!=null&&rspObj.getSuccess()) {
                 userInfo = JSON.parseObject(rspObj.getData().toString(),UserInfo.class);
+                saveSP("userInfo",userInfo);
                 handler.sendEmptyMessage(MSG_MAIN);
             } else {
                 message.obj = rspObj.getErrMessage();

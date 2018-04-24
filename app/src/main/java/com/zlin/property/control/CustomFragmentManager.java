@@ -12,6 +12,7 @@ import com.zlin.property.FuApp;
 import com.zlin.property.function.FuContentFragment;
 import com.zlin.property.function.FuMainFragment;
 import com.zlin.property.function.FuServerFragment;
+import com.zlin.property.function.FuServerListFragment;
 import com.zlin.property.function.FuWelcomeFragment;
 
 /**
@@ -95,6 +96,8 @@ public class CustomFragmentManager {
                 return new FuMainFragment();
             case FuUiFrameManager.FU_SERVER:
                 return new FuServerFragment();
+            case FuUiFrameManager.FU_SERVER_LIST:
+                return new FuServerListFragment();
         }
 
         return null; // 默认进入初始化页面
