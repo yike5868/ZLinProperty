@@ -14,7 +14,7 @@ import com.zlin.property.db.po.UserInfo;
  */
 public class TaskManager {
 
-    public final static String HTTP="http://192.168.161.70:8088";
+    public final static String HTTP="http://192.168.159.69:8088";
     public final static String LOGIN = "/user/login";
     public final static String FINDBANNER = "/service/findBannerByVersion";
     public final static String GETREPAIRS = "/service/getRepairs";

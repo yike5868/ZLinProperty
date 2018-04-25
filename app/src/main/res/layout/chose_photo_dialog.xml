@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/transparent"
+            android:layout_marginBottom="@dimen/dp_74">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/oa_ktd_bg"
+                android:layout_marginLeft="@dimen/dp_30"
+                android:layout_marginRight="@dimen/dp_30"
+                android:id="@+id/ktd_Linear"
+                android:visibility="gone">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/dp_14"
+                    android:textColor="@color/white"
+                    android:id="@+id/ktd_info"
+                    android:paddingLeft="@dimen/dp_33"
+                    android:paddingTop="@dimen/dp_25"
+                    android:paddingBottom="@dimen/dp_25"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_take"
+            android:layout_width="fill_parent"
+            android:layout_height="56dp"
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="6dp"
+            android:layout_marginTop="5dp"
+            android:textSize="18sp"
+            android:textColor="#0a191e"
+            android:text="拍照"
+            />
+        <View android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#e5e5e5"
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="6dp"/>
+
+        <Button
+            android:id="@+id/photograph"
+            android:layout_width="fill_parent"
+            android:layout_height="56dp"
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="6dp"
+            android:textSize="18sp"
+            android:textColor="#0a191e"
+            android:text="从相册选取"
+            />
+
+
+        <Button
+            android:id="@+id/cancel"
+            android:layout_width="fill_parent"
+            android:layout_height="56dp"
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="6dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            android:textColor="#666666"
+            android:textSize="18sp"
+            android:text="取消"/>
+    </LinearLayout>
+</RelativeLayout>

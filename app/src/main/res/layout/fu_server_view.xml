@@ -29,6 +29,46 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <com.zlin.property.view.FuTextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="方便维修日期："
+                android:textColor="@color/bg_black" />
+
+            <com.zlin.property.view.FuTextView
+                android:id="@+id/tv_begin_date"
+                android:layout_width="110dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/shape_corner"
+                android:gravity="center"
+                android:text=""
+                android:textColor="@color/bg_black" />
+
+            <com.zlin.property.view.FuTextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="--"
+                android:textColor="@color/bg_black" />
+
+            <com.zlin.property.view.FuTextView
+                android:id="@+id/tv_end_date"
+                android:layout_width="110dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/shape_corner"
+                android:gravity="center"
+                android:text=""
+                android:textColor="@color/bg_black" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
             android:orientation="horizontal">
 
             <com.zlin.property.view.FuTextView
@@ -67,12 +107,8 @@
         <GridView
             android:id="@+id/gv_photos"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <com.zlin.property.view.FuTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="提示：如果不填写则代表任何时间都可" />
+            android:numColumns="4"
+            android:layout_height="200dp" />
 
         <com.zlin.property.view.FuButton
             android:id="@+id/btn_save"
