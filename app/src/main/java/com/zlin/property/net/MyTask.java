@@ -37,6 +37,10 @@ public class MyTask {
 
     public static final int BANNER = 3;//获取banner
 
+    public static final int SAVE_REPAIR = 4;//保存服务
+
+    public static final int REGISTER = 5;//注册
+
 
     public static final String METHOD_GET = "GET";
     public static final String METHOD_POST = "POST";

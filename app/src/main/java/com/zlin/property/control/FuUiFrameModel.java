@@ -4,6 +4,7 @@ package com.zlin.property.control;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.AdapterView;
@@ -13,10 +14,13 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 
+import com.alibaba.fastjson.JSON;
+import com.zlin.property.Constant;
 import com.zlin.property.FuApp;
 import com.zlin.property.db.helper.ALocalSqlHelper;
 import com.zlin.property.uview.TopMiddlePopup;
 import com.zlin.property.view.FuEditText;
+import com.zlin.property.view.SweetAlert.SweetAlertDialog;
 
 
 import java.text.ParseException;
@@ -221,5 +225,19 @@ public abstract class FuUiFrameModel {
         screenW = metrics.widthPixels;
         screenH = metrics.heightPixels;
     }
+    //保存
+    public void saveSP(String name, Object entry) {
+        SharedPreferences lPreferences = mContext.getSharedPreferences(
+                Constant.LOGIN_CONFIG, mContext.MODE_PRIVATE);
+        lPreferences.edit().putString(name, JSON.toJSONString(entry)).commit();
+    }
+
+    public <T> T getSP(String name, Class<T> clazz) {
+        SharedPreferences lPreferences = mContext.getSharedPreferences(
+                Constant.LOGIN_CONFIG, mContext.MODE_PRIVATE);
+        String str = lPreferences.getString(name, "");
+        return JSON.parseObject(str, clazz);
+    }
+
 
 }

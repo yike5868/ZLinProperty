@@ -8,6 +8,8 @@ import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +18,17 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
 import com.zlin.property.R;
+import com.zlin.property.control.FuResponse;
+import com.zlin.property.db.po.UserInfo;
+import com.zlin.property.net.MyTask;
+import com.zlin.property.net.NetCallBack;
+import com.zlin.property.net.NetManager;
+import com.zlin.property.net.TaskManager;
+import com.zlin.property.tools.StringUtil;
+import com.zlin.property.tools.ToastUtil;
+import com.zlin.property.tools.ToolUtil;
 import com.zlin.property.view.FuEditText;
 import com.zlin.property.view.FuImageView;
 import com.zlin.property.view.FuTextView;
@@ -35,6 +47,9 @@ public class FuRegisterActivity extends FuParentActivity implements View.OnClick
     FuEditText et_username;
     @Bind(R.id.et_password)
     FuEditText et_password;
+    @Bind(R.id.et_rpassword)
+    FuEditText et_rpassword;
+
 
     @Bind(R.id.tv_title)
     FuTextView tv_title;
@@ -56,7 +71,7 @@ public class FuRegisterActivity extends FuParentActivity implements View.OnClick
     private float mWidth, mHeight;
 
     private LinearLayout mName, mPsw;
-
+    UserInfo userInfo;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,6 +105,86 @@ public class FuRegisterActivity extends FuParentActivity implements View.OnClick
             case R.id.iv_left:
                 this.finish();
                 break;
+            case R.id.btn_register:
+                String userName = et_username.getText().toString();
+                String password = et_password.getText().toString();
+                String repassword = et_rpassword.getText().toString();
+                if(StringUtil.isEmpty(userName)){
+                    ToastUtil.showToast("请输入用户名！");
+                }
+                if(StringUtil.isEmpty(password)){
+                    ToastUtil.showToast("请输入密码！");
+                }
+                if(StringUtil.isEmpty(repassword)){
+                    ToastUtil.showToast("请再次输入密码！");
+                }
+                if(!password.equals(repassword)){
+                    ToastUtil.showToast("两次密码输入不一致！");
+                }
+                userInfo = new UserInfo();
+                userInfo.setUserName(userName);
+                userInfo.setPassword(password);
+
+                MyTask loginTask = TaskManager.getInstace().register(new mNetCallBack(), userInfo);
+                NetManager manager = NetManager.getInstance(this);
+                manager.addNetTask(loginTask);
+                manager.excuteNetTask(loginTask);
+                break;
+        }
+    }
+    public static final int MSG_MESSAGE = 1;
+    public static final int MSG_MAIN = 2;
+
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            ToolUtil.hidePopLoading();
+            switch (msg.what) {
+                case MSG_MESSAGE :
+                    ToastUtil.showToast(msg.obj.toString());
+                    break;
+                case MSG_MAIN:
+                    startActivity(new Intent(FuRegisterActivity.this, FuMainActivity.class));
+                    finish();
+                    break;
+            }
+        }
+    };
+
+    class mNetCallBack implements NetCallBack {
+
+        @Override
+        public void cancel(int taskId) {
+            Message message = handler.obtainMessage();
+            message.obj = "已取消注册！";
+            message.what = MSG_MESSAGE;
+            handler.sendMessage(message);
+        }
+
+        @Override
+        public void loadData(int taskId, FuResponse rspObj) {
+            Message message = handler.obtainMessage();
+
+            if (rspObj!=null&&rspObj.getSuccess()) {
+                userInfo = JSON.parseObject(rspObj.getData().toString(),UserInfo.class);
+                saveSP("userInfo",userInfo);
+                handler.sendEmptyMessage(MSG_MAIN);
+            } else if(rspObj!=null){
+                message.obj = rspObj.getErrMessage();
+                message.what = MSG_MESSAGE;
+                handler.sendMessage(message);
+            }else{
+                message.obj = "网络连接错误";
+                message.what = MSG_MESSAGE;
+                handler.sendMessage(message);
+            }
+        }
+        @Override
+        public void netError(int taskId, String msg) {
+            Message message = handler.obtainMessage();
+            message.obj = msg;
+            message.what = MSG_MESSAGE;
+            handler.sendMessage(message);
         }
     }
 

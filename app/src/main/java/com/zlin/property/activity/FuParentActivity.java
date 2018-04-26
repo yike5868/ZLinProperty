@@ -116,7 +116,7 @@ public class FuParentActivity extends FragmentActivity {
                 .setHourText("时")
                 .setMinuteText("分")
                 .setThemeColor(getResources().getColor(R.color.bg_title_top_bottom))
-                .setMinMillseconds(System.currentTimeMillis())
+                .setMinMillseconds(System.currentTimeMillis() - hundredYears)
                 .setMaxMillseconds(System.currentTimeMillis() + tenYears)
                 .build();
         return mDialogYearMonthDay;

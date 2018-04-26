@@ -8,15 +8,18 @@ import com.zlin.property.db.po.Banner;
 import com.zlin.property.db.po.DownLoadFile;
 import com.zlin.property.db.po.Repair;
 import com.zlin.property.db.po.UserInfo;
+import com.zlin.property.tools.AppConfig;
 
 /**
  *
  */
 public class TaskManager {
 
-    public final static String HTTP="http://192.168.159.69:8088";
+
     public final static String LOGIN = "/user/login";
+    public final static String REGISTER = "/user/register";
     public final static String FINDBANNER = "/service/findBannerByVersion";
+    public final static String SAVE_REPAIR = "/service/saveRepair";
     public final static String GETREPAIRS = "/service/getRepairs";
 
     private static TaskManager mTaskManager;
@@ -52,7 +55,17 @@ public class TaskManager {
 
     public MyTask login(NetCallBack mCallBack, UserInfo userInfo){
         MyTask myTask = new MyTask();
-        myTask.mUrl = HTTP+LOGIN;
+        myTask.mUrl = AppConfig.HTTP+LOGIN;
+        myTask.mCallBack = mCallBack;
+        myTask.mRequestData = userInfo;
+        myTask.mIsEncryption = false;
+        myTask.mTaskId = MyTask.LOGIN;
+        return myTask;
+    }
+
+    public MyTask register(NetCallBack mCallBack, UserInfo userInfo){
+        MyTask myTask = new MyTask();
+        myTask.mUrl = AppConfig.HTTP+REGISTER;
         myTask.mCallBack = mCallBack;
         myTask.mRequestData = userInfo;
         myTask.mIsEncryption = false;
@@ -61,16 +74,25 @@ public class TaskManager {
     }
     public MyTask findBannerByVersion(NetCallBack mCallBack, Banner banner){
         MyTask myTask = new MyTask();
-        myTask.mUrl = HTTP+FINDBANNER;
+        myTask.mUrl = AppConfig.HTTP+FINDBANNER;
         myTask.mCallBack = mCallBack;
         myTask.mRequestData = banner;
         myTask.mIsEncryption = false;
         myTask.mTaskId = MyTask.BANNER;
         return myTask;
     }
+    public MyTask saveRepair(NetCallBack mCallBack, Repair repair){
+        MyTask myTask = new MyTask();
+        myTask.mUrl = AppConfig.HTTP+SAVE_REPAIR;
+        myTask.mCallBack = mCallBack;
+        myTask.mRequestData = repair;
+        myTask.mIsEncryption = false;
+        myTask.mTaskId = MyTask.SAVE_REPAIR;
+        return myTask;
+    }
     public MyTask getRepairs(NetCallBack mCallBack, Repair repair){
         MyTask myTask = new MyTask();
-        myTask.mUrl = HTTP+GETREPAIRS;
+        myTask.mUrl = AppConfig.HTTP+GETREPAIRS;
         myTask.mCallBack = mCallBack;
         myTask.mRequestData = repair;
         myTask.mIsEncryption = false;

@@ -11,6 +11,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.zlin.property.R;
+import com.zlin.property.control.FragmentParent;
+import com.zlin.property.view.FuButton;
 
 /**
  * Created by zhanglin03 on 2018/4/25.
@@ -18,34 +20,29 @@ import com.zlin.property.R;
 
 public class ChosePhotoDialog extends Dialog {
     private Handler mHandler;
-    private Button photograph;
-    private Button photograph_smw;
-    private Button album;
-    private Button album_swm;
-    private Button cancel;
-    private TextView ktdInfoView;
-    private TextView ktdKeyView;
-    private String imageType;
-    private LinearLayout ktdLinear;
-    public ChosePhotoDialog(Context context, Handler mHandle, String imageType){
+    private FuButton btn_cam;
+    private Button btn_chose;
+    private Button btn_cancel;
+    public ChosePhotoDialog(Context context, Handler mHandle){
         super(context, R.style.TransparentDialog);
         this.mHandler = mHandle;
-        this.imageType = imageType;
     }
     @SuppressWarnings("deprecation")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.chose_photo_dialog);
-
+        btn_cam = (FuButton)findViewById(R.id.btn_cam);
+        btn_chose = (FuButton)findViewById(R.id.btn_chose);
+        btn_cancel = (FuButton)findViewById(R.id.btn_cancel);
+        btn_cam.setOnClickListener(new OnChildClickListener(FragmentParent.MSG_CAMEAR));
+        btn_chose.setOnClickListener(new OnChildClickListener(FragmentParent.MSG_CHOSE));
+        btn_cancel.setOnClickListener(new OnChildClickListener(FragmentParent.MSG_CANCEL));
     }
 
 
     private class OnChildClickListener implements View.OnClickListener {
-        // 点击类型索引，对应前面的CLICK_INDEX_xxx
         private int type;
-
         public OnChildClickListener(int type) {
             this.type = type;
         }

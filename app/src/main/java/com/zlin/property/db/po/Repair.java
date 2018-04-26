@@ -1,6 +1,7 @@
 package com.zlin.property.db.po;
 
 import java.util.Date;
+import java.util.List;
 
 public class Repair extends Entry {
     private String repairsId;
@@ -24,10 +25,15 @@ public class Repair extends Entry {
      * 方便维修结束时间
      */
     private Date endTime;
+
+    private Date beginDate;
+
+    private Date endDate;
     /**
      * 图片列表
      */
     private String photos;
+    private List<Photo> PhotoList;
     /**
      * 状态
      */
@@ -52,7 +58,7 @@ public class Repair extends Entry {
     private String stars;
 
     /**
-     *  服务类型
+     * 服务类型
      */
     private String type;
 
@@ -158,5 +164,29 @@ public class Repair extends Entry {
 
     public void setStars(String stars) {
         this.stars = stars;
+    }
+
+    public Date getBeginDate() {
+        return beginDate;
+    }
+
+    public void setBeginDate(Date beginDate) {
+        this.beginDate = beginDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+
+    public List<Photo> getPhotoList() {
+        return PhotoList;
+    }
+
+    public void setPhotoList(List<Photo> photoList) {
+        PhotoList = photoList;
     }
 }

@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.zlin.baseandroid", appContext.getPackageName());
+        assertEquals("com.zlin.property", appContext.getPackageName());
     }
 }

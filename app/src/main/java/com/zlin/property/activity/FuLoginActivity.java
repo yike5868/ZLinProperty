@@ -176,8 +176,12 @@ public class FuLoginActivity extends FuParentActivity implements View.OnClickLis
                 userInfo = JSON.parseObject(rspObj.getData().toString(),UserInfo.class);
                 saveSP("userInfo",userInfo);
                 handler.sendEmptyMessage(MSG_MAIN);
-            } else {
+            } else if(rspObj!=null){
                 message.obj = rspObj.getErrMessage();
+                message.what = MSG_MESSAGE;
+                handler.sendMessage(message);
+            }else{
+                message.obj = "网络连接错误";
                 message.what = MSG_MESSAGE;
                 handler.sendMessage(message);
             }

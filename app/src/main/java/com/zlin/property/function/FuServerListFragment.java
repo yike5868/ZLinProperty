@@ -48,11 +48,11 @@ public class FuServerListFragment extends FragmentParent {
         return mModel.getFuView();
     }
     public void getRepairs() {
+        userInfo = getSP("userInfo",UserInfo.class);
         Repair repair;
         repair = new Repair();
         repair.setUserId(userInfo.getUserId());
         repair.setRoomId(userInfo.getRoomId());
-        userInfo = getSP("userInfo",UserInfo.class);
         MyTask lTask = TaskManager.getInstace(getActivity())
                 .getRepairs(getCallBackInstance(), repair);
 

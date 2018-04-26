@@ -2,9 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.zlin.property">
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/><!-- 读取网络装填 -->
     <uses-permission android:name="android.permission.INTERNET" /><!--联网 -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /><!--读取外置存储卡-->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/><!-- 写外置存储卡 -->
+    <uses-permission android:name="android.permission.CAMERA"/><!-- 相机 -->
     <application
         tools:replace="android:icon"
         android:allowBackup="true"
@@ -35,6 +37,7 @@
             android:configChanges="screenSize|orientation|keyboardHidden"/>
         <activity
             android:name="com.zlin.property.activity.FuContentActivity"
+            android:windowSoftInputMode="stateHidden|stateUnchanged"
             android:configChanges="screenSize|orientation|keyboardHidden"/>
     </application>
 
