@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 
 import com.zlin.property.FuApp;
+import com.zlin.property.function.FuChoseRoomFragment;
 import com.zlin.property.function.FuContentFragment;
 import com.zlin.property.function.FuMainFragment;
 import com.zlin.property.function.FuServerFragment;
@@ -98,6 +99,8 @@ public class CustomFragmentManager {
                 return new FuServerFragment();
             case FuUiFrameManager.FU_SERVER_LIST:
                 return new FuServerListFragment();
+            case FuUiFrameManager.FU_CHOSE_ROOM:
+                return new FuChoseRoomFragment();
         }
 
         return null; // 默认进入初始化页面

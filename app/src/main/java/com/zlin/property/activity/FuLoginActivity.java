@@ -143,6 +143,7 @@ public class FuLoginActivity extends FuParentActivity implements View.OnClickLis
             case R.id.tv_right:
                 Intent intent = new Intent(FuLoginActivity.this, FuRegisterActivity.class);
                 startActivity(intent);
+                finish();
                 break;
         }
     }

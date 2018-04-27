@@ -263,4 +263,10 @@ public abstract class FragmentParent extends Fragment {
         }
     };
 
+
+    public void allFinish(){
+        getActivity().finish();
+    }
+
+
 }

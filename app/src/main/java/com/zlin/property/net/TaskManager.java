@@ -7,6 +7,7 @@ import android.content.Context;
 import com.zlin.property.db.po.Banner;
 import com.zlin.property.db.po.DownLoadFile;
 import com.zlin.property.db.po.Repair;
+import com.zlin.property.db.po.RoomItem;
 import com.zlin.property.db.po.UserInfo;
 import com.zlin.property.tools.AppConfig;
 
@@ -21,6 +22,7 @@ public class TaskManager {
     public final static String FINDBANNER = "/service/findBannerByVersion";
     public final static String SAVE_REPAIR = "/service/saveRepair";
     public final static String GETREPAIRS = "/service/getRepairs";
+    public final static String FINROOM = "/user/findRoom";
 
     private static TaskManager mTaskManager;
     public static TaskManager getInstace(Context context) {
@@ -69,7 +71,7 @@ public class TaskManager {
         myTask.mCallBack = mCallBack;
         myTask.mRequestData = userInfo;
         myTask.mIsEncryption = false;
-        myTask.mTaskId = MyTask.LOGIN;
+        myTask.mTaskId = MyTask.REGISTER;
         return myTask;
     }
     public MyTask findBannerByVersion(NetCallBack mCallBack, Banner banner){
@@ -79,6 +81,15 @@ public class TaskManager {
         myTask.mRequestData = banner;
         myTask.mIsEncryption = false;
         myTask.mTaskId = MyTask.BANNER;
+        return myTask;
+    }
+    public MyTask findRoom(NetCallBack mCallBack, RoomItem roomItem){
+        MyTask myTask = new MyTask();
+        myTask.mUrl = AppConfig.HTTP+FINROOM;
+        myTask.mCallBack = mCallBack;
+        myTask.mRequestData = roomItem;
+        myTask.mIsEncryption = false;
+        myTask.mTaskId = MyTask.FIND_ROOM;
         return myTask;
     }
     public MyTask saveRepair(NetCallBack mCallBack, Repair repair){

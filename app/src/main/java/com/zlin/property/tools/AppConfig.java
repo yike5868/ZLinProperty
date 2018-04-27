@@ -2,6 +2,9 @@ package com.zlin.property.tools;
 
 import android.os.Environment;
 
+import com.zlin.property.db.po.RoomItem;
+import com.zlin.property.db.po.TempRoom;
+
 import java.io.File;
 
 /**
@@ -24,4 +27,6 @@ public class AppConfig {
 
     public static final int FROM_CAMERA = 3333;
     public static final int PHOTO_GALLERY_CODE =4444;
+
+    public static TempRoom tempRoom = new TempRoom();
 }

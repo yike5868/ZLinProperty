@@ -3,6 +3,7 @@ package com.zlin.property.control;
 
 import android.content.Context;
 
+import com.zlin.property.function.FuChoseRoomView;
 import com.zlin.property.function.FuContentView;
 import com.zlin.property.function.FuMainView;
 import com.zlin.property.function.FuServerListView;
@@ -21,6 +22,7 @@ public class FuUiFrameManager {
     public static final int FU_CONTENT = 4;//主页列表
     public static final int FU_SERVER = 5;//报修服务
     public static final int FU_SERVER_LIST = 6;//报修服务列表
+    public static final int FU_CHOSE_ROOM = 7;//选择房间
     public FuUiFrameModel createFuModel(int type, Context contex,
                                         FuEventCallBack callBack) {
         switch (type) {
@@ -35,6 +37,8 @@ public class FuUiFrameManager {
                 return new FuServerView(contex,callBack);
             case FU_SERVER_LIST:
                 return new FuServerListView(contex,callBack);
+            case FU_CHOSE_ROOM:
+                return new FuChoseRoomView(contex,callBack);
         }
         return null;
     }

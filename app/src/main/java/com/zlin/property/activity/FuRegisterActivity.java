@@ -21,11 +21,15 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSON;
 import com.zlin.property.R;
 import com.zlin.property.control.FuResponse;
+import com.zlin.property.control.FuUiFrameManager;
+import com.zlin.property.db.po.RoomItem;
+import com.zlin.property.db.po.TempRoom;
 import com.zlin.property.db.po.UserInfo;
 import com.zlin.property.net.MyTask;
 import com.zlin.property.net.NetCallBack;
 import com.zlin.property.net.NetManager;
 import com.zlin.property.net.TaskManager;
+import com.zlin.property.tools.AppConfig;
 import com.zlin.property.tools.StringUtil;
 import com.zlin.property.tools.ToastUtil;
 import com.zlin.property.tools.ToolUtil;
@@ -62,6 +66,15 @@ public class FuRegisterActivity extends FuParentActivity implements View.OnClick
     TextView btn_register;
     @Bind(R.id.input_layout_rpsw)
     LinearLayout input_layout_rpsw;
+    @Bind(R.id.input_layout_room)
+    LinearLayout input_layout_room;
+    @Bind(R.id.tv_room)
+    FuTextView tv_room;
+
+    @Bind(R.id.input_layout_real_name)
+    LinearLayout input_layout_real_name;
+    @Bind(R.id.et_realName)
+    FuEditText et_realName;
 
 
     private View progress;
@@ -72,6 +85,7 @@ public class FuRegisterActivity extends FuParentActivity implements View.OnClick
 
     private LinearLayout mName, mPsw;
     UserInfo userInfo;
+    TempRoom tempRoom ;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,6 +104,10 @@ public class FuRegisterActivity extends FuParentActivity implements View.OnClick
         mName = (LinearLayout) findViewById(R.id.input_layout_name);
         mPsw = (LinearLayout) findViewById(R.id.input_layout_psw);
         btn_register.setOnClickListener(this);
+        input_layout_room.setOnClickListener(this);
+        input_layout_room.setVisibility(View.VISIBLE);
+        tv_room.setOnClickListener(this);
+        input_layout_real_name.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -103,12 +121,14 @@ public class FuRegisterActivity extends FuParentActivity implements View.OnClick
                 inputAnimator(mInputLayout, mWidth, mHeight);
                 break;
             case R.id.iv_left:
-                this.finish();
+                startActivity(new Intent(FuRegisterActivity.this, FuLoginActivity.class));
+                finish();
                 break;
             case R.id.btn_register:
                 String userName = et_username.getText().toString();
                 String password = et_password.getText().toString();
                 String repassword = et_rpassword.getText().toString();
+                String realName = et_realName.getText().toString();
                 if(StringUtil.isEmpty(userName)){
                     ToastUtil.showToast("请输入用户名！");
                 }
@@ -121,17 +141,39 @@ public class FuRegisterActivity extends FuParentActivity implements View.OnClick
                 if(!password.equals(repassword)){
                     ToastUtil.showToast("两次密码输入不一致！");
                 }
+                if(StringUtil.isEmpty(realName)){
+                    ToastUtil.showToast("请输入真实姓名！");
+                }
+                if(StringUtil.isEmpty(AppConfig.tempRoom.getRoomId())){
+                    ToastUtil.showToast("请选择房间！");
+                }
                 userInfo = new UserInfo();
                 userInfo.setUserName(userName);
                 userInfo.setPassword(password);
+                userInfo.setMicrodistrictId(tempRoom.getMicrodistrictId());
+                userInfo.setBuildingId(tempRoom.getBuildingId());
+                userInfo.setUnitId(tempRoom.getUnitId());
+                userInfo.setRoomId(tempRoom.getRoomId());
+                userInfo.setRealName(realName);
 
                 MyTask loginTask = TaskManager.getInstace().register(new mNetCallBack(), userInfo);
                 NetManager manager = NetManager.getInstance(this);
                 manager.addNetTask(loginTask);
                 manager.excuteNetTask(loginTask);
                 break;
+
+            case R.id.input_layout_room:
+            case R.id.tv_room:
+
+                Intent intent = new Intent(this, FuContentActivity.class);
+                intent.putExtra(FuContentActivity.FRAGMENT_ACTION_KEY, FuUiFrameManager.FU_CHOSE_ROOM);
+                startActivity(intent);
+
+                break;
         }
     }
+
+
     public static final int MSG_MESSAGE = 1;
     public static final int MSG_MAIN = 2;
 
@@ -144,12 +186,21 @@ public class FuRegisterActivity extends FuParentActivity implements View.OnClick
                     ToastUtil.showToast(msg.obj.toString());
                     break;
                 case MSG_MAIN:
-                    startActivity(new Intent(FuRegisterActivity.this, FuMainActivity.class));
+                    startActivity(new Intent(FuRegisterActivity.this, FuLoginActivity.class));
                     finish();
                     break;
             }
         }
     };
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(AppConfig.tempRoom != null&& !StringUtil.isEmpty(AppConfig.tempRoom.getRoomId())){
+            tempRoom = AppConfig.tempRoom;
+            tv_room.setText(tempRoom.getMicrodistrictName()+tempRoom.getBuildingName()+tempRoom.getUnitName()+tempRoom.getRoomName());
+        }
+    }
 
     class mNetCallBack implements NetCallBack {
 
