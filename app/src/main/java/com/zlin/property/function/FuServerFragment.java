@@ -23,12 +23,16 @@ import com.zlin.property.control.FuEventCallBack;
 import com.zlin.property.control.FuResponse;
 import com.zlin.property.control.FuUiFrameManager;
 import com.zlin.property.control.FuUiFrameModel;
+import com.zlin.property.db.po.Photo;
 import com.zlin.property.db.po.Repair;
+import com.zlin.property.db.po.UserInfo;
 import com.zlin.property.net.MyTask;
 import com.zlin.property.net.TaskManager;
 import com.zlin.property.tools.ToastUtil;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by zhanglin03 on 2018/4/23.
@@ -37,6 +41,8 @@ import java.io.File;
 public class FuServerFragment  extends FragmentParent {
     FuServerView fuView;
     Repair repair;
+    List<Photo> photoList;
+    UserInfo userInfo;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -48,7 +54,9 @@ public class FuServerFragment  extends FragmentParent {
                 FuUiFrameManager.FU_SERVER, getActivity(),
                 new OnEventClick());
         fuView = (FuServerView) mModel;
-        fuView.setPhotoList(null);
+        photoList = new ArrayList<>();
+        fuView.setPhotoList(photoList);
+        userInfo = getSP("userInfo",UserInfo.class);
         return mModel.getFuView();
     }
 
@@ -132,6 +140,7 @@ public class FuServerFragment  extends FragmentParent {
         public void handleMessage(Message msg) {
             switch (msg.what){
                 case MSG_FILE:
+                    fuView.setPhotoList(photoList);
                     break;
             }
             super.handleMessage(msg);
@@ -153,6 +162,11 @@ public class FuServerFragment  extends FragmentParent {
             case MyTask.UP_LOAD_FILE:
                 if(rspObj!=null && rspObj.getSuccess()){
                     ToastUtil.showToast("上传成功！");
+                    Photo photo = new Photo();
+                    photo.setPath(rspObj.getData().toString());
+                    photo.setUserId(userInfo.getUserId());
+                    photoList.add(photo);
+                    handler.sendEmptyMessage(MSG_FILE);
                 }
                 break;
         }
