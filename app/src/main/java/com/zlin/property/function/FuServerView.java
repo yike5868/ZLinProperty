@@ -49,6 +49,7 @@ public class FuServerView extends FuUiFrameModel implements View.OnClickListener
     List<Photo> photoList;
     Repair repair;
     UserInfo userInfo;
+
     public FuServerView(Context cxt, FuEventCallBack callBack) {
         super(cxt, callBack);
     }
@@ -57,7 +58,7 @@ public class FuServerView extends FuUiFrameModel implements View.OnClickListener
     protected void createFuLayout() {
         mFuView = LayoutInflater.from(mContext).inflate(
                 R.layout.fu_server_view, null);
-        userInfo = getSP("userInfo",UserInfo.class);
+        userInfo = getSP("userInfo", UserInfo.class);
     }
 
 
@@ -111,7 +112,7 @@ public class FuServerView extends FuUiFrameModel implements View.OnClickListener
             case R.id.iv_right:
                 listRight = new ArrayList<>();
                 listRight.add("提交记录");
-                setPopup(v, 2, onItemClickListener, listRight);
+                setPopup(v, 2, listOnItemClickListener, listRight);
                 break;
             case R.id.btn_save:
                 saveRepair();
@@ -119,7 +120,7 @@ public class FuServerView extends FuUiFrameModel implements View.OnClickListener
         }
     }
 
-    private void saveRepair(){
+    private void saveRepair() {
         repair = new Repair();
         String message = et_body.getText().toString().trim();
         Date beginDate = tv_begin_date.getDate();
@@ -136,32 +137,39 @@ public class FuServerView extends FuUiFrameModel implements View.OnClickListener
         repair.setRoomId(userInfo.getRoomId());
         repair.setType("维修");
 
-        if(StringUtil.isEmpty(message)){
+        if (StringUtil.isEmpty(message)) {
             ToastUtil.showToast("请填写维修内容!");
             return;
         }
-        if(beginDate == null || endDate == null || beginTime == null || endTime == null){
+        if (beginDate == null || endDate == null || beginTime == null || endTime == null) {
             showAlertDailog();
             return;
         }
 
         mEventCallBack.EventClick(
-                FuServerFragment.EVENT_SAVE,repair);
+                FuServerFragment.EVENT_SAVE, repair);
     }
 
-    AdapterView.OnItemClickListener onItemClickListener = new AdapterView.OnItemClickListener() {
+    AdapterView.OnItemClickListener listOnItemClickListener = new AdapterView.OnItemClickListener() {
 
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Bundle bundle = new Bundle();
             bundle.putInt("position", position);
-            if(view.getId() == R.id.gv_photos){
-                mEventCallBack.EventClick(
-                        FuServerFragment.EVENT_PHOTO, bundle);
-            }else{
-                mEventCallBack.EventClick(
-                        FuServerFragment.EVENT_LIST,bundle);
-            }
+            mEventCallBack.EventClick(
+                    FuServerFragment.EVENT_LIST, bundle);
+        }
+    };
+
+    AdapterView.OnItemClickListener photoonItemClickListener = new AdapterView.OnItemClickListener() {
+
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            Bundle bundle = new Bundle();
+            bundle.putInt("position", position);
+            mEventCallBack.EventClick(
+                    FuServerFragment.EVENT_PHOTO, bundle);
+
         }
     };
 
@@ -169,7 +177,7 @@ public class FuServerView extends FuUiFrameModel implements View.OnClickListener
         this.photoList = photoList;
         PhotoAdapter photoAdapter = new PhotoAdapter();
         gv_photos.setAdapter(photoAdapter);
-        gv_photos.setOnItemClickListener(onItemClickListener);
+        gv_photos.setOnItemClickListener(photoonItemClickListener);
 
         setListViewHeightBasedOnChildren(gv_photos);
     }
@@ -183,7 +191,7 @@ public class FuServerView extends FuUiFrameModel implements View.OnClickListener
 
         @Override
         public int getCount() {
-            return photoList==null?1:photoList.size()+1;
+            return photoList == null ? 1 : photoList.size() + 1;
         }
 
         @Override
@@ -209,7 +217,7 @@ public class FuServerView extends FuUiFrameModel implements View.OnClickListener
             }
             if (position == 0) {
                 Glide.with(holder.iv_body.getContext()).load(R.mipmap.icon_camera).placeholder(R.mipmap.ic_logo_app).error(R.mipmap.ic_logo_app).dontAnimate().into(holder.iv_body);
-            }else
+            } else
                 Glide.with(mContext).load(photoList.get(position - 1).getPath()).into(holder.iv_body);
             return convertView;
         }
@@ -256,7 +264,7 @@ public class FuServerView extends FuUiFrameModel implements View.OnClickListener
                     @Override
                     public void onClick(SweetAlertDialog sDialog) {
                         mEventCallBack.EventClick(
-                                FuServerFragment.EVENT_SAVE,repair);
+                                FuServerFragment.EVENT_SAVE, repair);
                     }
                 }).show();
     }

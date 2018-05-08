@@ -201,7 +201,6 @@ public class FuRegisterActivity extends FuParentActivity implements View.OnClick
             tv_room.setText(tempRoom.getMicrodistrictName()+tempRoom.getBuildingName()+tempRoom.getUnitName()+tempRoom.getRoomName());
         }
     }
-
     class mNetCallBack implements NetCallBack {
 
         @Override

@@ -1,7 +1,14 @@
 package com.zlin.property.function;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.provider.MediaStore;
 import android.sax.RootElement;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,6 +27,8 @@ import com.zlin.property.db.po.Repair;
 import com.zlin.property.net.MyTask;
 import com.zlin.property.net.TaskManager;
 import com.zlin.property.tools.ToastUtil;
+
+import java.io.File;
 
 /**
  * Created by zhanglin03 on 2018/4/23.
@@ -86,6 +95,7 @@ public class FuServerFragment  extends FragmentParent {
     @Override
     public void openCamear(Intent data) {
         super.openCamear(data);
+
         ToastUtil.showToast("相机");
     }
 
@@ -93,7 +103,42 @@ public class FuServerFragment  extends FragmentParent {
     public void openGallery(Intent data) {
         super.openGallery(data);
         ToastUtil.showToast("相册");
+        try {
+            Uri selectedImage = data.getData(); //获取系统返回的照片的Uri
+            String[] filePathColumn = {MediaStore.Images.Media.DATA};
+            Cursor cursor = getContext().getContentResolver().query(selectedImage,
+                    filePathColumn, null, null, null);//从系统表中查询指定Uri对应的照片
+            cursor.moveToFirst();
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            String path = cursor.getString(columnIndex);  //获取照片路径
+            cursor.close();
+            File file = new File(path);
+            uploadFile(file);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
+    private void uploadFile(File file) {
+        File[] files = new  File[1];
+        files[0] = file;
+        MyTask bannerTask = TaskManager.getInstace().upLoadFile(getCallBackInstance(), files);
+        excuteNetTask(bannerTask,true);
+    }
+
+    public final static int MSG_FILE = 1;//上传图片
+    Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what){
+                case MSG_FILE:
+                    break;
+            }
+            super.handleMessage(msg);
+
+        }
+    };
+
 
     @Override
     protected void loadDataChild(int taskId, FuResponse rspObj) {
@@ -103,6 +148,11 @@ public class FuServerFragment  extends FragmentParent {
                     ToastUtil.showToast("提交成功！请等待接单！");
                 }else{
                     ToastUtil.showToast("提交失败！请重试！");
+                }
+                break;
+            case MyTask.UP_LOAD_FILE:
+                if(rspObj!=null && rspObj.getSuccess()){
+                    ToastUtil.showToast("上传成功！");
                 }
                 break;
         }

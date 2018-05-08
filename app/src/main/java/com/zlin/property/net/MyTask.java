@@ -121,7 +121,7 @@ public class MyTask {
 
         RequestBody body = builder.build();
 
-        return new Request.Builder().url(mUrl).addHeader("access_token", mRequestHeader.get("access_token")).addHeader("Content-Type", "application/json").addHeader("charset", "UTF-8").post(body).build();
+        return new Request.Builder().url(mUrl).addHeader("Content-Type", "application/json").addHeader("charset", "UTF-8").post(body).build();
 
     }
 

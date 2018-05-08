@@ -146,7 +146,10 @@ public abstract class FragmentParent extends Fragment {
             if (taskId == MyTask.UP_LOAD_FILE) {
                 Message error = Message.obtain(parentHandler);
                 error.what = MyTask.UP_LOAD_FILE;
+                if(rspObj!=null)
                 error.obj = rspObj.getErrMessage();
+                else
+                    error.obj = "网络访问错误！";
                 error.sendToTarget();
                 return;
             }
@@ -230,13 +233,13 @@ public abstract class FragmentParent extends Fragment {
                     break;
 
                 case MyTask.UP_LOAD_FILE:
-                    File dir = new File(Constant.PIC_DIR);
-                    File[] pics = dir.listFiles();
-                    for (int i = 0; i < pics.length; i++) {
-                        pics[i].delete();
-                    }
+//                    File dir = new File(Constant.PIC_DIR);
+//                    File[] pics = dir.listFiles();
+//                    for (int i = 0; i < pics.length; i++) {
+//                        pics[i].delete();
+//                    }
                     ToastUtil.showToast(getContext(), "保存成功!", Toast.LENGTH_LONG);
-                    ((FuContentActivity) getActivity()).goToPrePage();
+//                    ((FuContentActivity) getActivity()).goToPrePage();
                     break;
                 case MSG_CAMEAR:
                     MediaTools.chooseCamera(FragmentParent.this);

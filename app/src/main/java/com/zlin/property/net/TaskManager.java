@@ -11,6 +11,8 @@ import com.zlin.property.db.po.RoomItem;
 import com.zlin.property.db.po.UserInfo;
 import com.zlin.property.tools.AppConfig;
 
+import java.io.File;
+
 /**
  *
  */
@@ -21,6 +23,7 @@ public class TaskManager {
     public final static String REGISTER = "/user/register";
     public final static String FINDBANNER = "/service/findBannerByVersion";
     public final static String SAVE_REPAIR = "/service/saveRepair";
+    public final static String UPLOAD_FILE = "/file/upload";
     public final static String GETREPAIRS = "/service/getRepairs";
     public final static String FINROOM = "/user/findRoom";
 
@@ -101,6 +104,17 @@ public class TaskManager {
         myTask.mTaskId = MyTask.SAVE_REPAIR;
         return myTask;
     }
+
+    public MyTask upLoadFile(NetCallBack mCallBack, File[] files){
+        MyTask myTask = new MyTask();
+        myTask.mUrl = AppConfig.HTTP+UPLOAD_FILE;
+        myTask.mCallBack = mCallBack;
+        myTask.files = files;
+        myTask.mIsEncryption = false;
+        myTask.mTaskId = MyTask.UP_LOAD_FILE;
+        return myTask;
+    }
+
     public MyTask getRepairs(NetCallBack mCallBack, Repair repair){
         MyTask myTask = new MyTask();
         myTask.mUrl = AppConfig.HTTP+GETREPAIRS;
