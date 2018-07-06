@@ -121,8 +121,16 @@ public class TaskManager {
         myTask.mCallBack = mCallBack;
         myTask.mRequestData = repair;
         myTask.mIsEncryption = false;
-        myTask.mTaskId = MyTask.BANNER;
+        myTask.mTaskId = MyTask.GET_REPAIR;
         return myTask;
     }
-
+    public MyTask getRepair(NetCallBack mCallBack, Repair repair){
+        MyTask myTask = new MyTask();
+        myTask.mUrl = AppConfig.HTTP+GETREPAIRS;
+        myTask.mCallBack = mCallBack;
+        myTask.mRequestData = repair;
+        myTask.mIsEncryption = false;
+        myTask.mTaskId = MyTask.GET_REPAIR;
+        return myTask;
+    }
 }

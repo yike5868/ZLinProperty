@@ -2,33 +2,30 @@ package com.zlin.property.function;
 
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
-import android.sax.RootElement;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.zlin.property.FuApp;
-import com.zlin.property.R;
 import com.zlin.property.activity.FuContentActivity;
 import com.zlin.property.control.FragmentParent;
 import com.zlin.property.control.FuEventCallBack;
 import com.zlin.property.control.FuResponse;
 import com.zlin.property.control.FuUiFrameManager;
-import com.zlin.property.control.FuUiFrameModel;
 import com.zlin.property.db.po.Photo;
 import com.zlin.property.db.po.Repair;
 import com.zlin.property.db.po.UserInfo;
 import com.zlin.property.net.MyTask;
 import com.zlin.property.net.TaskManager;
+import com.zlin.property.tools.AppConfig;
 import com.zlin.property.tools.ToastUtil;
+import com.zlin.property.tools.ToolUtil;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -43,6 +40,7 @@ public class FuServerFragment  extends FragmentParent {
     Repair repair;
     List<Photo> photoList;
     UserInfo userInfo;
+    private boolean canEdit = true;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -55,8 +53,16 @@ public class FuServerFragment  extends FragmentParent {
                 new OnEventClick());
         fuView = (FuServerView) mModel;
         photoList = new ArrayList<>();
+
+        fuView.setCanEdit(canEdit);
         fuView.setPhotoList(photoList);
         userInfo = getSP("userInfo",UserInfo.class);
+        Bundle lBundle = ((FuContentActivity) getActivity()).getIntentBundle();
+        if(lBundle!=null) {
+            repair = (Repair) lBundle.getSerializable("repair");
+            if(repair!=null)
+            fuView.setData(repair);
+        }
         return mModel.getFuView();
     }
 
@@ -100,17 +106,19 @@ public class FuServerFragment  extends FragmentParent {
         MyTask bannerTask = TaskManager.getInstace().saveRepair(getCallBackInstance(), repair);
         excuteNetTask(bannerTask,true);
     }
+
     @Override
     public void openCamear(Intent data) {
         super.openCamear(data);
+        if(AppConfig.CamerPhotoFile!=null&&AppConfig.CamerPhotoFile.exists()){
+            luBanUpload(AppConfig.CamerPhotoFile);
+        }
 
-        ToastUtil.showToast("相机");
     }
 
     @Override
     public void openGallery(Intent data) {
         super.openGallery(data);
-        ToastUtil.showToast("相册");
         try {
             Uri selectedImage = data.getData(); //获取系统返回的照片的Uri
             String[] filePathColumn = {MediaStore.Images.Media.DATA};
@@ -121,25 +129,21 @@ public class FuServerFragment  extends FragmentParent {
             String path = cursor.getString(columnIndex);  //获取照片路径
             cursor.close();
             File file = new File(path);
-            uploadFile(file);
+            luBanUpload(file);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    private void uploadFile(File file) {
-        File[] files = new  File[1];
-        files[0] = file;
-        MyTask bannerTask = TaskManager.getInstace().upLoadFile(getCallBackInstance(), files);
-        excuteNetTask(bannerTask,true);
-    }
 
-    public final static int MSG_FILE = 1;//上传图片
+
+
     Handler handler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what){
                 case MSG_FILE:
+                    ToastUtil.showToast("上传成功！");
                     fuView.setPhotoList(photoList);
                     break;
             }
@@ -151,17 +155,18 @@ public class FuServerFragment  extends FragmentParent {
 
     @Override
     protected void loadDataChild(int taskId, FuResponse rspObj) {
+        ToolUtil.hidePopLoading();
         switch (taskId){
             case MyTask.SAVE_REPAIR:
+                ToastUtil.showToast(rspObj.getMessage());
                 if(rspObj!=null && rspObj.getSuccess()){
-                    ToastUtil.showToast("提交成功！请等待接单！");
+                    parentHandler.sendEmptyMessage(MSG_FINISH);
                 }else{
-                    ToastUtil.showToast("提交失败！请重试！");
+
                 }
                 break;
             case MyTask.UP_LOAD_FILE:
                 if(rspObj!=null && rspObj.getSuccess()){
-                    ToastUtil.showToast("上传成功！");
                     Photo photo = new Photo();
                     photo.setPath(rspObj.getData().toString());
                     photo.setUserId(userInfo.getUserId());
@@ -180,5 +185,14 @@ public class FuServerFragment  extends FragmentParent {
     @Override
     protected void cancelChild(int taskId) {
 
+    }
+
+    @Override
+    public void initData(Bundle bundle) {
+        if(bundle!=null)
+        repair =(Repair) bundle.getSerializable("repair");
+        else {
+
+        }
     }
 }

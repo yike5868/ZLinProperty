@@ -84,7 +84,6 @@ public class FuContentActivity extends FuParentActivity {
      * 获取 返回上一级页面所携带的数据
      */
     public Bundle getIntentBundle() {
-
         return getIntent().getBundleExtra(INTENT_BUNDLE);
     }
 
@@ -131,7 +130,7 @@ public class FuContentActivity extends FuParentActivity {
     public void goToPrePage() {
 
         boolean isBack = mManager.gotoBackFragment(
-                CustomFragmentManager.CONTENT, R.id.fu_fragment_contain);
+                CustomFragmentManager.CONTENT);
 
         if (!isBack) {
             finish();
@@ -152,8 +151,7 @@ public class FuContentActivity extends FuParentActivity {
             } else {
 
                 boolean isBack = mManager.gotoBackFragment(
-                        CustomFragmentManager.CONTENT,
-                        R.id.fu_fragment_contain);
+                        CustomFragmentManager.CONTENT);
 
                 if (!isBack) {
                     finish();

@@ -117,8 +117,7 @@ public class FuMainActivity extends FuParentActivity {
                     openExitAppDialog();
                     return false;
                 }
-                mManager.gotoBackFragment(CustomFragmentManager.MAIN,
-                        R.id.fu_fragment_contain);
+                mManager.gotoBackFragment(CustomFragmentManager.MAIN);
                 mBottomMenu.setCurrentBtnState(mManager.mcurrentAction());
             }
         }

@@ -47,6 +47,9 @@ public class FuServerListFragment extends FragmentParent {
 
         return mModel.getFuView();
     }
+
+
+
     public void getRepairs() {
         userInfo = getSP("userInfo",UserInfo.class);
         Repair repair;
@@ -56,7 +59,7 @@ public class FuServerListFragment extends FragmentParent {
         MyTask lTask = TaskManager.getInstace(getActivity())
                 .getRepairs(getCallBackInstance(), repair);
 
-        excuteNetTask(lTask, true);
+        excuteNetTask(lTask, false);
     }
     Handler handler = new Handler(){
         @Override
@@ -85,6 +88,11 @@ public class FuServerListFragment extends FragmentParent {
 
     @Override
     protected void cancelChild(int taskId) {
+
+    }
+
+    @Override
+    public void initData(Bundle bundle) {
 
     }
 }

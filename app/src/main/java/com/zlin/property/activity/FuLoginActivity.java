@@ -5,20 +5,17 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.animation.ValueAnimator;
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.zlin.property.R;
@@ -30,15 +27,11 @@ import com.zlin.property.net.NetManager;
 import com.zlin.property.net.TaskManager;
 import com.zlin.property.tools.StringUtil;
 import com.zlin.property.tools.ToastUtil;
-import com.zlin.property.tools.Tool;
 import com.zlin.property.tools.ToolUtil;
 import com.zlin.property.view.FuEditText;
 import com.zlin.property.view.FuImageView;
 import com.zlin.property.view.FuTextView;
 import com.zlin.property.view.JellyInterpolator;
-
-import org.jivesoftware.smack.util.StringUtils;
-import org.json.JSONObject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -178,7 +171,7 @@ public class FuLoginActivity extends FuParentActivity implements View.OnClickLis
                 saveSP("userInfo",userInfo);
                 handler.sendEmptyMessage(MSG_MAIN);
             } else if(rspObj!=null){
-                message.obj = rspObj.getErrMessage();
+                message.obj = rspObj.getMessage();
                 message.what = MSG_MESSAGE;
                 handler.sendMessage(message);
             }else{

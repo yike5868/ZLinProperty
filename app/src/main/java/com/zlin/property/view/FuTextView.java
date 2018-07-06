@@ -68,6 +68,14 @@ public class FuTextView extends TextView {
         setTag(date);
         setText(date_str);
     }
+    public void setText(Date date,String dateFormat) {
+        if (date == null)
+            return;
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateFormat);
+        String date_str = simpleDateFormat.format(date);
+        setTag(date);
+        setText(date_str);
+    }
 
 //    public void setAge(Date date) {
 //        if (date == null)

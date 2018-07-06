@@ -27,8 +27,8 @@ public class ALocalSqlHelper {
 
         this.context = context;
 
-        devOpenHelper = new DevOpenHelper(context, Constant.DB_LOCAL, null);
-        daoMaster = new DaoMaster(devOpenHelper.getReadableDb());
+//        devOpenHelper = new DevOpenHelper(context, Constant.DB_LOCAL, null);
+//        daoMaster = new DaoMaster(devOpenHelper.getReadableDb());
 
     }
 

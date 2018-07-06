@@ -21,6 +21,7 @@ import com.zlin.property.db.po.Repair;
 import com.zlin.property.db.po.UserInfo;
 import com.zlin.property.tools.StringUtil;
 import com.zlin.property.tools.ToastUtil;
+import com.zlin.property.uview.HorizontalListView;
 import com.zlin.property.view.FuButton;
 import com.zlin.property.view.FuEditText;
 import com.zlin.property.view.FuImageView;
@@ -44,7 +45,8 @@ public class FuServerView extends FuUiFrameModel implements View.OnClickListener
     FuTextView tv_begin_time;
     FuTextView tv_end_time;
     FuButton btn_save;
-    GridView gv_photos;
+    HorizontalListView horizontalListView;
+
     FuImageView iv_right;
     List<Photo> photoList;
     Repair repair;
@@ -75,7 +77,7 @@ public class FuServerView extends FuUiFrameModel implements View.OnClickListener
         tv_begin_time = (FuTextView) mFuView.findViewById(R.id.tv_begin_time);
         tv_end_time = (FuTextView) mFuView.findViewById(R.id.tv_end_time);
         btn_save = (FuButton) mFuView.findViewById(R.id.btn_save);
-        gv_photos = (GridView) mFuView.findViewById(R.id.gv_photos);
+        horizontalListView = (HorizontalListView) mFuView.findViewById(R.id.horizontalListView);
         iv_right = (FuImageView) mFuView.findViewById(R.id.iv_right);
         iv_right.setVisibility(View.VISIBLE);
         iv_right.setOnClickListener(this);
@@ -120,8 +122,19 @@ public class FuServerView extends FuUiFrameModel implements View.OnClickListener
         }
     }
 
+    public void setData(Repair repair){
+        this.repair = repair;
+        et_body.setText(repair.getMessage());
+        tv_begin_date.setText(repair.getBeginDate(),"MM月dd日");
+        tv_end_date.setText(repair.getEndDate(),"MM月dd日");
+        tv_begin_time.setText(repair.getBeginTime(),"HH时mm分");
+        tv_end_time.setText(repair.getEndTime(),"HH时mm分");
+        setPhotoList(repair.getPhotoList());
+    }
+
     private void saveRepair() {
-        repair = new Repair();
+        if(repair == null)
+            repair = new Repair();
         String message = et_body.getText().toString().trim();
         Date beginDate = tv_begin_date.getDate();
         Date endDate = tv_end_date.getDate();
@@ -129,9 +142,10 @@ public class FuServerView extends FuUiFrameModel implements View.OnClickListener
         Date endTime = tv_end_time.getDate();
 
         repair.setMessage(message);
-        repair.setBeaginTime(beginTime);
+        repair.setBeginTime(beginTime);
         repair.setEndTime(endTime);
         repair.setBeginDate(beginDate);
+        repair.setEndDate(endDate);
         repair.setPhotoList(photoList);
         repair.setUserId(userInfo.getUserId());
         repair.setRoomId(userInfo.getRoomId());
@@ -176,11 +190,21 @@ public class FuServerView extends FuUiFrameModel implements View.OnClickListener
     public void setPhotoList(List<Photo> photoList) {
         this.photoList = photoList;
         PhotoAdapter photoAdapter = new PhotoAdapter();
-        gv_photos.setAdapter(photoAdapter);
-        gv_photos.setOnItemClickListener(photoonItemClickListener);
-
-        setListViewHeightBasedOnChildren(gv_photos);
+        horizontalListView.setAdapter(photoAdapter);
+        horizontalListView.setOnItemClickListener(photoonItemClickListener);
     }
+
+    public void setCanEdit(boolean canEdit){
+        et_body.setEnabled(canEdit);
+        tv_begin_date.setEnabled(canEdit);
+        tv_end_date.setEnabled(canEdit);
+        tv_begin_time.setEnabled(canEdit);
+        tv_end_time.setEnabled(canEdit);
+        btn_save.setEnabled(canEdit);
+        horizontalListView.setEnabled(canEdit);
+    }
+
+
 
     public class PhotoAdapter extends BaseAdapter {
         private LayoutInflater mInflater;
@@ -218,33 +242,13 @@ public class FuServerView extends FuUiFrameModel implements View.OnClickListener
             if (position == 0) {
                 Glide.with(holder.iv_body.getContext()).load(R.mipmap.icon_camera).placeholder(R.mipmap.ic_logo_app).error(R.mipmap.ic_logo_app).dontAnimate().into(holder.iv_body);
             } else
-                Glide.with(mContext).load(photoList.get(position - 1).getPath()).into(holder.iv_body);
+                Glide.with(mContext).load(photoList.get(position - 1).getPath()).error(R.mipmap.ic_logo_app).into(holder.iv_body);
             return convertView;
         }
 
         class Holder {
             FuImageView iv_body;
         }
-    }
-
-
-    // 动态加载GridView 高度
-    public static void setListViewHeightBasedOnChildren(GridView gridView) {
-        ListAdapter listAdapter = gridView.getAdapter();
-        if (listAdapter == null) {
-            return;
-        }
-        int col = 5;
-        int totalHeight = 0;
-        for (int i = 0; i < listAdapter.getCount(); i += col) {
-            View listItem = listAdapter.getView(i, null, gridView);
-            listItem.measure(0, 0);
-            totalHeight += listItem.getMeasuredHeight();
-        }
-        ViewGroup.LayoutParams params = gridView.getLayoutParams();
-        params.height = totalHeight;
-        ((ViewGroup.MarginLayoutParams) params).setMargins(10, 10, 10, 10);
-        gridView.setLayoutParams(params);
     }
 
     public void showAlertDailog() {

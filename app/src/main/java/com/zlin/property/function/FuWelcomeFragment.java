@@ -222,4 +222,9 @@ public class FuWelcomeFragment extends FragmentParent {
 	@Override
 	protected void cancelChild(int taskId) {
 	}
+
+	@Override
+	public void initData(Bundle bundle) {
+
+	}
 }

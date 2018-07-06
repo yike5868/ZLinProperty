@@ -5,7 +5,6 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.animation.ValueAnimator;
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -22,7 +21,6 @@ import com.alibaba.fastjson.JSON;
 import com.zlin.property.R;
 import com.zlin.property.control.FuResponse;
 import com.zlin.property.control.FuUiFrameManager;
-import com.zlin.property.db.po.RoomItem;
 import com.zlin.property.db.po.TempRoom;
 import com.zlin.property.db.po.UserInfo;
 import com.zlin.property.net.MyTask;
@@ -144,7 +142,7 @@ public class FuRegisterActivity extends FuParentActivity implements View.OnClick
                 if(StringUtil.isEmpty(realName)){
                     ToastUtil.showToast("请输入真实姓名！");
                 }
-                if(StringUtil.isEmpty(AppConfig.tempRoom.getRoomId())){
+                if(StringUtil.isEmpty(tempRoom.getRoomId())){
                     ToastUtil.showToast("请选择房间！");
                 }
                 userInfo = new UserInfo();
@@ -220,7 +218,7 @@ public class FuRegisterActivity extends FuParentActivity implements View.OnClick
                 saveSP("userInfo",userInfo);
                 handler.sendEmptyMessage(MSG_MAIN);
             } else if(rspObj!=null){
-                message.obj = rspObj.getErrMessage();
+                message.obj = rspObj.getMessage();
                 message.what = MSG_MESSAGE;
                 handler.sendMessage(message);
             }else{

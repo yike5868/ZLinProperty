@@ -42,6 +42,8 @@ public class MyTask {
     public static final int REGISTER = 5;//注册
 
     public static final int FIND_ROOM = 6;//
+    public static final int GET_REPAIR = 7;//获取全部列表
+
 
 
     public static final String METHOD_GET = "GET";

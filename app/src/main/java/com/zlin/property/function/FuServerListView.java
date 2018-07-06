@@ -96,7 +96,7 @@ public class FuServerListView extends FuUiFrameModel implements View.OnClickList
             }
             holder.tv_num.setText(position);
             holder.tv_body.setText(repairList.get(position).getMessage());
-            holder.tv_time.setText(repairList.get(position).getBeaginTime().toString()+repairList.get(position).getEndTime().toString());
+            holder.tv_time.setText(repairList.get(position).getBeginTime().toString()+repairList.get(position).getEndTime().toString());
             holder.tv_state.setText(repairList.get(position).getState());
 
             return convertView;

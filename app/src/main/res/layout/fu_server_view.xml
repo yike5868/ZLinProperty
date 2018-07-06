@@ -34,11 +34,13 @@
                 android:background="@null"
                 android:textColor="@color/bg_black" />
 
-            <GridView
-                android:id="@+id/gv_photos"
+            
+            <com.zlin.property.uview.HorizontalListView
+                android:id="@+id/horizontalListView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:numColumns="auto_fit" />
+                android:layout_height="100dp"></com.zlin.property.uview.HorizontalListView>
+            
+            
         </LinearLayout>
 
 

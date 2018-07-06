@@ -11,16 +11,13 @@ import android.view.ViewGroup;
 
 import com.alibaba.fastjson.JSON;
 import com.zlin.property.FuApp;
-import com.zlin.property.activity.FuMainActivity;
 import com.zlin.property.control.FragmentParent;
 import com.zlin.property.control.FuEventCallBack;
 import com.zlin.property.control.FuResponse;
 import com.zlin.property.control.FuUiFrameManager;
-import com.zlin.property.db.po.Banner;
 import com.zlin.property.db.po.RoomItem;
 import com.zlin.property.net.MyTask;
 import com.zlin.property.net.TaskManager;
-import com.zlin.property.tools.AppConfig;
 import com.zlin.property.tools.ToastUtil;
 
 import java.util.List;
@@ -53,7 +50,7 @@ public class FuChoseRoomFragment extends FragmentParent {
 
     private void findRoom(RoomItem roomItem) {
         MyTask bannerTask = TaskManager.getInstace().findRoom(getCallBackInstance(), roomItem);
-        excuteNetTask(bannerTask,true);
+        excuteNetTask(bannerTask,false);
     }
     private static final int MSG_ROOM = 1;
     Handler handler = new Handler(){
@@ -85,7 +82,7 @@ public class FuChoseRoomFragment extends FragmentParent {
             handler.sendMessage(message);
         }else if(rspObj!=null){
             Looper.prepare();
-            ToastUtil.showToast(rspObj.getErrMessage());
+            ToastUtil.showToast(rspObj.getMessage());
         }
     }
 
@@ -96,6 +93,11 @@ public class FuChoseRoomFragment extends FragmentParent {
 
     @Override
     protected void cancelChild(int taskId) {
+
+    }
+
+    @Override
+    public void initData(Bundle bundle) {
 
     }
 

@@ -20,7 +20,7 @@ public class Repair extends Entry {
     /**
      * 方便维修时间
      */
-    private Date beaginTime;
+    private Date beginTime;
     /**
      * 方便维修结束时间
      */
@@ -102,12 +102,12 @@ public class Repair extends Entry {
         this.message = message;
     }
 
-    public Date getBeaginTime() {
-        return beaginTime;
+    public Date getBeginTime() {
+        return beginTime;
     }
 
-    public void setBeaginTime(Date beaginTime) {
-        this.beaginTime = beaginTime;
+    public void setBeginTime(Date beginTime) {
+        this.beginTime = beginTime;
     }
 
     public Date getEndTime() {

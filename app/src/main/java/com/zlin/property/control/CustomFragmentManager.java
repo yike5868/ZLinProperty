@@ -98,7 +98,9 @@ public class CustomFragmentManager {
             case FuUiFrameManager.FU_SERVER:
                 return new FuServerFragment();
             case FuUiFrameManager.FU_SERVER_LIST:
-                return new FuServerListFragment();
+                FuServerListFragment fuServerListFragment = new FuServerListFragment();
+                    fuServerListFragment.initData(bundle);
+                return fuServerListFragment;
             case FuUiFrameManager.FU_CHOSE_ROOM:
                 return new FuChoseRoomFragment();
         }
@@ -703,10 +705,9 @@ public class CustomFragmentManager {
     /**
      * 返回上一次访问的页面
      *
-     * @param fragementID
      * @return
      */
-    public boolean gotoBackFragment(int lNameId, int fragementID) {
+    public boolean gotoBackFragment(int lNameId) {
 
         if (mFuFmArray == null) {
             return false;

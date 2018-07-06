@@ -13,7 +13,7 @@ import java.io.File;
 
 public class AppConfig {
 
-    public final static String HTTP="http://192.168.159.67:8088";
+    public final static String HTTP="http://59.110.141.218:8088";
 
     public static final String APP_NAME = "zlProperty";
 
@@ -22,6 +22,9 @@ public class AppConfig {
     public static String DATA_PATH = Environment.getDownloadCacheDirectory().getAbsolutePath();
 
     public static final String IMAGE_SD_CACHE_PATH = SD_PATH + "/" + APP_NAME + "/image_cache/";
+
+    public static final String IMAGE_SD_PATH = SD_PATH + "/" + APP_NAME + "/image/";
+
     public static final String TYPE_PNG = ".png";
     public static File CamerPhotoFile;
 

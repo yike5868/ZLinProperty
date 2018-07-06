@@ -15,7 +15,8 @@ import com.zlin.property.control.FuUiFrameManager;
  * Created by zhanglin on 2017/5/8.
  */
 
-public class FuContentFragment extends FragmentParent {
+public class FuContentFragment extends FragmentParent
+{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -41,6 +42,11 @@ public class FuContentFragment extends FragmentParent {
 
     @Override
     protected void cancelChild(int taskId) {
+
+    }
+
+    @Override
+    public void initData(Bundle bundle) {
 
     }
 }

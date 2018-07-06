@@ -10,6 +10,8 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.youth.banner.Banner;
@@ -22,9 +24,11 @@ import com.zlin.property.activity.FuMainActivity;
 import com.zlin.property.control.FuEventCallBack;
 import com.zlin.property.control.FuUiFrameModel;
 import com.zlin.property.db.po.BannerDto;
+import com.zlin.property.db.po.Repair;
 import com.zlin.property.net.MyTask;
 import com.zlin.property.net.NetManager;
 import com.zlin.property.net.TaskManager;
+import com.zlin.property.view.FuGridView;
 import com.zlin.property.view.FuTextView;
 
 import java.util.ArrayList;
@@ -40,8 +44,12 @@ import butterknife.ButterKnife;
 public class FuMainView extends FuUiFrameModel implements OnBannerListener {
 
     Banner banner;
-    GridView gv_main;
+    FuGridView gv_main;
+    ListView lv_items;
+
     public static final String[] mainTitles = new String[]{"报修","保洁","快腿","医疗服务"};
+    List<Repair> repairList;
+    ServerAdapter serverAdapter;
     public FuMainView(Context cxt, FuEventCallBack callBack) {
         super(cxt, callBack);
     }
@@ -58,9 +66,16 @@ public class FuMainView extends FuUiFrameModel implements OnBannerListener {
 
     }
 
+    public void setRepair(List<Repair> repairs){
+        this.repairList = repairs;
+        serverAdapter.notifyDataSetChanged();
+        setListViewHeightBasedOnChildren(lv_items);
+    }
+
     @Override
     protected void initWidget() {
-        gv_main = (GridView)mFuView.findViewById(R.id.gv_main);
+        lv_items = (ListView)mFuView.findViewById(R.id.lv_items);
+        gv_main = (FuGridView)mFuView.findViewById(R.id.gv_main);
         gv_main.setAdapter(new MainAdapter());
         gv_main.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -69,6 +84,18 @@ public class FuMainView extends FuUiFrameModel implements OnBannerListener {
                 bundle.putInt("listPosition", position);
                 mEventCallBack.EventClick(
                         FuMainFragment.EVENT_GRID, bundle);
+            }
+        });
+
+        serverAdapter = new ServerAdapter();
+        lv_items.setAdapter(serverAdapter);
+        lv_items.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("repair", repairList.get(position));
+                mEventCallBack.EventClick(
+                        FuMainFragment.EVENT_REPAIR, bundle);
             }
         });
     }
@@ -109,6 +136,51 @@ public class FuMainView extends FuUiFrameModel implements OnBannerListener {
         }
         class Holder {
             FuTextView tv_body;
+        }
+    }
+
+    class ServerAdapter extends BaseAdapter{
+        private LayoutInflater mInflater;
+        public ServerAdapter() {
+            mInflater = LayoutInflater.from(mContext);
+        }
+        @Override
+        public int getCount() {
+            return repairList == null?0:repairList.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return repairList.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            Holder holder;
+            if (convertView == null) {
+                convertView = mInflater.inflate(R.layout.fu_server_item, null);
+                holder = new Holder();
+                holder.tv_type = (FuTextView) convertView.findViewById(R.id.tv_type);
+                holder.tv_body = (FuTextView) convertView.findViewById(R.id.tv_body);
+                holder.tv_state = (FuTextView)convertView.findViewById(R.id.tv_state);
+                convertView.setTag(holder);
+            } else {
+                holder = (Holder) convertView.getTag();
+            }
+            holder.tv_type.setText(repairList.get(position).getType());
+            holder.tv_body.setText(repairList.get(position).getMessage());
+            holder.tv_state.setText(repairList.get(position).getState());
+            return convertView;
+        }
+        class Holder {
+            FuTextView tv_type;
+            FuTextView tv_body;
+            FuTextView tv_state;
         }
     }
     public void initBanner(List<com.zlin.property.db.po.Banner> bannerList) {

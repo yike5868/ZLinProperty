@@ -7,13 +7,13 @@ public class FuResponse {
 
 	private Boolean success = true;
 	private Boolean hasSuccess = false;
-	private String errMessage = "";
+	private String message = "";
 	private Object data;
 	String code;
 	public FuResponse() {
 	}
 	public FuResponse(String message, String code) {
-		this.errMessage = message;
+		this.message = message;
 		this.code = code;
 	}
 
@@ -42,12 +42,12 @@ public class FuResponse {
 		this.hasSuccess = hasSuccess;
 	}
 
-	public String getErrMessage() {
-		return errMessage;
+	public String getMessage() {
+		return message;
 	}
 
-	public void setErrMessage(String errMessage) {
-		this.errMessage = errMessage;
+	public void setMessage(String message) {
+		this.message = message;
 	}
 
 	public Object getData() {

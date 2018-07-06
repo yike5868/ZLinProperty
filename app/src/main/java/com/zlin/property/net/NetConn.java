@@ -8,14 +8,8 @@ import com.alibaba.fastjson.JSON;
 import com.zlin.property.control.FuResponse;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import okhttp3.Cookie;
-import okhttp3.CookieJar;
-import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -49,7 +43,7 @@ public class NetConn {
             fuResponseBase = new FuResponse();
             fuResponseBase.setSuccess(false);
             fuResponseBase.setHasSuccess(true);
-            fuResponseBase.setErrMessage("服务器连接错误！请检查网络！");
+            fuResponseBase.setMessage("服务器连接错误！请检查网络！");
         }
         if (response.isSuccessful()) {
             data = response.body().string();
@@ -60,7 +54,7 @@ public class NetConn {
             fuResponseBase = new FuResponse();
             fuResponseBase.setSuccess(false);
             fuResponseBase.setHasSuccess(true);
-            fuResponseBase.setErrMessage("服务器连接错误！请检查网络！");
+            fuResponseBase.setMessage("服务器连接错误！请检查网络！");
             return fuResponseBase;
         }
     }
@@ -68,8 +62,8 @@ public class NetConn {
     public OkHttpClient getClient(){
         if(client == null){
             client = new OkHttpClient.Builder()
-                    .connectTimeout(20, TimeUnit.SECONDS)
-                    .readTimeout(20, TimeUnit.SECONDS).cookieJar(new CookiesManager())
+                    .connectTimeout(20000, TimeUnit.SECONDS)
+                    .readTimeout(20000, TimeUnit.SECONDS).cookieJar(new CookiesManager())
                     .build();
         }
         return client;
