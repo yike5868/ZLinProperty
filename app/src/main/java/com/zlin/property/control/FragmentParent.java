@@ -29,7 +29,9 @@ import com.zlin.property.tools.ToolUtil;
 import com.zlin.property.uview.ChosePhotoDialog;
 
 import java.io.File;
+import java.io.IOException;
 
+import id.zelory.compressor.Compressor;
 import top.zibin.luban.CompressionPredicate;
 import top.zibin.luban.Luban;
 import top.zibin.luban.OnCompressListener;
@@ -43,8 +45,9 @@ public abstract class FragmentParent extends Fragment {
     public final static int MSG_CAMEAR = 1001;
     public final static int MSG_CHOSE = 1002;
     public final static int MSG_CANCEL = 1003;
-    public final static int MSG_FINISH = 99999;
+    public final static int MSG_CONTENT_FINISH = 99999;
     public final static int MSG_FILE = 1;//上传图片
+
 
 
     /**
@@ -154,8 +157,8 @@ public abstract class FragmentParent extends Fragment {
             if (taskId == MyTask.UP_LOAD_FILE) {
                 Message error = Message.obtain(parentHandler);
                 error.what = MyTask.UP_LOAD_FILE;
-                if(rspObj!=null)
-                error.obj = rspObj.getMessage();
+                if (rspObj != null)
+                    error.obj = rspObj.getMessage();
                 else
                     error.obj = "网络访问错误！";
                 error.sendToTarget();
@@ -268,10 +271,8 @@ public abstract class FragmentParent extends Fragment {
                 case MSG_CANCEL:
                     chosePhotoDialog.dismiss();
                     break;
-                case MSG_FINISH:
-                    boolean isBack = CustomFragmentManager.getInstance(getContext()).gotoBackFragment(
-                            CustomFragmentManager.CONTENT);
-
+                case MSG_CONTENT_FINISH:
+                    getActivity().finish();
                     break;
 
 
@@ -280,52 +281,65 @@ public abstract class FragmentParent extends Fragment {
     };
 
 
-    public void allFinish(){
+    public void allFinish() {
         getActivity().finish();
     }
-    public void luBanUpload(File file){
+
+    public void luBanUpload(File file) {
         File dirFile = new File(AppConfig.IMAGE_SD_PATH);
-        if(!dirFile.exists()){
+        if (!dirFile.exists()) {
             dirFile.mkdirs();
         }
-        if(!file.exists())
+        if (!file.exists())
             return;
-        Luban.with(getActivity())
-                .load(file)
-                .ignoreBy(100)
-                .setTargetDir(AppConfig.IMAGE_SD_PATH)
-                .filter(new CompressionPredicate() {
-                    @Override
-                    public boolean apply(String path) {
-                        return !(TextUtils.isEmpty(path) || path.toLowerCase().endsWith(".gif"));
-                    }
-                })
-                .setCompressListener(new OnCompressListener() {
-                    @Override
-                    public void onStart() {
-                        // TODO 压缩开始前调用，可以在方法内启动 loading UI
-                    }
 
-                    @Override
-                    public void onSuccess(File file) {
-                        // TODO 压缩成功后调用，返回压缩后的图片文件
-                        uploadFile(file);
-                    }
+//        try {
+//            File compressedImageFile = new Compressor(getActivity()).compressToFile(file);
+//            uploadFile(compressedImageFile);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        // TODO 当压缩过程出现问题时调用
-                    }
-                }).launch();
+        try {
+            Luban.with(getActivity())
+                    .load(file)
+                    .ignoreBy(100)
+                    .setTargetDir(AppConfig.IMAGE_SD_PATH)
+                    .filter(new CompressionPredicate() {
+                        @Override
+                        public boolean apply(String path) {
+                            return !(TextUtils.isEmpty(path) || path.toLowerCase().endsWith(".gif"));
+                        }
+                    })
+                    .setCompressListener(new OnCompressListener() {
+                        @Override
+                        public void onStart() {
+                            // TODO 压缩开始前调用，可以在方法内启动 loading UI
+                        }
 
+                        @Override
+                        public void onSuccess(File file) {
+                            // TODO 压缩成功后调用，返回压缩后的图片文件
+                            uploadFile(file);
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            ToastUtil.showToast("资源获取失败!");
+                        }
+                    }).launch();
+        } catch (Exception e) {
+            ToastUtil.showToast("获取资源失败！");
+
+        }
     }
+        //上传图片
 
-    //上传图片
     public void uploadFile(File file) {
-        File[] files = new  File[1];
+        File[] files = new File[1];
         files[0] = file;
         MyTask bannerTask = TaskManager.getInstace().upLoadFile(getCallBackInstance(), files);
-        excuteNetTask(bannerTask,true);
+        excuteNetTask(bannerTask, true);
     }
 
 

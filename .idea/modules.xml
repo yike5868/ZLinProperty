@@ -4,6 +4,8 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/ZLinProperty.iml" filepath="$PROJECT_DIR$/ZLinProperty.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/library/library.iml" filepath="$PROJECT_DIR$/library/library.iml" />
+      <module fileurl="file://$PROJECT_DIR$/library/luban/luban.iml" filepath="$PROJECT_DIR$/library/luban/luban.iml" />
     </modules>
   </component>
 </project>

@@ -38,7 +38,7 @@ import java.util.List;
 public class FuServerFragment  extends FragmentParent {
     FuServerView fuView;
     Repair repair;
-    List<Photo> photoList;
+    ArrayList<Photo> photoList;
     UserInfo userInfo;
     private boolean canEdit = true;
     @Override
@@ -66,6 +66,12 @@ public class FuServerFragment  extends FragmentParent {
         return mModel.getFuView();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+    }
+
     public static final int EVENT_LIST = 0;
 
     public static final int EVENT_PHOTO = 1;
@@ -81,12 +87,9 @@ public class FuServerFragment  extends FragmentParent {
                 case EVENT_PHOTO:
 
                     Bundle bundle = (Bundle) object;
-                    int position = bundle.getInt("position");
-                    if(position==0){
-                        showChoseDialog();
-                    }else
+                    bundle.putSerializable("photoList",photoList);
                         ((FuContentActivity) getActivity()).replaceFragment(
-                                FuUiFrameManager.FU_CONTENT_ID, FuUiFrameManager.FU_SERVER_LIST, null);
+                                FuUiFrameManager.FU_CONTENT_ID, FuUiFrameManager.FU_VIEW_PHOTO, null);
                     break;
 
                 case EVENT_LIST:
@@ -158,12 +161,15 @@ public class FuServerFragment  extends FragmentParent {
         ToolUtil.hidePopLoading();
         switch (taskId){
             case MyTask.SAVE_REPAIR:
+                if(rspObj !=null){
                 ToastUtil.showToast(rspObj.getMessage());
                 if(rspObj!=null && rspObj.getSuccess()){
-                    parentHandler.sendEmptyMessage(MSG_FINISH);
+                    parentHandler.sendEmptyMessage(MSG_CONTENT_FINISH);
                 }else{
 
-                }
+                }}
+                else
+                    ToastUtil.showToast("失败");
                 break;
             case MyTask.UP_LOAD_FILE:
                 if(rspObj!=null && rspObj.getSuccess()){

@@ -14,6 +14,7 @@ import java.io.File;
 public class AppConfig {
 
     public final static String HTTP="http://59.110.141.218:8088";
+//    public final static String HTTP="http://192.168.2.41:8088";
 
     public static final String APP_NAME = "zlProperty";
 

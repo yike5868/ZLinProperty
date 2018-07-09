@@ -2,7 +2,7 @@ package com.zlin.property.db.po;
 
 
 import java.util.Date;
-public class Photo {
+public class Photo extends Entry {
     private String id;
     private String name;
     private String path;

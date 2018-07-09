@@ -85,6 +85,15 @@ public class FuMainFragment extends FragmentParent {
         excuteNetTask(bannerTask,false);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        getRepairs();
+    }
+
+    /**
+     * 获取所有订单
+     */
     private void getRepairs(){
         Repair repair = new Repair();
         repair.setUserId(userInfo.getUserId());

@@ -5,6 +5,7 @@ import android.app.Application;
 import android.app.PendingIntent;
 import android.content.Context;
 
+import com.umeng.commonsdk.UMConfigure;
 import com.zlin.property.control.CustomFragmentManager;
 import com.zlin.property.control.FuUiFrameManager;
 import com.zlin.property.db.helper.ALocalSqlHelper;
@@ -33,6 +34,14 @@ public class FuApp extends Application {
 		//捕捉异常 提示
 //		CrashHandler crashHandler = CrashHandler.getInstance();
 //		crashHandler.init(getApplicationContext());
+
+		/**
+		 * 初始化common库
+		 * 参数1:上下文，不能为空
+		 * 参数2:设备类型，UMConfigure.DEVICE_TYPE_PHONE为手机、UMConfigure.DEVICE_TYPE_BOX为盒子，默认为手机
+		 * 参数3:Push推送业务的secret
+		 */
+		UMConfigure.init(this, UMConfigure.DEVICE_TYPE_PHONE, "393c80ce94f9250429b0b3fb8b6d3bec");
 
 		sqlHelper = new ALocalSqlHelper(this);
 	}
