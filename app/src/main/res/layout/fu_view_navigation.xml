@@ -1,7 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="54dp"
+    android:layout_height="50dp"
     android:background="@color/bg_bottom_menu"
     android:baselineAligned="false"
     android:orientation="horizontal" >
@@ -80,7 +80,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/ic_fu_health"
             android:layout_centerHorizontal="true"
-            android:text="@string/fu_health"
+            android:text="我的"
             android:textColor="@color/bg_bottom_menu_tv_no"
             android:textIsSelectable="false" />
     </RelativeLayout>

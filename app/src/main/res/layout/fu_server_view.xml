@@ -34,13 +34,23 @@
                 android:background="@null"
                 android:textColor="@color/bg_black" />
 
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/iv_cam"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@mipmap/icon_camera"
+                />
             
             <com.zlin.property.uview.HorizontalListView
                 android:id="@+id/horizontalListView"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"></com.zlin.property.uview.HorizontalListView>
-            
-            
+                android:layout_height="100dp" />
+
+            </LinearLayout>
         </LinearLayout>
 
 

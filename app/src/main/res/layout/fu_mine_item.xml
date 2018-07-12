@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.zlin.property.view.FuCheckBox
+        android:id="@+id/cb_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleX="0.6"
+        android:scaleY="0.6"
+        app:layout_constraintCenterY_toCenterY="parent" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintCenterY_toCenterY="parent"
+        app:layout_constraintLeft_toRightOf="@+id/cb_item">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <com.zlin.property.view.FuTextView
+                android:id="@+id/tv_money"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="$1340"
+                android:textColor="@color/bg_black"
+                android:textSize="20sp" />
+
+            <com.zlin.property.view.FuTextView
+                android:id="@+id/tv_type"
+                android:layout_toRightOf="@+id/tv_money"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="物业费"
+                android:layout_alignBaseline="@+id/tv_money"
+                android:textColor="@color/bg_black"
+                android:textSize="15sp" />
+            <com.zlin.property.view.FuTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="未支付"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="80dp"
+                android:textColor="@color/bg_black"
+                android:textSize="15sp" />
+        </RelativeLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <com.zlin.property.view.FuTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="2018-01-05至2019-01-05"
+                android:textColor="@color/bg_black"
+                android:textSize="20sp"
+                android:layout_marginBottom="5dp"
+                app:layout_constraintBottom_toTopOf="@+id/cb_item" />
+
+        </LinearLayout>
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>

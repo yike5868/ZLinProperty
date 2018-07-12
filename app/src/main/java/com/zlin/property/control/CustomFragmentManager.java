@@ -12,6 +12,7 @@ import com.zlin.property.FuApp;
 import com.zlin.property.function.FuChoseRoomFragment;
 import com.zlin.property.function.FuContentFragment;
 import com.zlin.property.function.FuMainFragment;
+import com.zlin.property.function.FuMineFragment;
 import com.zlin.property.function.FuServerFragment;
 import com.zlin.property.function.FuServerListFragment;
 import com.zlin.property.function.FuViewPhotoFragment;
@@ -105,7 +106,13 @@ public class CustomFragmentManager {
             case FuUiFrameManager.FU_CHOSE_ROOM:
                 return new FuChoseRoomFragment();
             case FuUiFrameManager.FU_VIEW_PHOTO:
-                return new FuViewPhotoFragment();
+                FuViewPhotoFragment fuViewPhotoFragment = new FuViewPhotoFragment();
+                fuViewPhotoFragment.initData(bundle);
+                return fuViewPhotoFragment;
+            case FuUiFrameManager.FU_MINE:
+                FuMineFragment fuMineFragment = new FuMineFragment();
+                fuMineFragment.initData(bundle);
+                return fuMineFragment;
         }
 
         return null; // 默认进入初始化页面

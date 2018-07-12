@@ -122,20 +122,6 @@ public class NavigationMenu extends LinearLayout {
 				mEventListen.onEventClick(FuUiFrameManager.FU_MAIN_HOME);
 
 				break;
-			// case R.id.fu_communion:
-			//
-			// ImageView lCommunBp = (ImageView) mNavigation
-			// .findViewById(R.id.ic_fu_communion);
-			// lCommunBp.setImageResource(R.drawable.ic_select_chat);
-			//
-			// TextView lCommunTv = (TextView) mNavigation
-			// .findViewById(R.id.tv_fu_communion);
-			// lCommunTv.setTextColor(mContext.getResources().getColor(
-			// R.color.bg_withe));
-			//
-			// mEventListen.onEventClick(FuUiFrameManager.FU_MAIN_COMM);
-			//
-			// break;
 			case R.id.fu_news:
 
 				mCurrentAction = 2;
@@ -151,22 +137,6 @@ public class NavigationMenu extends LinearLayout {
 
 
 				break;
-			// case R.id.fu_jy:
-			//
-			// mCurrentAction = 3;
-			//
-			// ImageView lJyBp = (ImageView) mNavigation
-			// .findViewById(R.id.ic_fu_jy);
-			// lJyBp.setImageResource(R.drawable.ic_jy_select);
-			//
-			// TextView lJyTv = (TextView) mNavigation
-			// .findViewById(R.id.tv_fu_jy);
-			// lJyTv.setTextColor(mContext.getResources().getColor(
-			// R.color.bg_withe));
-			//
-			// mEventListen.onEventClick(FuUiFrameManager.FU_MAIN_JY);
-			//
-			// break;
 			case R.id.fu_health:
 
 				mCurrentAction = 3;
@@ -179,6 +149,7 @@ public class NavigationMenu extends LinearLayout {
 						.findViewById(R.id.tv_fu_health);
 				lHealthTv.setTextColor(mContext.getResources().getColor(
 						R.color.bg_withe));
+				mEventListen.onEventClick(FuUiFrameManager.FU_MINE);
 
 
 				break;

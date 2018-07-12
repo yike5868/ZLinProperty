@@ -5,7 +5,7 @@ android {
     buildToolsVersion "25.0.1"
     defaultConfig {
         applicationId "com.zlin.property"
-        minSdkVersion 14
+        minSdkVersion 16
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
@@ -53,4 +53,7 @@ dependencies {
     //友盟推送
     compile 'com.umeng.sdk:common:latest.integration'
     compile 'com.umeng.sdk:analytics:latest.integration'
+
+    //下拉刷新 上拉加载
+    compile'com.dalu9527:xrecyclerview:0.0.1'
 }

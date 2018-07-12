@@ -1,39 +1,31 @@
 package com.zlin.property.function;
 
 import android.os.Bundle;
-import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.zlin.property.FuApp;
-import com.zlin.property.activity.FuContentActivity;
 import com.zlin.property.control.FragmentParent;
 import com.zlin.property.control.FuEventCallBack;
 import com.zlin.property.control.FuResponse;
 import com.zlin.property.control.FuUiFrameManager;
-import com.zlin.property.db.po.Photo;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
- * Created by zhanglin03 on 2018/7/9.
+ * Created by zhanglin03 on 2018/7/10.
  */
 
-public class FuViewPhotoFragment extends FragmentParent {
-
-    ArrayList<Photo> photoList;
-
+public class FuMineFragment extends FragmentParent {
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         FuUiFrameManager lFuUiFrameManager = ((FuApp) getActivity()
                 .getApplication()).getFuUiFrameManager();
 
         mModel = lFuUiFrameManager.createFuModel(
-                FuUiFrameManager.FU_VIEW_PHOTO, getActivity(),
+                FuUiFrameManager.FU_MINE, getActivity(),
                 new OnEventClick());
-        ((FuViewPhotoView)mModel).setPhotoList(photoList);
+
         return mModel.getFuView();
     }
     @Override
@@ -53,18 +45,13 @@ public class FuViewPhotoFragment extends FragmentParent {
 
     @Override
     public void initData(Bundle bundle) {
-        if(bundle!=null) {
-            photoList = (ArrayList<Photo>) bundle.getSerializable("photoList");
-        }
 
     }
     class OnEventClick implements FuEventCallBack {
         @Override
         public void EventClick(int event, Object object) {
-            switch (event){
-            }
+
         }
     }
-
 
 }

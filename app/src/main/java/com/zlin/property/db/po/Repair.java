@@ -1,5 +1,6 @@
 package com.zlin.property.db.po;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -33,7 +34,7 @@ public class Repair extends Entry {
      * 图片列表
      */
     private String photos;
-    private List<Photo> PhotoList;
+    private ArrayList<Photo> PhotoList;
     /**
      * 状态
      */
@@ -205,11 +206,11 @@ public class Repair extends Entry {
         this.endDate = endDate;
     }
 
-    public List<Photo> getPhotoList() {
+    public ArrayList<Photo> getPhotoList() {
         return PhotoList;
     }
 
-    public void setPhotoList(List<Photo> photoList) {
+    public void setPhotoList(ArrayList<Photo> photoList) {
         PhotoList = photoList;
     }
 }

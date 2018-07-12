@@ -37,6 +37,7 @@ public class NetConn {
         Request request = task.buildRequest();
         Response response = null;
         FuResponse fuResponseBase = null;
+        Log.e("url",task.mUrl);
         try {
             response = client.newCall(request).execute();
         } catch (Exception e) {

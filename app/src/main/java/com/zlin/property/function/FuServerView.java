@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
@@ -47,8 +48,10 @@ public class FuServerView extends FuUiFrameModel implements View.OnClickListener
     FuButton btn_save;
     HorizontalListView horizontalListView;
 
+    ImageView iv_cam;
+
     FuImageView iv_right;
-    List<Photo> photoList;
+    ArrayList<Photo> photoList;
     Repair repair;
     UserInfo userInfo;
 
@@ -79,6 +82,8 @@ public class FuServerView extends FuUiFrameModel implements View.OnClickListener
         btn_save = (FuButton) mFuView.findViewById(R.id.btn_save);
         horizontalListView = (HorizontalListView) mFuView.findViewById(R.id.horizontalListView);
         iv_right = (FuImageView) mFuView.findViewById(R.id.iv_right);
+        iv_cam = (ImageView)mFuView.findViewById(R.id.iv_cam);
+        iv_cam.setOnClickListener(this);
         iv_right.setVisibility(View.VISIBLE);
         iv_right.setOnClickListener(this);
         tv_begin_date.setOnClickListener(this);
@@ -119,21 +124,25 @@ public class FuServerView extends FuUiFrameModel implements View.OnClickListener
             case R.id.btn_save:
                 saveRepair();
                 break;
+            case R.id.iv_cam:
+                mEventCallBack.EventClick(
+                        FuServerFragment.EVENT_CAM, null);
+                break;
         }
     }
 
-    public void setData(Repair repair){
+    public void setData(Repair repair) {
         this.repair = repair;
         et_body.setText(repair.getMessage());
-        tv_begin_date.setText(repair.getBeginDate(),"MM月dd日");
-        tv_end_date.setText(repair.getEndDate(),"MM月dd日");
-        tv_begin_time.setText(repair.getBeginTime(),"HH时mm分");
-        tv_end_time.setText(repair.getEndTime(),"HH时mm分");
+        tv_begin_date.setText(repair.getBeginDate(), "MM月dd日");
+        tv_end_date.setText(repair.getEndDate(), "MM月dd日");
+        tv_begin_time.setText(repair.getBeginTime(), "HH时mm分");
+        tv_end_time.setText(repair.getEndTime(), "HH时mm分");
         setPhotoList(repair.getPhotoList());
     }
 
     private void saveRepair() {
-        if(repair == null)
+        if (repair == null)
             repair = new Repair();
         String message = et_body.getText().toString().trim();
         Date beginDate = tv_begin_date.getDate();
@@ -181,20 +190,22 @@ public class FuServerView extends FuUiFrameModel implements View.OnClickListener
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Bundle bundle = new Bundle();
             bundle.putInt("position", position);
+            bundle.putSerializable("photoList", photoList);
+
             mEventCallBack.EventClick(
                     FuServerFragment.EVENT_PHOTO, bundle);
 
         }
     };
 
-    public void setPhotoList(List<Photo> photoList) {
+    public void setPhotoList(ArrayList<Photo> photoList) {
         this.photoList = photoList;
         PhotoAdapter photoAdapter = new PhotoAdapter();
         horizontalListView.setAdapter(photoAdapter);
         horizontalListView.setOnItemClickListener(photoonItemClickListener);
     }
 
-    public void setCanEdit(boolean canEdit){
+    public void setCanEdit(boolean canEdit) {
         et_body.setEnabled(canEdit);
         tv_begin_date.setEnabled(canEdit);
         tv_end_date.setEnabled(canEdit);
@@ -203,7 +214,6 @@ public class FuServerView extends FuUiFrameModel implements View.OnClickListener
         btn_save.setEnabled(canEdit);
         horizontalListView.setEnabled(canEdit);
     }
-
 
 
     public class PhotoAdapter extends BaseAdapter {
@@ -215,7 +225,7 @@ public class FuServerView extends FuUiFrameModel implements View.OnClickListener
 
         @Override
         public int getCount() {
-            return photoList == null ? 1 : photoList.size() + 1;
+            return photoList == null ? 0 : photoList.size();
         }
 
         @Override
@@ -239,10 +249,7 @@ public class FuServerView extends FuUiFrameModel implements View.OnClickListener
             } else {
                 holder = (Holder) convertView.getTag();
             }
-            if (position == 0) {
-                Glide.with(holder.iv_body.getContext()).load(R.mipmap.icon_camera).placeholder(R.mipmap.ic_logo_app).error(R.mipmap.ic_logo_app).dontAnimate().into(holder.iv_body);
-            } else
-                Glide.with(mContext).load(photoList.get(position - 1).getPath()).error(R.mipmap.ic_logo_app).into(holder.iv_body);
+            Glide.with(mContext).load(photoList.get(position).getPath()).error(R.mipmap.ic_logo_app).into(holder.iv_body);
             return convertView;
         }
 
