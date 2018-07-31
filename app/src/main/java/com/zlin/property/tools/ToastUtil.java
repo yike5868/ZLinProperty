@@ -19,6 +19,7 @@ public class ToastUtil {
 		} else {
 			mToast.setText(msg);
 		}
+
 		mToast.show();
 	}
 	public static void showToast(String msg) {

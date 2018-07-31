@@ -1,81 +1,126 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:paddingTop="20dp"
-    android:paddingLeft="20dp"
-    android:paddingRight="20dp"
+    android:orientation="vertical"
     android:layout_height="match_parent">
 
-    <com.zlin.property.view.FuImageView
-        android:id="@+id/iv_head"
-        android:layout_width="100dp"
-        android:layout_height="100dp" />
-
-    <com.zlin.property.view.FuTextView
-        android:id="@+id/tv_name"
-        app:layout_constraintLeft_toRightOf="@+id/iv_head"
-        android:layout_marginLeft="10dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/bg_black"
-        android:textSize="15dp"
-        android:text="姓名：" />
-
-    <com.zlin.property.view.FuTextView
-        app:layout_constraintTop_toBottomOf="@+id/tv_name"
-        app:layout_constraintLeft_toLeftOf="@+id/tv_name"
-        android:id="@+id/tv_sex"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:textColor="@color/bg_black"
-        android:textSize="15dp"
-        android:text="性别：" />
-
-    <com.zlin.property.view.FuTextView
-        android:id="@+id/tv_room"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/tv_sex"
-        app:layout_constraintLeft_toLeftOf="@+id/tv_sex"
-        android:layout_marginTop="10dp"
-        android:textColor="@color/bg_black"
-        android:textSize="15dp"
-        android:text="房间：" />
-
-    <LinearLayout
-        android:id="@+id/ll_title"
-        app:layout_constraintCenterX_toCenterX="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_room"
-        android:layout_marginTop="20dp"
-        android:orientation="horizontal"
+    <include
+        android:id="@+id/ll_main_title"
+        layout="@layout/title_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <com.zlin.property.view.FuButton
-            android:text="未支付"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:textColor="@color/bg_black"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/button_content_click"
-            android:layout_height="40dp" />
-        <com.zlin.property.view.FuButton
-            android:text="已支付"
-            android:textColor="@color/bg_black"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_marginLeft="10dp"
-            android:background="@drawable/button_content_click"
-            android:layout_height="40dp" />
-    </LinearLayout>
-    <com.xlibs.xrv.view.XRecyclerView
-        android:id="@+id/xr_body"
-        app:layout_constraintTop_toBottomOf="@+id/ll_title"
+        android:layout_height="50dp" />
+
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:overScrollMode="never"
-        />
+        android:background="@color/white"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="20dp">
 
-</android.support.constraint.ConstraintLayout>
+
+        <com.zlin.property.view.FuImageView
+            android:id="@+id/iv_head"
+            android:layout_width="100dp"
+            android:layout_height="100dp" />
+
+        <com.zlin.property.view.FuTextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="姓名："
+            android:textColor="@color/bg_black"
+            android:textSize="15dp"
+            app:layout_constraintLeft_toRightOf="@+id/iv_head" />
+
+        <com.zlin.property.view.FuTextView
+            android:id="@+id/tv_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="手机号："
+            android:textColor="@color/bg_black"
+            android:textSize="15dp"
+            app:layout_constraintLeft_toLeftOf="@+id/tv_name"
+            app:layout_constraintTop_toBottomOf="@+id/tv_name" />
+
+        <com.zlin.property.view.FuTextView
+            android:id="@+id/tv_room"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="房间："
+            android:textColor="@color/bg_black"
+            android:textSize="15dp"
+            app:layout_constraintLeft_toLeftOf="@+id/tv_phone"
+            app:layout_constraintTop_toBottomOf="@+id/tv_phone" />
+
+        <LinearLayout
+            android:id="@+id/ll_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal"
+            app:layout_constraintCenterX_toCenterX="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_room">
+
+            <com.zlin.property.view.FuButton
+                android:id="@+id/btn_has"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_content_click"
+                android:text="未支付"
+                android:textColor="@color/bg_black"
+                android:textSize="18sp" />
+
+            <com.zlin.property.view.FuButton
+                android:id="@+id/btn_no"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_content_click"
+                android:text="已支付"
+                android:textColor="@color/bg_black"
+                android:textSize="18sp" />
+        </LinearLayout>
+        <com.zlin.property.view.pullToRefresh.PullToRefreshLayout
+            app:layout_constraintTop_toBottomOf="@+id/ll_title"
+            android:id="@+id/refresh_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <include layout="@layout/pull_refresh_head" />
+            <!-- 支持所有实现Pullable接口的View -->
+
+            <com.zlin.property.view.pullToRefresh.PullableListView
+                android:id="@+id/lv_body"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingRight="10dp"
+                android:paddingLeft="10dp"
+                android:background="#fff"
+                android:divider="#CFD0D1"
+                android:dividerHeight="1dp" />
+
+            <include layout="@layout/pull_load_more" />
+
+        </com.zlin.property.view.pullToRefresh.PullToRefreshLayout>
+
+        <com.zlin.property.view.FuButton
+            android:id="@+id/btn_pay"
+            android:layout_width="70dp"
+            android:layout_height="38dp"
+            android:layout_marginBottom="20dp"
+            android:text="支付"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+    </android.support.constraint.ConstraintLayout>
+</LinearLayout>

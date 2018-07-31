@@ -68,6 +68,17 @@ public class FuTextView extends TextView {
         setTag(date);
         setText(date_str);
     }
+
+    public void setText(Date date,Date date2) {
+        if (date == null)
+            return;
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String date_str = simpleDateFormat.format(date);
+
+        String date_str2 = simpleDateFormat.format(date2);
+        setText(date_str+"至"+date_str2);
+    }
+
     public void setText(Date date,String dateFormat) {
         if (date == null)
             return;

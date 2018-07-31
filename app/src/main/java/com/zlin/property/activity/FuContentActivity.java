@@ -9,6 +9,7 @@ import com.zlin.property.EventAction;
 import com.zlin.property.R;
 import com.zlin.property.control.CustomFragmentManager;
 import com.zlin.property.control.FuUiFrameManager;
+import com.zlin.property.function.FuWebBodyFragment;
 import com.zlin.property.net.NetManager;
 import com.zlin.property.tools.ToolUtil;
 
@@ -17,7 +18,7 @@ import java.util.Date;
 
 public class FuContentActivity extends FuParentActivity {
 
-    private CustomFragmentManager mManager;
+
 
     public static final String FRAGMENT_ACTION_KEY = "FragmentActionKey";
     public static final String INTENT_BUNDLE = "intent_bundle";
@@ -33,18 +34,13 @@ public class FuContentActivity extends FuParentActivity {
         mManager.initFragmentManager(CustomFragmentManager.CONTENT,
                 getSupportFragmentManager());
 
-        mManager.addFragment(R.id.fu_fragment_contain, getFragmentId());
+        mManager.addFragment(R.id.fu_fragment_contain, getFragmentId(),getIntentBundle());
 
 //        getScreenSizeOfDevice();
 
     }
 
-    public void replaceFragment(int FragmentId, Bundle bundle) {
-
-        mManager.replaceFragment(R.id.fu_fragment_contain, FragmentId, bundle);
-
-    }
-
+    @Override
     public void replaceFragment(int ViewActId, int FragmentId, Bundle bundle) {
 
         switch (ViewActId) {
@@ -58,7 +54,11 @@ public class FuContentActivity extends FuParentActivity {
                 break;
         }
     }
-
+    @Override
+    public void addFragment( int fragmentId, Bundle bundle){
+        mManager.replaceFragment(R.id.fu_fragment_contain, fragmentId,
+                bundle);
+    }
     @Override
     protected void onResume() {
         super.onResume();
@@ -149,6 +149,10 @@ public class FuContentActivity extends FuParentActivity {
                 manager.cnacelAllNetTask();
 
             } else {
+                if(mManager.mCurrentFragment() instanceof FuWebBodyFragment){
+                   if(((FuWebBodyFragment)mManager.mCurrentFragment()).goBack())
+                       return false;
+                }
 
                 boolean isBack = mManager.gotoBackFragment(
                         CustomFragmentManager.CONTENT);

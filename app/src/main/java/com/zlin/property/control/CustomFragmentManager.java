@@ -16,7 +16,10 @@ import com.zlin.property.function.FuMineFragment;
 import com.zlin.property.function.FuServerFragment;
 import com.zlin.property.function.FuServerListFragment;
 import com.zlin.property.function.FuViewPhotoFragment;
+import com.zlin.property.function.FuWebBodyFragment;
 import com.zlin.property.function.FuWelcomeFragment;
+
+import java.util.List;
 
 /**
  *
@@ -62,7 +65,7 @@ public class CustomFragmentManager {
      * @param fragementID
      * @param action
      */
-    public void addFragment(int fragementID, int action) {
+    public void addFragment(int fragementID, int action,Bundle bundle) {
 
         if (mManager == null) {
             throw new IllegalStateException("Please init FragmentManager");
@@ -70,7 +73,7 @@ public class CustomFragmentManager {
 
         Log.i("action---", "==" + action);
 
-        Fragment lCurentFragment = createFragment(action, null);
+        Fragment lCurentFragment = createFragment(action, bundle);
 
         if (lCurentFragment == null) {
             return;
@@ -87,7 +90,9 @@ public class CustomFragmentManager {
         transaction.add(fragementID, lCurentFragment);
         transaction.commit();
     }
-
+    public void addFragment(int fragementID, int action) {
+        addFragment(fragementID,action,null);
+    }
     private Fragment createNewFragment(int action, Bundle bundle) {
 
         switch (action) {
@@ -113,6 +118,10 @@ public class CustomFragmentManager {
                 FuMineFragment fuMineFragment = new FuMineFragment();
                 fuMineFragment.initData(bundle);
                 return fuMineFragment;
+            case FuUiFrameManager.FU_WEB_VIEW:
+                FuWebBodyFragment fuWebFragment = new FuWebBodyFragment();
+                fuWebFragment.initData(bundle);
+                return fuWebFragment;
         }
 
         return null; // 默认进入初始化页面
@@ -502,7 +511,7 @@ public class CustomFragmentManager {
         return mCurrentAction;
     }
 
-    public Fragment mCurrentFragment(int lNameId) {
+    public Fragment mCurrentFragment() {
 
         if (mFuFmArray == null) {
             return null;
@@ -802,4 +811,5 @@ public class CustomFragmentManager {
 
         return true;
     }
+
 }

@@ -46,6 +46,7 @@ public abstract class FragmentParent extends Fragment {
     public final static int MSG_CHOSE = 1002;
     public final static int MSG_CANCEL = 1003;
     public final static int MSG_CONTENT_FINISH = 99999;
+    public final static int MSG_ERROR = 999998;
     public final static int MSG_FILE = 1;//上传图片
 
 
@@ -163,7 +164,12 @@ public abstract class FragmentParent extends Fragment {
                     error.obj = "网络访问错误！";
                 error.sendToTarget();
             }
-
+            if(!rspObj.getSuccess()){
+                Message message = parentHandler.obtainMessage();
+                message.what = MSG_ERROR;
+                message.obj = rspObj.getMessage();
+                parentHandler.sendMessage(message);
+            }
             Log.e("mNet", mModel.getClass().getName());
             loadDataChild(taskId, rspObj);
         }
@@ -236,6 +242,7 @@ public abstract class FragmentParent extends Fragment {
 
         public void handleMessage(Message msg) {
             ToolUtil.hidePopLoading();
+
             switch (msg.what) {
 
                 case MyTask.ERROR:
@@ -273,6 +280,10 @@ public abstract class FragmentParent extends Fragment {
                     break;
                 case MSG_CONTENT_FINISH:
                     getActivity().finish();
+                    break;
+
+                case MSG_ERROR:
+                    ToastUtil.showToast(msg.obj.toString());
                     break;
 
 

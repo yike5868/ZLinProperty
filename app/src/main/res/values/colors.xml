@@ -8,6 +8,7 @@
     <color name="transparent_grey">#a0292929</color>
     <color name="bg_withe">#FFFFFF</color>
     <color name="bg_black">#000000</color>
+    <color name="black">#000000</color>
     <color name="bg_red">#FF0000</color>
     <color name="bg_bottom_menu">#39A7D5</color>
     <color name="bg_bottom_menu_tv_no">#9ED3EC</color>

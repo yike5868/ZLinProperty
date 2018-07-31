@@ -15,6 +15,8 @@ import com.alibaba.fastjson.JSON;
 import com.zlin.property.Constant;
 import com.zlin.property.FuApp;
 import com.zlin.property.R;
+import com.zlin.property.control.CustomFragmentManager;
+import com.zlin.property.tools.StringUtil;
 import com.zlin.property.view.TimePicker.OnDateSetListener;
 import com.zlin.property.view.TimePicker.TimePickerDialog;
 import com.zlin.property.view.TimePicker.Type;
@@ -24,7 +26,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class FuParentActivity extends FragmentActivity {
-
+    public CustomFragmentManager mManager;
     @Override
     protected void onCreate(Bundle bundle) {
 
@@ -80,7 +82,9 @@ public class FuParentActivity extends FragmentActivity {
     public <T> T getSP(String name, Class<T> clazz){
         SharedPreferences lPreferences =getSharedPreferences(
                 Constant.LOGIN_CONFIG,MODE_PRIVATE);
-        String str = lPreferences.getString("name","");
+        String str = lPreferences.getString(name,"");
+        if(StringUtil.isEmpty(str))
+            return null;
         return JSON.parseObject(str,clazz);
     }
 
@@ -138,5 +142,9 @@ public class FuParentActivity extends FragmentActivity {
 
         return a;
     }
+    public void replaceFragment(int ViewActId, int FragmentId, Bundle bundle) {
+    }
+    public void addFragment( int fragmentId, Bundle bundle){
 
+    }
 }

@@ -13,6 +13,15 @@ public class UserInfo extends Entry{
     private String buildingId;
     private String unitId;
     private String roomId;
+    private String headPath;//头像
+
+    public String getHeadPath() {
+        return headPath;
+    }
+
+    public void setHeadPath(String headPath) {
+        this.headPath = headPath;
+    }
 
     public String getUserId() {
         return userId;

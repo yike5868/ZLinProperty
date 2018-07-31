@@ -54,6 +54,4 @@ dependencies {
     compile 'com.umeng.sdk:common:latest.integration'
     compile 'com.umeng.sdk:analytics:latest.integration'
 
-    //下拉刷新 上拉加载
-    compile'com.dalu9527:xrecyclerview:0.0.1'
 }

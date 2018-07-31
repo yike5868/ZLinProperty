@@ -21,6 +21,8 @@ import com.alibaba.fastjson.JSON;
 import com.zlin.property.Constant;
 import com.zlin.property.FuApp;
 import com.zlin.property.db.helper.ALocalSqlHelper;
+import com.zlin.property.tools.ToastUtil;
+import com.zlin.property.tools.ToolUtil;
 import com.zlin.property.uview.TopMiddlePopup;
 import com.zlin.property.view.FuEditText;
 import com.zlin.property.view.SweetAlert.SweetAlertDialog;
@@ -263,6 +265,13 @@ public abstract class FuUiFrameModel {
         // listView.getDividerHeight()获取子项间分隔符占用的高度
         // params.height最后得到整个ListView完整显示需要的高度
         listView.setLayoutParams(params);
+    }
+
+    public void showLoading(){
+        ToolUtil.showPopWindowLoading(mContext);
+    }
+    public void hideLoading(){
+        ToolUtil.hidePopLoading();
     }
 
 }

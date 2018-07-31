@@ -6,6 +6,7 @@ import android.content.Context;
 
 import com.zlin.property.db.po.Banner;
 import com.zlin.property.db.po.DownLoadFile;
+import com.zlin.property.db.po.FeeUser;
 import com.zlin.property.db.po.Repair;
 import com.zlin.property.db.po.RoomItem;
 import com.zlin.property.db.po.UserInfo;
@@ -25,6 +26,7 @@ public class TaskManager {
     public final static String SAVE_REPAIR = "/service/saveRepair";
     public final static String UPLOAD_FILE = "/file/upload";
     public final static String GETREPAIRS = "/service/getRepairs";
+    public final static String GETFEE = "/service/getFee";
     public final static String FINROOM = "/user/findRoom";
 
     private static TaskManager mTaskManager;
@@ -124,6 +126,16 @@ public class TaskManager {
         myTask.mTaskId = MyTask.GET_REPAIR;
         return myTask;
     }
+    public MyTask getFee(NetCallBack mCallBack, FeeUser feeUser){
+        MyTask myTask = new MyTask();
+        myTask.mUrl = AppConfig.HTTP+GETFEE;
+        myTask.mCallBack = mCallBack;
+        myTask.mRequestData = feeUser;
+        myTask.mIsEncryption = false;
+        myTask.mTaskId = MyTask.GET_FEE;
+        return myTask;
+    }
+
     public MyTask getRepair(NetCallBack mCallBack, Repair repair){
         MyTask myTask = new MyTask();
         myTask.mUrl = AppConfig.HTTP+GETREPAIRS;

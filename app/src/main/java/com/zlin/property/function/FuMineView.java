@@ -1,31 +1,55 @@
 package com.zlin.property.function;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 
-import com.xlibs.xrv.LayoutManager.XGridLayoutManager;
-import com.xlibs.xrv.LayoutManager.XLinearLayoutManager;
-import com.xlibs.xrv.LayoutManager.XStaggeredGridLayoutManager;
-import com.xlibs.xrv.listener.OnLoadMoreListener;
-import com.xlibs.xrv.listener.OnRefreshListener;
-import com.xlibs.xrv.view.XRecyclerView;
+import com.bumptech.glide.Glide;
 import com.youth.banner.listener.OnBannerListener;
 import com.zlin.property.R;
 import com.zlin.property.control.FuEventCallBack;
 import com.zlin.property.control.FuUiFrameModel;
+import com.zlin.property.db.po.PropertyFee;
+import com.zlin.property.db.po.UserInfo;
+import com.zlin.property.tools.ToolUtil;
+import com.zlin.property.view.FuButton;
+import com.zlin.property.view.FuCheckBox;
+import com.zlin.property.view.FuImageView;
+import com.zlin.property.view.FuTextView;
+import com.zlin.property.view.pullToRefresh.PullToRefreshLayout;
+import com.zlin.property.view.pullToRefresh.PullableListView;
+
+import java.util.Date;
+import java.util.List;
 
 /**
  * Created by zhanglin03 on 2018/7/10.
  */
 
-public class FuMineView extends FuUiFrameModel implements OnBannerListener {
-    private XRecyclerView mXRecyclerView;
-    BodyAdapter bodyAdapter;
+public class FuMineView extends FuUiFrameModel implements OnBannerListener,View.OnClickListener,AdapterView.OnItemClickListener {
+    FuTextView tv_title;
+    FuImageView iv_right;
+    FuImageView iv_head;
+    FuTextView tv_name;
+    FuTextView tv_phone;
+    FuTextView tv_room;
+    FuButton btn_has;
+    FuButton btn_no;
+    FuButton btn_pay;
+
+    UserInfo userInfo;
+
+    PullableListView lv_body;
+    PullToRefreshLayout pullToRefreshLayout;
+
+    List<PropertyFee> propertyFeeList;
+
+    MyAdapter myAdapter;
+
 
     public FuMineView(Context cxt, FuEventCallBack callBack) {
         super(cxt, callBack);
@@ -36,7 +60,9 @@ public class FuMineView extends FuUiFrameModel implements OnBannerListener {
 
         mFuView = LayoutInflater.from(mContext).inflate(
                 R.layout.fu_mine_view, null);
-        mXRecyclerView = (XRecyclerView) mFuView.findViewById(R.id.xr_body);
+
+        userInfo = getSP("userInfo",UserInfo.class);
+
     }
 
 
@@ -47,90 +73,135 @@ public class FuMineView extends FuUiFrameModel implements OnBannerListener {
 
     @Override
     protected void initFuData() {
-
+        tv_title.setText(userInfo.getAddress());
+        iv_right.setOnClickListener(this);
+        Glide.with(mContext).load(userInfo.getHeadPath()).error(R.mipmap.head).into(iv_head);
+        tv_name.setText("姓名："+userInfo.getRealName());
+        tv_phone.setText("手机："+ToolUtil.hidePhone(userInfo.getPhone()));
+        tv_room.setText("房间：" + userInfo.getRoomId());
     }
 
     @Override
     protected void initWidget() {
+        tv_title = (FuTextView)mFuView.findViewById(R.id.tv_title);
+        iv_right = (FuImageView)mFuView.findViewById(R.id.iv_right);
+        tv_title.setVisibility(View.VISIBLE);
+        iv_right.setVisibility(View.VISIBLE);
 
+        iv_head = (FuImageView) mFuView.findViewById(R.id.iv_head);
+        tv_name = (FuTextView) mFuView.findViewById(R.id.tv_name);
+        tv_phone = (FuTextView)mFuView.findViewById(R.id.tv_phone);
+        tv_room = (FuTextView)mFuView.findViewById(R.id.tv_room);
+        btn_has = (FuButton) mFuView.findViewById(R.id.btn_has);
+        btn_no = (FuButton)mFuView.findViewById(R.id.btn_no);
+        btn_pay = (FuButton)mFuView.findViewById(R.id.btn_pay);
+
+        lv_body = (PullableListView)mFuView.findViewById(R.id.lv_body);
         initXR();
     }
 
     private void initXR() {
-        // 请勿使用系统本身的 LayoutManager ，而是需要使用以下三种 LayoutManager
-        XLinearLayoutManager xLinearLayoutManager = new XLinearLayoutManager(mContext);
-//        XGridLayoutManager xGridLayoutManager = new XGridLayoutManager(this,2);
-//        XStaggeredGridLayoutManager xStaggeredGridLayoutManager =
-//                new XStaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-        mXRecyclerView.setLayoutManager(xLinearLayoutManager);
-// 添加下拉刷新的头部 和 加载更多的底部，如果不加，默认含有下拉刷新的头部，而没有加载更多的底部
-//        mHeaderView = LayoutInflater.from(this).inflate(R.layout.custom_header_view, null);
-//        mFooterView = LayoutInflater.from(this).inflate(R.layout.footer_view, null);
-//        mXRecyclerView.addHeaderView(mHeaderView, 50);
-//        mXRecyclerView.addFootView(mFooterView, 50);
-// 设置adapter
-        bodyAdapter = new BodyAdapter(mContext);
+        myAdapter = new MyAdapter(mContext);
+        lv_body.setAdapter(myAdapter);
+        lv_body.setOnItemClickListener(this);
 
-        mXRecyclerView.setAdapter(bodyAdapter);
-// 添加下拉刷新
-        mXRecyclerView.setOnRefreshListener(new OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-            }
-        });
-// 加载更多（如果没有添加加载更多的布局，下面那LoadMore不会执行）
-        mXRecyclerView.setOnLoadMoreListener(new OnLoadMoreListener() {
-            @Override
-            public void onLoadMore() {
-            }
-        });
+        pullToRefreshLayout = ((PullToRefreshLayout) mFuView.findViewById(R.id.refresh_view));
+        pullToRefreshLayout.setOnRefreshListener(new PullToRefreshListener());
 
     }
 
-    static class BodyAdapter extends RecyclerView.Adapter {
-        private Context myContext;
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+    }
+
+    public class PullToRefreshListener implements PullToRefreshLayout.OnRefreshListener {
+
+        @Override
+        public void onRefresh(final PullToRefreshLayout pullToRefreshLayout) {
+            mEventCallBack.EventClick(FuMineFragment.EVENT_REFRESH, null);
+        }
+
+        @Override
+        public void onLoadMore(final PullToRefreshLayout pullToRefreshLayout) {
+            mEventCallBack.EventClick(FuMineFragment.EVENT_LOADMORE, null);
+        }
+
+    }
+
+
+
+
+    public void loadFinish() {
+        pullToRefreshLayout.loadmoreFinish(PullToRefreshLayout.SUCCEED);
+        pullToRefreshLayout.refreshFinish(PullToRefreshLayout.SUCCEED);
+    }
+
+
+
+    @Override
+    public void onClick(View v) {
+
+    }
+
+    class MyAdapter extends BaseAdapter {
+
+        private Context context;
         private LayoutInflater inflater;
 
-        public BodyAdapter(Context context) {
-            this.myContext = context;
-            inflater = LayoutInflater.from(myContext);
-        }
-
-        static class MyViewHolder extends RecyclerView.ViewHolder {
-            public MyViewHolder(View itemView) {
-                super(itemView);
-//                this.textView=itemView.findViewById(R.id.item_text);
-            }
-        }
-
-
-        @Override
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fu_mine_item, null);
-            MyViewHolder myViewHolder = new MyViewHolder(view);
-            return myViewHolder;
+        public MyAdapter(Context context) {
+            this.context = context;
+            inflater = LayoutInflater.from(context);
         }
 
         @Override
-        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        public int getCount() {
 
+            return propertyFeeList == null?0:propertyFeeList.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return position;
         }
 
         @Override
         public long getItemId(int position) {
-            return 0;
+            return position;
         }
 
         @Override
-        public int getItemCount() {
-            return 5;
+        public View getView(int position, View convertView, ViewGroup parent) {
+            Holder holder;
+            if (convertView == null) {
+                convertView = inflater.inflate(R.layout.fu_mine_item,
+                        null);
+                holder = new Holder();
+                holder.cb_item = (FuCheckBox) convertView.findViewById(R.id.cb_item);
+                holder.tv_money = (FuTextView) convertView.findViewById(R.id.tv_money);
+                holder.tv_type = (FuTextView)convertView.findViewById(R.id.tv_type);
+                holder.tv_state = (FuTextView)convertView.findViewById(R.id.tv_state);
+                holder.tv_time = (FuTextView)convertView.findViewById(R.id.tv_time);
+                convertView.setTag(holder);
+
+            } else {
+                holder = (Holder) convertView.getTag();
+            }
+
+            holder.tv_money.setText(propertyFeeList.get(position).getPayMoney().toString());
+            holder.tv_time.setText(propertyFeeList.get(position).getBeginDate(),propertyFeeList.get(position).getEndDate());
+
+
+            return convertView;
         }
 
+        class Holder {
+            FuCheckBox cb_item;
+            FuTextView tv_money;
+            FuTextView tv_type;
+            FuTextView tv_state;
+            FuTextView tv_time;
+        }
     }
 
-//    @Override
-//    protected void onDestroy() {
-//        super.onDestroy();
-//        mXRecyclerView.destroyHandler();
-//    }
 }

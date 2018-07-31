@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import com.zlin.property.R;
 import com.zlin.property.control.FuUiFrameManager;
+import com.zlin.property.tools.ToastUtil;
+import com.zlin.property.tools.ToolUtil;
 
 
 /**
@@ -118,9 +120,10 @@ public class NavigationMenu extends LinearLayout {
 						.findViewById(R.id.tv_fu_home);
 				lHomeTv.setTextColor(mContext.getResources().getColor(
 						R.color.bg_withe));
+				if(ToolUtil.checkLogin(mContext)) {
 
-				mEventListen.onEventClick(FuUiFrameManager.FU_MAIN_HOME);
-
+					mEventListen.onEventClick(FuUiFrameManager.FU_MAIN_HOME);
+				}
 				break;
 			case R.id.fu_news:
 
@@ -134,7 +137,7 @@ public class NavigationMenu extends LinearLayout {
 						.findViewById(R.id.tv_fu_news);
 				lNewsTv.setTextColor(mContext.getResources().getColor(
 						R.color.bg_withe));
-
+					mEventListen.onEventClick(FuUiFrameManager.FU_WEB_VIEW);
 
 				break;
 			case R.id.fu_health:
@@ -149,9 +152,11 @@ public class NavigationMenu extends LinearLayout {
 						.findViewById(R.id.tv_fu_health);
 				lHealthTv.setTextColor(mContext.getResources().getColor(
 						R.color.bg_withe));
-				mEventListen.onEventClick(FuUiFrameManager.FU_MINE);
+				if(ToolUtil.checkLogin(mContext)) {
 
+					mEventListen.onEventClick(FuUiFrameManager.FU_MINE);
 
+				}
 				break;
 			case R.id.fu_more:
 

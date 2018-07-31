@@ -3,10 +3,18 @@ package com.zlin.property.tools;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnKeyListener;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.view.KeyEvent;
 import android.view.View;
 
+import com.alibaba.fastjson.JSON;
+import com.zlin.property.Constant;
+import com.zlin.property.R;
+import com.zlin.property.activity.FuLoginActivity;
+import com.zlin.property.control.FuUiFrameManager;
+import com.zlin.property.db.po.UserInfo;
 import com.zlin.property.net.NetManager;
 import com.zlin.property.view.CustomGuideDialog;
 import com.zlin.property.view.CustomLoadingDialog;
@@ -130,5 +138,32 @@ public class ToolUtil {
         // 开始检测
         handler.post(showPopWindowRunnable);
         /****************** 以上代码用来循环检测activity是否初始化完毕 *************/
+    }
+
+
+    public static boolean checkLogin(Context context){
+        UserInfo userInfo = getSP(context,"userInfo",UserInfo.class);
+        if(userInfo == null){
+            Intent intent = new Intent(context, FuLoginActivity.class);
+            context.startActivity(intent);
+            return false;
+        }
+        return true;
+    }
+
+    public static <T> T getSP(Context context,String name, Class<T> clazz){
+        SharedPreferences lPreferences =context.getSharedPreferences(
+                Constant.LOGIN_CONFIG,Context.MODE_PRIVATE);
+        String str = lPreferences.getString(name,"");
+        if(StringUtil.isEmpty(str))
+            return null;
+        return JSON.parseObject(str,clazz);
+    }
+
+    public static String hidePhone(String args) {
+        if(StringUtil.isEmpty(args))
+            return "";
+        String phoneNumber = args.replaceAll("(\\d{3})\\d{4}(\\d{4})","$1****$2");
+        return phoneNumber;
     }
 }

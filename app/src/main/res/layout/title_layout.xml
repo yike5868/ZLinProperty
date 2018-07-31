@@ -19,10 +19,12 @@
         android:layout_height="wrap_content"
         android:textColor="#ffffff"
         android:layout_centerInParent="true"
+        android:layout_toRightOf="@id/iv_left"
+        android:layout_marginLeft="20dp"
         android:layout_centerVertical="true"
         android:visibility="gone"
-        android:textSize="15sp"
-        />
+        android:lines="1"
+        android:ellipsize="end"/>
 
     <com.zlin.property.view.FuTextView
         android:id="@+id/tv_right"

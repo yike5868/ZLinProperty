@@ -13,8 +13,8 @@ import java.io.File;
 
 public class AppConfig {
 
-    public final static String HTTP="http://59.110.141.218:8088";
-//    public final static String HTTP="http://192.168.2.41:8088";
+//    public final static String HTTP="http://www.greatzhongtuo.com:8088";
+    public final static String HTTP="http://192.168.2.41:8088";
 
     public static final String APP_NAME = "zlProperty";
 
@@ -31,6 +31,10 @@ public class AppConfig {
 
     public static final int FROM_CAMERA = 3333;
     public static final int PHOTO_GALLERY_CODE =4444;
+    public static final int PAGE_SIZE = 5;
+
+    public static final String PAY_NO = "PAYNO";//未付款
+    public static final String PAY_YES = "PAYYES";//已付款
 
     public static TempRoom tempRoom = new TempRoom();
 }

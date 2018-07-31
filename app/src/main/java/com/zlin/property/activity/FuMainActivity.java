@@ -10,6 +10,7 @@ import com.zlin.property.FuApp;
 import com.zlin.property.R;
 import com.zlin.property.control.CustomFragmentManager;
 import com.zlin.property.control.FuUiFrameManager;
+import com.zlin.property.db.po.UserInfo;
 import com.zlin.property.net.NetManager;
 import com.zlin.property.tools.ToolUtil;
 import com.zlin.property.view.NavigationMenu;
@@ -36,8 +37,10 @@ public class FuMainActivity extends FuParentActivity {
         mManager.addFragment(R.id.fu_fragment_contain,
                 FuUiFrameManager.FU_MAIN_HOME);
 //                FuUiFrameManager.FU_WELCOME);
-
-
+        UserInfo userInfo = getSP("userInfo",UserInfo.class);
+        if(userInfo == null)
+            mManager.replaceFragment(R.id.fu_fragment_contain, FuUiFrameManager.FU_WEB_VIEW,
+                    null);
     }
 
     protected void onResume() {
@@ -71,7 +74,7 @@ public class FuMainActivity extends FuParentActivity {
         lPreferences.edit().putBoolean(Constant.IS_LOGIN_RUNNING, false)
                 .commit();
     }
-
+    @Override
     public void replaceFragment(int ViewActId, int FragmentId, Bundle bundle) {
 
         switch (ViewActId) {
@@ -87,6 +90,14 @@ public class FuMainActivity extends FuParentActivity {
                 break;
         }
 
+    }
+
+    @Override
+    public void addFragment(int fragmentId, Bundle bundle) {
+        Intent intent = new Intent(this, FuContentActivity.class);
+        intent.putExtra(FuContentActivity.FRAGMENT_ACTION_KEY, fragmentId);
+        intent.putExtra(FuContentActivity.INTENT_BUNDLE, bundle);
+        startActivity(intent);
     }
 
     EventClick onEventClick = new EventClick() {
