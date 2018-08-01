@@ -138,6 +138,13 @@ public abstract class FragmentParent extends Fragment {
         return JSON.parseObject(str, clazz);
     }
 
+    public String getSp(String name){
+        SharedPreferences lPreferences = activity.getSharedPreferences(
+                Constant.LOGIN_CONFIG, activity.MODE_PRIVATE);
+        String str = lPreferences.getString(name, "");
+        return str;
+    }
+
 
     class mNetCallBack implements NetCallBack {
 

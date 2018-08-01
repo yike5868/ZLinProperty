@@ -15,6 +15,7 @@ import com.zlin.property.control.FuResponse;
 import com.zlin.property.control.FuUiFrameManager;
 import com.zlin.property.control.FuUiFrameModel;
 import com.zlin.property.db.po.Repair;
+import com.zlin.property.db.po.Room;
 import com.zlin.property.db.po.UserInfo;
 import com.zlin.property.net.MyTask;
 import com.zlin.property.net.TaskManager;
@@ -29,6 +30,7 @@ public class FuServerListFragment extends FragmentParent {
     FuServerListView fuView;
     List<Repair> repairList;
     UserInfo userInfo;
+    Room selectRoom;
     public static final int MSG_REPAIR_LIST = 1;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -52,10 +54,11 @@ public class FuServerListFragment extends FragmentParent {
 
     public void getRepairs() {
         userInfo = getSP("userInfo",UserInfo.class);
+        selectRoom = getSP("selectRoom",Room.class);
         Repair repair;
         repair = new Repair();
         repair.setUserId(userInfo.getUserId());
-        repair.setRoomId(userInfo.getRoomId());
+        repair.setRoomId(selectRoom.getRoomId());
         MyTask lTask = TaskManager.getInstace(getActivity())
                 .getRepairs(getCallBackInstance(), repair);
 

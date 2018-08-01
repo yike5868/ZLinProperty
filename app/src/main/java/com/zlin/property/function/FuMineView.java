@@ -14,6 +14,7 @@ import com.zlin.property.R;
 import com.zlin.property.control.FuEventCallBack;
 import com.zlin.property.control.FuUiFrameModel;
 import com.zlin.property.db.po.PropertyFee;
+import com.zlin.property.db.po.Room;
 import com.zlin.property.db.po.UserInfo;
 import com.zlin.property.tools.ToolUtil;
 import com.zlin.property.view.FuButton;
@@ -49,6 +50,7 @@ public class FuMineView extends FuUiFrameModel implements OnBannerListener,View.
     List<PropertyFee> propertyFeeList;
 
     MyAdapter myAdapter;
+    Room selectRoom;
 
 
     public FuMineView(Context cxt, FuEventCallBack callBack) {
@@ -62,7 +64,7 @@ public class FuMineView extends FuUiFrameModel implements OnBannerListener,View.
                 R.layout.fu_mine_view, null);
 
         userInfo = getSP("userInfo",UserInfo.class);
-
+        selectRoom = getSP("selectRoom",Room.class);
     }
 
 
@@ -73,12 +75,14 @@ public class FuMineView extends FuUiFrameModel implements OnBannerListener,View.
 
     @Override
     protected void initFuData() {
-        tv_title.setText(userInfo.getAddress());
+        if(selectRoom!=null)
+        tv_title.setText(selectRoom.getRoomName());
         iv_right.setOnClickListener(this);
         Glide.with(mContext).load(userInfo.getHeadPath()).error(R.mipmap.head).into(iv_head);
         tv_name.setText("姓名："+userInfo.getRealName());
         tv_phone.setText("手机："+ToolUtil.hidePhone(userInfo.getPhone()));
-        tv_room.setText("房间：" + userInfo.getRoomId());
+        if(selectRoom!=null)
+        tv_room.setText("房间：" + selectRoom.getRoomName());
     }
 
     @Override
@@ -129,7 +133,10 @@ public class FuMineView extends FuUiFrameModel implements OnBannerListener,View.
 
     }
 
-
+    public void setPropertyFeeList(List<PropertyFee> propertyFeeList){
+        this.propertyFeeList = propertyFeeList;
+        myAdapter.notifyDataSetChanged();
+    }
 
 
     public void loadFinish() {

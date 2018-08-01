@@ -19,6 +19,7 @@ import com.zlin.property.control.FuEventCallBack;
 import com.zlin.property.control.FuUiFrameModel;
 import com.zlin.property.db.po.Photo;
 import com.zlin.property.db.po.Repair;
+import com.zlin.property.db.po.Room;
 import com.zlin.property.db.po.UserInfo;
 import com.zlin.property.tools.StringUtil;
 import com.zlin.property.tools.ToastUtil;
@@ -50,6 +51,8 @@ public class FuServerView extends FuUiFrameModel implements View.OnClickListener
 
     ImageView iv_cam;
 
+    Room selectRoom;
+
     FuImageView iv_right;
     ArrayList<Photo> photoList;
     Repair repair;
@@ -64,6 +67,7 @@ public class FuServerView extends FuUiFrameModel implements View.OnClickListener
         mFuView = LayoutInflater.from(mContext).inflate(
                 R.layout.fu_server_view, null);
         userInfo = getSP("userInfo", UserInfo.class);
+        selectRoom = getSP("selectRoom",Room.class);
     }
 
 
@@ -157,7 +161,7 @@ public class FuServerView extends FuUiFrameModel implements View.OnClickListener
         repair.setEndDate(endDate);
         repair.setPhotoList(photoList);
         repair.setUserId(userInfo.getUserId());
-        repair.setRoomId(userInfo.getRoomId());
+        repair.setRoomId(selectRoom.getRoomId());
         repair.setType("维修");
 
         if (StringUtil.isEmpty(message)) {

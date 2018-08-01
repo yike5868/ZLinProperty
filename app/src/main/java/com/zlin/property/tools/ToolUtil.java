@@ -19,6 +19,8 @@ import com.zlin.property.net.NetManager;
 import com.zlin.property.view.CustomGuideDialog;
 import com.zlin.property.view.CustomLoadingDialog;
 
+import java.util.List;
+
 
 public class ToolUtil {
 
@@ -165,5 +167,19 @@ public class ToolUtil {
             return "";
         String phoneNumber = args.replaceAll("(\\d{3})\\d{4}(\\d{4})","$1****$2");
         return phoneNumber;
+    }
+
+    public static boolean isEmpty(String str){
+        if(str == null || "".equals(str)){
+            return true;
+        }else
+            return false;
+    }
+
+    public static boolean isEmpty(List list){
+        if(list == null || list.size()<1){
+            return true;
+        }else
+            return false;
     }
 }

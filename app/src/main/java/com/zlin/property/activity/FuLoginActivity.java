@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSON;
 import com.zlin.property.R;
 import com.zlin.property.control.FuResponse;
+import com.zlin.property.db.po.Room;
 import com.zlin.property.db.po.UserInfo;
 import com.zlin.property.net.MyTask;
 import com.zlin.property.net.NetCallBack;
@@ -86,24 +87,13 @@ public class FuLoginActivity extends FuParentActivity implements View.OnClickLis
             ToolUtil.hidePopLoading();
             switch (msg.what) {
                 case MSG_MESSAGE :
-//                    animator.end();
-//                    set.end();
-//                    animator3.end();
-//                    ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) mInputLayout
-//                            .getLayoutParams();
-//                    params.leftMargin = 0;
-//                    params.rightMargin = 0;
-//                    params.width = ViewGroup.MarginLayoutParams.MATCH_PARENT;
-//                    params.height = Tool.dip2px(FuLoginActivity.this,150);
-//                    mInputLayout.setLayoutParams(params);
-//                    mName.setVisibility(View.VISIBLE);
-//                    mPsw.setVisibility(View.VISIBLE);
-//                    progress.setVisibility(View.GONE);
-//                    mInputLayout.setVisibility(View.VISIBLE);
-
                     ToastUtil.showToast(msg.obj.toString());
                     break;
                 case MSG_MAIN:
+                    if(getSP("selectRoom", Room.class)==null){
+                        if(!ToolUtil.isEmpty(userInfo.getRoomList()))
+                        saveSP("selectRoom",userInfo.getRoomList().get(0));
+                    }
                     startActivity(new Intent(FuLoginActivity.this, FuMainActivity.class));
                     finish();
                     break;

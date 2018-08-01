@@ -27,6 +27,7 @@ import java.util.Date;
 
 public class FuParentActivity extends FragmentActivity {
     public CustomFragmentManager mManager;
+
     @Override
     protected void onCreate(Bundle bundle) {
 
@@ -61,7 +62,7 @@ public class FuParentActivity extends FragmentActivity {
         Point point = new Point();
         getWindowManager().getDefaultDisplay().getSize(point);
         DisplayMetrics dm = getResources().getDisplayMetrics();
-        double x = Math.pow(point.x/ dm.xdpi, 2);
+        double x = Math.pow(point.x / dm.xdpi, 2);
         double y = Math.pow(point.y / dm.ydpi, 2);
         double screenInches = Math.sqrt(x + y);
 
@@ -73,25 +74,34 @@ public class FuParentActivity extends FragmentActivity {
 
         return screenInches;
     }
-    public void saveSP(String name,Object entry){
-        SharedPreferences lPreferences =getSharedPreferences(
+
+    public void saveSP(String name, Object entry) {
+        SharedPreferences lPreferences = getSharedPreferences(
                 Constant.LOGIN_CONFIG, MODE_PRIVATE);
         lPreferences.edit().putString(name, JSON.toJSONString(entry)).commit();
     }
 
-    public <T> T getSP(String name, Class<T> clazz){
-        SharedPreferences lPreferences =getSharedPreferences(
-                Constant.LOGIN_CONFIG,MODE_PRIVATE);
-        String str = lPreferences.getString(name,"");
-        if(StringUtil.isEmpty(str))
+    public <T> T getSP(String name, Class<T> clazz) {
+
+        SharedPreferences lPreferences = getSharedPreferences(
+                Constant.LOGIN_CONFIG, MODE_PRIVATE);
+        String str = lPreferences.getString(name, "");
+        if (StringUtil.isEmpty(str))
             return null;
-        return JSON.parseObject(str,clazz);
+        return JSON.parseObject(str, clazz);
+    }
+
+    public String getSP(String name) {
+        SharedPreferences lPreferences = getSharedPreferences(
+                Constant.LOGIN_CONFIG, MODE_PRIVATE);
+        String str = lPreferences.getString(name, "");
+        return str;
     }
 
     SimpleDateFormat sf;
 
-    public TimePickerDialog showTimeDialog(final TextView tv,String type,Type dd) {
-       // "MM月dd号 hh时mm分";
+    public TimePickerDialog showTimeDialog(final TextView tv, String type, Type dd) {
+        // "MM月dd号 hh时mm分";
         sf = new SimpleDateFormat(type);
         long hundredYears = 1L * 365 * 1000 * 60 * 60 * 24L;
         long tenYears = 10L * 365 * 1000 * 60 * 60 * 24L;
@@ -125,6 +135,7 @@ public class FuParentActivity extends FragmentActivity {
                 .build();
         return mDialogYearMonthDay;
     }
+
     public String getDateToString(long time) {
         Date d = new Date(time);
         return sf.format(d);
@@ -142,9 +153,11 @@ public class FuParentActivity extends FragmentActivity {
 
         return a;
     }
+
     public void replaceFragment(int ViewActId, int FragmentId, Bundle bundle) {
     }
-    public void addFragment( int fragmentId, Bundle bundle){
+
+    public void addFragment(int fragmentId, Bundle bundle) {
 
     }
 }

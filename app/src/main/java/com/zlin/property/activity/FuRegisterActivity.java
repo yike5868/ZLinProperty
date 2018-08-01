@@ -21,6 +21,7 @@ import com.alibaba.fastjson.JSON;
 import com.zlin.property.R;
 import com.zlin.property.control.FuResponse;
 import com.zlin.property.control.FuUiFrameManager;
+import com.zlin.property.db.po.Room;
 import com.zlin.property.db.po.TempRoom;
 import com.zlin.property.db.po.UserInfo;
 import com.zlin.property.net.MyTask;
@@ -35,6 +36,9 @@ import com.zlin.property.view.FuEditText;
 import com.zlin.property.view.FuImageView;
 import com.zlin.property.view.FuTextView;
 import com.zlin.property.view.JellyInterpolator;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -148,10 +152,16 @@ public class FuRegisterActivity extends FuParentActivity implements View.OnClick
                 userInfo = new UserInfo();
                 userInfo.setUserName(userName);
                 userInfo.setPassword(password);
-                userInfo.setMicrodistrictId(tempRoom.getMicrodistrictId());
-                userInfo.setBuildingId(tempRoom.getBuildingId());
-                userInfo.setUnitId(tempRoom.getUnitId());
-                userInfo.setRoomId(tempRoom.getRoomId());
+                Room room = new Room();
+                room.setRoomId(tempRoom.getRoomId());
+
+                room.setBuildingId(tempRoom.getBuildingId());
+                room.setUnitId(tempRoom.getUnitId());
+                room.setRoomName(tempRoom.getRoomName());
+                room.setAddress(tempRoom.getBuildingName()+tempRoom.getUnitName()+tempRoom.getRoomName());
+                List<Room> roomList = new ArrayList<>();
+                roomList.add(room);
+                userInfo.setRoomList(roomList);
                 userInfo.setRealName(realName);
 
                 MyTask loginTask = TaskManager.getInstace().register(new mNetCallBack(), userInfo);

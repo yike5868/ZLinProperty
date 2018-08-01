@@ -15,12 +15,14 @@ import com.zlin.property.control.FuUiFrameManager;
 import com.zlin.property.db.po.FeeUser;
 import com.zlin.property.db.po.PropertyFee;
 import com.zlin.property.db.po.Repair;
+import com.zlin.property.db.po.Room;
 import com.zlin.property.db.po.UserInfo;
 import com.zlin.property.net.MyTask;
 import com.zlin.property.net.TaskManager;
 import com.zlin.property.tools.AppConfig;
 import com.zlin.property.tools.ToastUtil;
 import com.zlin.property.tools.Tool;
+import com.zlin.property.tools.ToolUtil;
 
 import java.util.List;
 
@@ -51,9 +53,10 @@ public class FuMineFragment extends FragmentParent {
 
     @Override
     protected void loadDataChild(int taskId, FuResponse rspObj) {
+        ToolUtil.hidePopLoading();
         switch (taskId){
             case MyTask.GET_FEE:
-                feeList = (List)rspObj.getData();
+                feeList .addAll((List)rspObj.getData());
                 handler.sendEmptyMessage(MSG_FINISH);
                 break;
         }
@@ -80,7 +83,8 @@ public class FuMineFragment extends FragmentParent {
         FeeUser feeUser = new FeeUser();
         feeUser.setPageIndex(pageNo);
         feeUser.setPageSize(AppConfig.PAGE_SIZE);
-        feeUser.setRoomId(userInfo.getRoomId());
+        Room  room = getSP("selectRoom", Room.class);
+        feeUser.setRoomId(getSp(room.getRoomId()));
         feeUser.setPayState(pageState);
         feeUser.setUserId(userInfo.getUserId());
         MyTask bannerTask = TaskManager.getInstace().getFee(getCallBackInstance(), feeUser);
@@ -95,6 +99,7 @@ public class FuMineFragment extends FragmentParent {
             switch (event){
                 case EVENT_REFRESH:
                     pageNo = 1;
+                    feeList.clear();
                     getFee();
                     break;
                 case EVENT_LOADMORE:
@@ -112,6 +117,7 @@ public class FuMineFragment extends FragmentParent {
             super.handleMessage(msg);
             switch (msg.what){
                 case MSG_FINISH:
+                    ((FuMineView)mModel).setPropertyFeeList(feeList);
                     ((FuMineView)mModel).loadFinish();
                     break;
             }
