@@ -41,7 +41,7 @@ public class FuApp extends Application {
 		 * 参数2:设备类型，UMConfigure.DEVICE_TYPE_PHONE为手机、UMConfigure.DEVICE_TYPE_BOX为盒子，默认为手机
 		 * 参数3:Push推送业务的secret
 		 */
-		UMConfigure.init(this, UMConfigure.DEVICE_TYPE_PHONE, "393c80ce94f9250429b0b3fb8b6d3bec");
+//		UMConfigure.init(this, UMConfigure.DEVICE_TYPE_PHONE, "393c80ce94f9250429b0b3fb8b6d3bec");
 
 		sqlHelper = new ALocalSqlHelper(this);
 	}

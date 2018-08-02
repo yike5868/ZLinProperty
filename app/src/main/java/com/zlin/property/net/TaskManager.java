@@ -19,7 +19,7 @@ import java.io.File;
  */
 public class TaskManager {
 
-
+    public final static String GET_VERSION = "/user/getAndroidVersion";
     public final static String LOGIN = "/user/login";
     public final static String REGISTER = "/user/register";
     public final static String FINDBANNER = "/service/findBannerByVersion";
@@ -69,6 +69,16 @@ public class TaskManager {
         myTask.mTaskId = MyTask.LOGIN;
         return myTask;
     }
+    public MyTask getVersion(NetCallBack mCallBack, UserInfo userInfo){
+        MyTask myTask = new MyTask();
+        myTask.mUrl = AppConfig.HTTP+GET_VERSION;
+        myTask.mCallBack = mCallBack;
+        myTask.mRequestData = userInfo;
+        myTask.mIsEncryption = false;
+        myTask.mTaskId = MyTask.GET_VERSION;
+        return myTask;
+    }
+
 
     public MyTask register(NetCallBack mCallBack, UserInfo userInfo){
         MyTask myTask = new MyTask();

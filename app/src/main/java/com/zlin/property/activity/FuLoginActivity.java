@@ -86,13 +86,13 @@ public class FuLoginActivity extends FuParentActivity implements View.OnClickLis
         public void handleMessage(Message msg) {
             ToolUtil.hidePopLoading();
             switch (msg.what) {
-                case MSG_MESSAGE :
+                case MSG_MESSAGE:
                     ToastUtil.showToast(msg.obj.toString());
                     break;
                 case MSG_MAIN:
-                    if(getSP("selectRoom", Room.class)==null){
-                        if(!ToolUtil.isEmpty(userInfo.getRoomList()))
-                        saveSP("selectRoom",userInfo.getRoomList().get(0));
+                    if (getSP("selectRoom", Room.class) == null) {
+                        if (!ToolUtil.isEmpty(userInfo.getRoomList()))
+                            saveSP("selectRoom", userInfo.getRoomList().get(0));
                     }
                     startActivity(new Intent(FuLoginActivity.this, FuMainActivity.class));
                     finish();
@@ -105,22 +105,14 @@ public class FuLoginActivity extends FuParentActivity implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_login:
-               userName = et_username.getText().toString().trim();
-               password = et_password.getText().toString().trim();
+                userName = et_username.getText().toString().trim();
+                password = et_password.getText().toString().trim();
 
                 if (StringUtil.isEmpty(userName) || StringUtil.isEmpty(password)) {
                     ToastUtil.showToast("请输入用户名/密码");
                     return;
                 }
-
                 login();
-//                mWidth = btn_login.getMeasuredWidth();
-//                mHeight = btn_login.getMeasuredHeight();
-//                mName.setVisibility(View.INVISIBLE);
-//                mPsw.setVisibility(View.INVISIBLE);
-//                inputAnimator(mInputLayout, mWidth, mHeight);
-
-
 
                 break;
             case R.id.tv_right:
@@ -142,6 +134,7 @@ public class FuLoginActivity extends FuParentActivity implements View.OnClickLis
         manager.excuteNetTask(loginTask);
     }
 
+
     class mNetCallBack implements NetCallBack {
 
         @Override
@@ -155,21 +148,29 @@ public class FuLoginActivity extends FuParentActivity implements View.OnClickLis
         @Override
         public void loadData(int taskId, FuResponse rspObj) {
             Message message = handler.obtainMessage();
+            switch (taskId) {
+                case MyTask.GET_VERSION:
 
-            if (rspObj!=null&&rspObj.getSuccess()) {
-                userInfo = JSON.parseObject(rspObj.getData().toString(),UserInfo.class);
-                saveSP("userInfo",userInfo);
+                    break;
+
+                case MyTask.LOGIN:
+                    break;
+            }
+            if (rspObj != null && rspObj.getSuccess()) {
+                userInfo = JSON.parseObject(rspObj.getData().toString(), UserInfo.class);
+                saveSP("userInfo", userInfo);
                 handler.sendEmptyMessage(MSG_MAIN);
-            } else if(rspObj!=null){
+            } else if (rspObj != null) {
                 message.obj = rspObj.getMessage();
                 message.what = MSG_MESSAGE;
                 handler.sendMessage(message);
-            }else{
+            } else {
                 message.obj = "网络连接错误";
                 message.what = MSG_MESSAGE;
                 handler.sendMessage(message);
             }
         }
+
         @Override
         public void netError(int taskId, String msg) {
             Message message = handler.obtainMessage();
@@ -190,8 +191,10 @@ public class FuLoginActivity extends FuParentActivity implements View.OnClickLis
         mPsw = (LinearLayout) findViewById(R.id.input_layout_psw);
         btn_login.setOnClickListener(this);
     }
+
     ValueAnimator animator;
     AnimatorSet set;
+
     private void inputAnimator(final View view, float w, float h) {
 
         set = new AnimatorSet();
@@ -246,13 +249,15 @@ public class FuLoginActivity extends FuParentActivity implements View.OnClickLis
         });
 
     }
+
     ObjectAnimator animator3;
+
     private void progressAnimator(final View view) {
         PropertyValuesHolder animator = PropertyValuesHolder.ofFloat("scaleX",
                 0.5f, 1f);
         PropertyValuesHolder animator2 = PropertyValuesHolder.ofFloat("scaleY",
                 0.5f, 1f);
-         animator3 = ObjectAnimator.ofPropertyValuesHolder(view,
+        animator3 = ObjectAnimator.ofPropertyValuesHolder(view,
                 animator, animator2);
         animator3.setDuration(1000);
         animator3.setInterpolator(new JellyInterpolator());

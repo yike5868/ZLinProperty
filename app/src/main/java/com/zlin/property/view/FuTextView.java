@@ -49,13 +49,6 @@ public class FuTextView extends TextView {
     public void setText(CharSequence text, BufferType type) {
         if(text == null)
             return;
-        if (text.toString().indexOf("*") > -1) {
-            text = Html.fromHtml("" + text.toString().replace("*", "")
-                    + "<font color=\"red\" size=\"40px\"><b>＊</b></font>");
-        } else if (text.toString().indexOf("＊") > -1)
-            text = Html.fromHtml("" + text.toString().replace("＊", "")
-                    + "<font color=\"red\" size=\"40px\"><b>＊</b></font>");
-
         super.setText(text, type);
     }
 

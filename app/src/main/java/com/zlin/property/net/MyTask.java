@@ -44,7 +44,7 @@ public class MyTask {
     public static final int FIND_ROOM = 6;//
     public static final int GET_REPAIR = 7;//获取全部列表
     public static final int GET_FEE = 8;//获取支付类型
-
+    public static final int GET_VERSION = 9;//获取版本信息
 
 
     public static final String METHOD_GET = "GET";

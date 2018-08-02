@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.alibaba.fastjson.JSON;
 import com.zlin.property.FuApp;
 import com.zlin.property.control.FragmentParent;
 import com.zlin.property.control.FuEventCallBack;
@@ -24,6 +25,7 @@ import com.zlin.property.tools.ToastUtil;
 import com.zlin.property.tools.Tool;
 import com.zlin.property.tools.ToolUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -47,7 +49,8 @@ public class FuMineFragment extends FragmentParent {
                 FuUiFrameManager.FU_MINE, getActivity(),
                 new OnEventClick());
         userInfo = getSP("userInfo",UserInfo.class);
-
+        feeList = new ArrayList<>();
+        getFee();
         return mModel.getFuView();
     }
 
@@ -56,7 +59,10 @@ public class FuMineFragment extends FragmentParent {
         ToolUtil.hidePopLoading();
         switch (taskId){
             case MyTask.GET_FEE:
-                feeList .addAll((List)rspObj.getData());
+                if(rspObj.getData()!= null) {
+                    List<PropertyFee> feeList22 = JSON.parseArray(rspObj.getData().toString(),PropertyFee.class);
+                    feeList.addAll(feeList22);
+                }
                 handler.sendEmptyMessage(MSG_FINISH);
                 break;
         }
@@ -84,7 +90,7 @@ public class FuMineFragment extends FragmentParent {
         feeUser.setPageIndex(pageNo);
         feeUser.setPageSize(AppConfig.PAGE_SIZE);
         Room  room = getSP("selectRoom", Room.class);
-        feeUser.setRoomId(getSp(room.getRoomId()));
+        feeUser.setRoomId(room.getRoomId());
         feeUser.setPayState(pageState);
         feeUser.setUserId(userInfo.getUserId());
         MyTask bannerTask = TaskManager.getInstace().getFee(getCallBackInstance(), feeUser);
@@ -103,8 +109,8 @@ public class FuMineFragment extends FragmentParent {
                     getFee();
                     break;
                 case EVENT_LOADMORE:
-                    getFee();
                     pageNo ++;
+                    getFee();
                     break;
 
             }

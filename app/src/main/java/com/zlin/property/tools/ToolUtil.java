@@ -1,10 +1,12 @@
 package com.zlin.property.tools;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnKeyListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Handler;
 import android.view.KeyEvent;
 import android.view.View;
@@ -181,5 +183,17 @@ public class ToolUtil {
             return true;
         }else
             return false;
+    }
+
+    public static int getVerCode(Activity activity) {
+
+        int verCode = -1;
+        try {
+            verCode = activity.getPackageManager().getPackageInfo(
+                    "com.zlin.property", 0).versionCode;
+        } catch (PackageManager.NameNotFoundException e) {
+            verCode = -1;
+        }
+        return verCode;
     }
 }

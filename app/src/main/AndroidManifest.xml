@@ -16,7 +16,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.zlin.property.activity.FuLoginActivity" android:screenOrientation="portrait">
+        <activity android:name="com.zlin.property.activity.FuSplishActivity" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -26,6 +26,11 @@
 
         <activity
             android:name="com.zlin.property.activity.FuRegisterActivity"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait"
+            android:configChanges="screenSize|orientation|keyboardHidden"/>
+        <activity
+            android:name="com.zlin.property.activity.FuLoginActivity"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:configChanges="screenSize|orientation|keyboardHidden"/>

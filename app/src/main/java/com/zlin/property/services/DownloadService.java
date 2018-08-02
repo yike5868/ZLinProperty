@@ -58,7 +58,7 @@ public class DownloadService extends Service {
 						Uri.fromFile(new File(
 								Environment
 										.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
-								"FollowUp.apk")),
+								"property.apk")),
 						"application/vnd.android.package-archive");
 
 				PendingIntent contentIntent = PendingIntent.getActivity(
@@ -119,7 +119,7 @@ public class DownloadService extends Service {
 		mNotification.contentIntent = pendingIntent;
 		RemoteViews contentView = new RemoteViews(getPackageName(),
 				R.layout.fu_notification_download_view);
-		contentView.setTextViewText(R.id.name, "参合助手   正在下载...");
+		contentView.setTextViewText(R.id.name, "众拓物业   正在下载...");
 		mNotification.contentView = contentView;
 
 		mNotificationManager.notify(0, mNotification);
@@ -177,7 +177,7 @@ public class DownloadService extends Service {
 		loadFile.setmDownloadPath(Environment
 				.getExternalStoragePublicDirectory(
 						Environment.DIRECTORY_DOWNLOADS).getPath());
-		loadFile.setmFileName("HealthGo.apk");
+		loadFile.setmFileName("property.apk");
 		loadFile.setmSuffix(".apk");
 		loadFile.setmNofityName(DOWNLOAD_ACTION);
 

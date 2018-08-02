@@ -80,7 +80,8 @@ public class FuMineView extends FuUiFrameModel implements OnBannerListener,View.
         iv_right.setOnClickListener(this);
         Glide.with(mContext).load(userInfo.getHeadPath()).error(R.mipmap.head).into(iv_head);
         tv_name.setText("姓名："+userInfo.getRealName());
-        tv_phone.setText("手机："+ToolUtil.hidePhone(userInfo.getPhone()));
+        String phone = ToolUtil.hidePhone(userInfo.getPhone());
+        tv_phone.setText("手机："+phone);
         if(selectRoom!=null)
         tv_room.setText("房间：" + selectRoom.getRoomName());
     }

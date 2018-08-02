@@ -3,6 +3,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/white"
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:layout_height="match_parent">
@@ -11,11 +12,11 @@
         android:id="@+id/ll_main_title"
         layout="@layout/title_layout"
         android:layout_width="match_parent"
-        android:layout_height="50dp" />
+        android:layout_height="wrap_content" />
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="@color/white"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
@@ -90,11 +91,16 @@
                 android:textColor="@color/bg_black"
                 android:textSize="18sp" />
         </LinearLayout>
+    </android.support.constraint.ConstraintLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
         <com.zlin.property.view.pullToRefresh.PullToRefreshLayout
-            app:layout_constraintTop_toBottomOf="@+id/ll_title"
             android:id="@+id/refresh_view"
+            android:layout_marginBottom="70dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            >
 
             <include layout="@layout/pull_refresh_head" />
             <!-- 支持所有实现Pullable接口的View -->
@@ -114,13 +120,15 @@
         </com.zlin.property.view.pullToRefresh.PullToRefreshLayout>
 
         <com.zlin.property.view.FuButton
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="20dp"
             android:id="@+id/btn_pay"
             android:layout_width="70dp"
             android:layout_height="38dp"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="10dp"
             android:text="支付"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent" />
+            android:layout_gravity="right" />
+    </RelativeLayout>
 
-    </android.support.constraint.ConstraintLayout>
 </LinearLayout>
