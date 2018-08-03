@@ -3,10 +3,13 @@ package com.zlin.property.function;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.PopupMenu;
 
 import com.bumptech.glide.Glide;
 import com.youth.banner.listener.OnBannerListener;
@@ -16,6 +19,7 @@ import com.zlin.property.control.FuUiFrameModel;
 import com.zlin.property.db.po.PropertyFee;
 import com.zlin.property.db.po.Room;
 import com.zlin.property.db.po.UserInfo;
+import com.zlin.property.tools.AppConfig;
 import com.zlin.property.tools.ToolUtil;
 import com.zlin.property.view.FuButton;
 import com.zlin.property.view.FuCheckBox;
@@ -31,7 +35,7 @@ import java.util.List;
  * Created by zhanglin03 on 2018/7/10.
  */
 
-public class FuMineView extends FuUiFrameModel implements OnBannerListener,View.OnClickListener,AdapterView.OnItemClickListener {
+public class FuMineView extends FuUiFrameModel implements OnBannerListener,View.OnClickListener,AdapterView.OnItemClickListener,PopupMenu.OnMenuItemClickListener {
     FuTextView tv_title;
     FuImageView iv_right;
     FuImageView iv_head;
@@ -52,7 +56,7 @@ public class FuMineView extends FuUiFrameModel implements OnBannerListener,View.
     MyAdapter myAdapter;
     Room selectRoom;
 
-
+    String selectType = AppConfig.PAY_NO;
     public FuMineView(Context cxt, FuEventCallBack callBack) {
         super(cxt, callBack);
     }
@@ -92,7 +96,7 @@ public class FuMineView extends FuUiFrameModel implements OnBannerListener,View.
         iv_right = (FuImageView)mFuView.findViewById(R.id.iv_right);
         tv_title.setVisibility(View.VISIBLE);
         iv_right.setVisibility(View.VISIBLE);
-
+        iv_right.setOnClickListener(this);
         iv_head = (FuImageView) mFuView.findViewById(R.id.iv_head);
         tv_name = (FuTextView) mFuView.findViewById(R.id.tv_name);
         tv_phone = (FuTextView)mFuView.findViewById(R.id.tv_phone);
@@ -100,6 +104,9 @@ public class FuMineView extends FuUiFrameModel implements OnBannerListener,View.
         btn_has = (FuButton) mFuView.findViewById(R.id.btn_has);
         btn_no = (FuButton)mFuView.findViewById(R.id.btn_no);
         btn_pay = (FuButton)mFuView.findViewById(R.id.btn_pay);
+
+        btn_has.setOnClickListener(this);
+        btn_no.setOnClickListener(this);
 
         lv_body = (PullableListView)mFuView.findViewById(R.id.lv_body);
         initXR();
@@ -120,16 +127,25 @@ public class FuMineView extends FuUiFrameModel implements OnBannerListener,View.
 
     }
 
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        return false;
+    }
+
     public class PullToRefreshListener implements PullToRefreshLayout.OnRefreshListener {
 
         @Override
         public void onRefresh(final PullToRefreshLayout pullToRefreshLayout) {
-            mEventCallBack.EventClick(FuMineFragment.EVENT_REFRESH, null);
+            Bundle bundle = new Bundle();
+            bundle.putString("selectType",selectType);
+            mEventCallBack.EventClick(FuMineFragment.EVENT_REFRESH, bundle);
         }
 
         @Override
         public void onLoadMore(final PullToRefreshLayout pullToRefreshLayout) {
-            mEventCallBack.EventClick(FuMineFragment.EVENT_LOADMORE, null);
+            Bundle bundle = new Bundle();
+            bundle.putString("selectType",selectType);
+            mEventCallBack.EventClick(FuMineFragment.EVENT_LOADMORE, bundle);
         }
 
     }
@@ -149,8 +165,51 @@ public class FuMineView extends FuUiFrameModel implements OnBannerListener,View.
 
     @Override
     public void onClick(View v) {
-
+        switch (v.getId()){
+            case R.id.btn_has:
+                btn_has.setBackgroundResource(R.drawable.button_content_select);
+                btn_no.setBackgroundResource(R.drawable.button_content_noselect);
+                selectType = AppConfig.PAY_NO;
+                Bundle bundle = new Bundle();
+                bundle.putString("selectType",selectType);
+                mEventCallBack.EventClick(FuMineFragment.EVENT_REFRESH, bundle);
+                break;
+            case R.id.btn_no:
+                btn_has.setBackgroundResource(R.drawable.button_content_noselect);
+                btn_no.setBackgroundResource(R.drawable.button_content_select);
+                selectType = AppConfig.PAY_YES;
+                Bundle bundle2 = new Bundle();
+                bundle2.putString("selectType",selectType);
+                mEventCallBack.EventClick(FuMineFragment.EVENT_REFRESH, bundle2);
+                break;
+            case R.id.iv_right:
+                showMenu();
+                break;
+        }
     }
+
+    private void showMenu(){
+        PopupMenu popupMenu = new PopupMenu(mContext, iv_right);
+        android.view.Menu menu_more = popupMenu.getMenu();
+        menu_more.add(android.view.Menu.NONE, android.view.Menu.FIRST , 0, "添加房间");
+        menu_more.add(android.view.Menu.NONE, android.view.Menu.FIRST +1, 1, "切换房间");
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                int i = item.getItemId();
+                switch (i){
+
+                }
+                return true;
+            }
+        });
+
+        popupMenu.show();
+    }
+
+
+
+
 
     class MyAdapter extends BaseAdapter {
 
@@ -198,7 +257,11 @@ public class FuMineView extends FuUiFrameModel implements OnBannerListener,View.
 
             holder.tv_money.setText(propertyFeeList.get(position).getPayMoney().toString());
             holder.tv_time.setText(propertyFeeList.get(position).getBeginDate(),propertyFeeList.get(position).getEndDate());
-
+            if(AppConfig.PAY_NO.equals(selectType))
+                holder.tv_state.setText("未支付");
+            else{
+                holder.tv_state.setText("已支付");
+            }
 
             return convertView;
         }

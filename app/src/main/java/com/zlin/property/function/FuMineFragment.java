@@ -102,14 +102,17 @@ public class FuMineFragment extends FragmentParent {
     class OnEventClick implements FuEventCallBack {
         @Override
         public void EventClick(int event, Object object) {
+            Bundle bundle = (Bundle)object;
             switch (event){
                 case EVENT_REFRESH:
+                    pageState = bundle.getString("selectType");
                     pageNo = 1;
                     feeList.clear();
                     getFee();
                     break;
                 case EVENT_LOADMORE:
                     pageNo ++;
+                    pageState = bundle.getString("selectType");
                     getFee();
                     break;
 

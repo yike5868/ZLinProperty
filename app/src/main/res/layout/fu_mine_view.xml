@@ -72,10 +72,10 @@
             <com.zlin.property.view.FuButton
                 android:id="@+id/btn_has"
                 android:layout_width="0dp"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
                 android:layout_weight="1"
-                android:background="@drawable/button_content_click"
+                android:background="@drawable/button_content_select"
                 android:text="未支付"
                 android:textColor="@color/bg_black"
                 android:textSize="18sp" />
@@ -83,10 +83,10 @@
             <com.zlin.property.view.FuButton
                 android:id="@+id/btn_no"
                 android:layout_width="0dp"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_weight="1"
-                android:background="@drawable/button_content_click"
+                android:background="@drawable/button_content_noselect"
                 android:text="已支付"
                 android:textColor="@color/bg_black"
                 android:textSize="18sp" />
