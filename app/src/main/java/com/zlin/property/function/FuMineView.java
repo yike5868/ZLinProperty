@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.PopupMenu;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.youth.banner.listener.OnBannerListener;
@@ -21,6 +22,7 @@ import com.zlin.property.db.po.Room;
 import com.zlin.property.db.po.UserInfo;
 import com.zlin.property.tools.AppConfig;
 import com.zlin.property.tools.ToolUtil;
+import com.zlin.property.view.CommonPopupWindow;
 import com.zlin.property.view.FuButton;
 import com.zlin.property.view.FuCheckBox;
 import com.zlin.property.view.FuImageView;
@@ -48,13 +50,22 @@ public class FuMineView extends FuUiFrameModel implements OnBannerListener,View.
 
     UserInfo userInfo;
 
+    FuTextView tv_add;
+    FuTextView tv_switch;
+
     PullableListView lv_body;
     PullToRefreshLayout pullToRefreshLayout;
 
     List<PropertyFee> propertyFeeList;
 
+
+    View ll_main_title;
+
     MyAdapter myAdapter;
     Room selectRoom;
+    private CommonPopupWindow window;
+
+    private CommonPopupWindow.LayoutGravity layoutGravity;
 
     String selectType = AppConfig.PAY_NO;
     public FuMineView(Context cxt, FuEventCallBack callBack) {
@@ -83,7 +94,7 @@ public class FuMineView extends FuUiFrameModel implements OnBannerListener,View.
         tv_title.setText(selectRoom.getRoomName());
         iv_right.setOnClickListener(this);
         Glide.with(mContext).load(userInfo.getHeadPath()).error(R.mipmap.head).into(iv_head);
-        tv_name.setText("姓名："+userInfo.getRealName());
+        tv_name.setText("姓名："+ToolUtil.hideName(userInfo.getRealName()));
         String phone = ToolUtil.hidePhone(userInfo.getPhone());
         tv_phone.setText("手机："+phone);
         if(selectRoom!=null)
@@ -110,6 +121,8 @@ public class FuMineView extends FuUiFrameModel implements OnBannerListener,View.
 
         lv_body = (PullableListView)mFuView.findViewById(R.id.lv_body);
         initXR();
+
+        ll_main_title = mFuView.findViewById(R.id.ll_main_title);
     }
 
     private void initXR() {
@@ -189,22 +202,22 @@ public class FuMineView extends FuUiFrameModel implements OnBannerListener,View.
     }
 
     private void showMenu(){
-        PopupMenu popupMenu = new PopupMenu(mContext, iv_right);
-        android.view.Menu menu_more = popupMenu.getMenu();
-        menu_more.add(android.view.Menu.NONE, android.view.Menu.FIRST , 0, "添加房间");
-        menu_more.add(android.view.Menu.NONE, android.view.Menu.FIRST +1, 1, "切换房间");
-        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+        window=new CommonPopupWindow(mContext, R.layout.popup_mine, 350, ViewGroup.LayoutParams.WRAP_CONTENT) {
             @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                int i = item.getItemId();
-                switch (i){
-
-                }
-                return true;
+            protected void initView() {
+                View view=getContentView();
+                tv_add = (FuTextView)view.findViewById(R.id.tv_add);
+                tv_switch = (FuTextView)view.findViewById(R.id.tv_switch);
             }
-        });
 
-        popupMenu.show();
+            @Override
+            protected void initEvent() {}
+        };
+        layoutGravity=new CommonPopupWindow.LayoutGravity(CommonPopupWindow.LayoutGravity.ALIGN_LEFT| CommonPopupWindow.LayoutGravity.TO_BOTTOM);
+        layoutGravity.setVertGravity(CommonPopupWindow.LayoutGravity.TO_BOTTOM);
+        layoutGravity.setHoriGravity(CommonPopupWindow.LayoutGravity.ALIGN_RIGHT);
+        window.showBashOfAnchor(ll_main_title, layoutGravity, 0, 0);
+
     }
 
 
