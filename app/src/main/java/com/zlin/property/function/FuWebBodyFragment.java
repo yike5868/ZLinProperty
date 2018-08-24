@@ -10,6 +10,7 @@ import com.zlin.property.control.FragmentParent;
 import com.zlin.property.control.FuEventCallBack;
 import com.zlin.property.control.FuResponse;
 import com.zlin.property.control.FuUiFrameManager;
+import com.zlin.property.tools.AppConfig;
 import com.zlin.property.tools.StringUtil;
 import com.zlin.property.view.FuWebView;
 
@@ -49,7 +50,7 @@ public class FuWebBodyFragment extends FragmentParent {
     @Override
     public void initData(Bundle bundle) {
         if(bundle == null|| StringUtil.isEmpty(bundle.getString("url")))
-            url = "https://www.qiushibaike.com/";
+            url = AppConfig.HTTP_PULL;
         else
             url = bundle.getString("url");
     }

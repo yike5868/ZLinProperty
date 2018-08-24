@@ -16,7 +16,7 @@ public class AESKeyUtils {
             sb.append(str.charAt(index));
 
         }
-      //  return sb.toString();
-        return "1234567812345678";
+        return sb.toString();
+//        return "1234567812345678";
     }
 }

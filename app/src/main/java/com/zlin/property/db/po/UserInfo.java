@@ -11,7 +11,17 @@ public class UserInfo extends Entry{
     private String realName;
     private String phone;
     private String headPath;//头像
+    private String aesKey;//aeskey
     private List<Room> roomList;
+
+
+    public String getAesKey() {
+        return aesKey;
+    }
+
+    public void setAesKey(String aesKey) {
+        this.aesKey = aesKey;
+    }
 
     public List<Room> getRoomList() {
         return roomList;

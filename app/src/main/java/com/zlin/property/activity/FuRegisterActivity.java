@@ -28,7 +28,9 @@ import com.zlin.property.net.MyTask;
 import com.zlin.property.net.NetCallBack;
 import com.zlin.property.net.NetManager;
 import com.zlin.property.net.TaskManager;
+import com.zlin.property.tools.AESUtil;
 import com.zlin.property.tools.AppConfig;
+import com.zlin.property.tools.MD5Utils;
 import com.zlin.property.tools.StringUtil;
 import com.zlin.property.tools.ToastUtil;
 import com.zlin.property.tools.ToolUtil;
@@ -151,6 +153,7 @@ public class FuRegisterActivity extends FuParentActivity implements View.OnClick
                 }
                 userInfo = new UserInfo();
                 userInfo.setUserName(userName);
+                password = MD5Utils.encode2hex(password);
                 userInfo.setPassword(password);
                 Room room = new Room();
                 room.setRoomId(tempRoom.getRoomId());
@@ -207,6 +210,7 @@ public class FuRegisterActivity extends FuParentActivity implements View.OnClick
         if(AppConfig.tempRoom != null&& !StringUtil.isEmpty(AppConfig.tempRoom.getRoomId())){
             tempRoom = AppConfig.tempRoom;
             tv_room.setText(tempRoom.getMicrodistrictName()+tempRoom.getBuildingName()+tempRoom.getUnitName()+tempRoom.getRoomName());
+            AppConfig.tempRoom = null;
         }
     }
     class mNetCallBack implements NetCallBack {

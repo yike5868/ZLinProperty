@@ -8,6 +8,15 @@ public class RoomItem extends Entry {
     private String id;
     private String name;
     private String type;
+    private String userId;
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
     public String getId() {
         return id;

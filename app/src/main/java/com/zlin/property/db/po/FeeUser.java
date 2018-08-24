@@ -8,6 +8,15 @@ public class FeeUser extends Entry{
     private int pageIndex;
     private int pageSize;
     private String roomId;
+    private String feeId;
+
+    public String getFeeId() {
+        return feeId;
+    }
+
+    public void setFeeId(String feeId) {
+        this.feeId = feeId;
+    }
 
     public String getRoomId() {
         return roomId;

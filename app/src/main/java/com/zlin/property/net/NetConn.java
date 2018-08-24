@@ -5,7 +5,9 @@ import android.content.Context;
 import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.zlin.property.control.FuResponse;
+import com.zlin.property.tools.encrypt.AES;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -49,6 +51,9 @@ public class NetConn {
         if (response.isSuccessful()) {
             data = response.body().string();
             Log.e("response", data);
+
+//            String s = AES.decryptFromBase64(data,task.getAesKey());
+
             fuResponseBase = JSON.parseObject(data, FuResponse.class);
             return fuResponseBase;
         } else {

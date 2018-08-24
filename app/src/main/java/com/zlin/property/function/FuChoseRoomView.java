@@ -11,7 +11,11 @@ import com.zlin.property.R;
 import com.zlin.property.control.FuEventCallBack;
 import com.zlin.property.control.FuUiFrameModel;
 import com.zlin.property.db.po.RoomItem;
+import com.zlin.property.db.po.TempRoom;
 import com.zlin.property.tools.AppConfig;
+import com.zlin.property.tools.ToastUtil;
+import com.zlin.property.tools.Tool;
+import com.zlin.property.tools.ToolUtil;
 import com.zlin.property.view.FuListView;
 import com.zlin.property.view.FuTextView;
 
@@ -29,11 +33,12 @@ public class FuChoseRoomView extends FuUiFrameModel {
     FuListView lv_first;
     FuListView lv_sec;
 
-   List<RoomItem> firstList;
+    List<RoomItem> firstList;
     List<RoomItem> secList;
 
     RoomAdapter firstAdapter;
     RoomAdapter secAdapter;
+    FuTextView tv_title;
 
 
     @Override
@@ -52,6 +57,7 @@ public class FuChoseRoomView extends FuUiFrameModel {
         lv_first.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                AppConfig.tempRoom = new TempRoom();
                 AppConfig.tempRoom.setMicrodistrictId(firstList.get(position).getId());
                 AppConfig.tempRoom.setMicrodistrictName(firstList.get(position).getName());
                 mEventCallBack.EventClick(FuChoseRoomFragment.EVENT_FIND_ROOM,firstList.get(position));
@@ -68,9 +74,14 @@ public class FuChoseRoomView extends FuUiFrameModel {
                     AppConfig.tempRoom.setUnitId(secList.get(position).getId());
                     AppConfig.tempRoom.setUnitName(secList.get(position).getName());
                 }else if("room".equals(secList.get(position).getType())){
-                    AppConfig.tempRoom.setRoomId(secList.get(position).getId());
-                    AppConfig.tempRoom.setRoomName(secList.get(position).getName());
-                    mEventCallBack.EventClick(FuChoseRoomFragment.EVENT_FINISH,null);
+                    if(ToolUtil.isEmpty(secList.get(position).getUserId())) {
+                        AppConfig.tempRoom.setRoomId(secList.get(position).getId());
+                        AppConfig.tempRoom.setRoomName(secList.get(position).getName());
+                        AppConfig.tempRoom.setUserId(secList.get(position).getUserId());
+                        mEventCallBack.EventClick(FuChoseRoomFragment.EVENT_FINISH, null);
+                    }else{
+                        ToastUtil.showToast("房屋已被选择，请联系物业！");
+                    }
                     return;
                 }
                 mEventCallBack.EventClick(FuChoseRoomFragment.EVENT_FIND_ROOM,secList.get(position));
@@ -94,6 +105,8 @@ public class FuChoseRoomView extends FuUiFrameModel {
     protected void initWidget() {
         lv_first = (FuListView)mFuView.findViewById(R.id.lv_first);
         lv_sec = (FuListView)mFuView.findViewById(R.id.lv_sec);
+        tv_title= (FuTextView)mFuView.findViewById(R.id.tv_title);
+        tv_title.setText("选择房间");
     }
 
     class RoomAdapter extends BaseAdapter{

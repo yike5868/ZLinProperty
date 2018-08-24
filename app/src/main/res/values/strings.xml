@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">BaseAndroid</string>
+    <string name="app_name">众拓物业管理</string>
     <string name="fu_bottom_menu_des">底部导航栏的说明</string>
     <string name="fu_home">首页</string>
     <string name="fu_communion">交流</string>

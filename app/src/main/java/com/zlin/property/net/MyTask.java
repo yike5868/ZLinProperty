@@ -14,6 +14,7 @@ import com.zlin.property.tools.encrypt.RSA;
 import java.io.File;
 import java.net.URLEncoder;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Handler;
 
@@ -45,6 +46,7 @@ public class MyTask {
     public static final int GET_REPAIR = 7;//获取全部列表
     public static final int GET_FEE = 8;//获取支付类型
     public static final int GET_VERSION = 9;//获取版本信息
+    public static final int GET_ORDER_INFO = 10;//获取
 
 
     public static final String METHOD_GET = "GET";
@@ -61,6 +63,8 @@ public class MyTask {
     public NetCallBack mCallBack; // 回调接口
 
     public Entry mRequestData; // 请求数据的对象
+
+    public List<Entry> entryList;
 
     public String method = METHOD_POST;//请求方式
 
@@ -85,7 +89,6 @@ public class MyTask {
         if (Constant.isEncrypt) {
             //AES加密
             aesKey = AESKeyUtils.getKey();
-            byte[] data = jsonStr.getBytes();
             String encrypt_data = AES.encryptToBase64(jsonStr, aesKey);
             //RSA加密
             try {
@@ -140,6 +143,11 @@ public class MyTask {
         if (paramMap != null) {
 
             body = create(HttpConstansType.MEDIA_TYPE_JSON, stringOfPostBody(paramMap));
+        }
+
+        if(entryList != null){
+            body = create(HttpConstansType.MEDIA_TYPE_JSON, stringOfPostBody(entryList));
+
         }
 
         Request request;

@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -26,9 +27,12 @@ import com.zlin.property.net.MyTask;
 import com.zlin.property.net.NetCallBack;
 import com.zlin.property.net.NetManager;
 import com.zlin.property.net.TaskManager;
+import com.zlin.property.tools.AESUtil;
+import com.zlin.property.tools.MD5Utils;
 import com.zlin.property.tools.StringUtil;
 import com.zlin.property.tools.ToastUtil;
 import com.zlin.property.tools.ToolUtil;
+import com.zlin.property.tools.encrypt.AES;
 import com.zlin.property.view.FuEditText;
 import com.zlin.property.view.FuImageView;
 import com.zlin.property.view.FuTextView;
@@ -105,6 +109,7 @@ public class FuLoginActivity extends FuParentActivity implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_login:
+
                 userName = et_username.getText().toString().trim();
                 password = et_password.getText().toString().trim();
 
@@ -127,6 +132,7 @@ public class FuLoginActivity extends FuParentActivity implements View.OnClickLis
         ToolUtil.showPopWindowLoading(FuLoginActivity.this);
         userInfo = new UserInfo();
         userInfo.setUserName(userName);
+        password = MD5Utils.encode2hex(password);
         userInfo.setPassword(password);
         MyTask loginTask = TaskManager.getInstace().login(new mNetCallBack(), userInfo);
         NetManager manager = NetManager.getInstance(this);

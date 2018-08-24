@@ -75,6 +75,8 @@ public class FuSplishActivity extends FuParentActivity {
             Message message = handler.obtainMessage();
             switch (taskId) {
                 case MyTask.GET_VERSION:
+                     if(rspObj == null)
+                         return;
                     if(ToolUtil.isEmpty(rspObj.getData().toString())){
                         isFinish++;
                         handler.sendEmptyMessage(MSG_MAIN);

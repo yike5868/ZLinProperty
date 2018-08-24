@@ -26,9 +26,9 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.config
+                minifyEnabled true
+                proguardFiles 'proguard-project.txt'
         }
         debug {
             signingConfig signingConfigs.config
@@ -62,4 +62,7 @@ dependencies {
     //友盟推送
     compile 'com.umeng.sdk:common:latest.integration'
     compile 'com.umeng.sdk:analytics:latest.integration'
+    implementation files('libs/alipaySdk-20180601.jar')
+
+    compile 'cn.pedant.sweetalert:library:1.3'
 }

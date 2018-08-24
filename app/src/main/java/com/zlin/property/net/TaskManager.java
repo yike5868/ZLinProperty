@@ -13,6 +13,7 @@ import com.zlin.property.db.po.UserInfo;
 import com.zlin.property.tools.AppConfig;
 
 import java.io.File;
+import java.util.List;
 
 /**
  *
@@ -27,6 +28,8 @@ public class TaskManager {
     public final static String UPLOAD_FILE = "/file/upload";
     public final static String GETREPAIRS = "/service/getRepairs";
     public final static String GETFEE = "/service/getFee";
+    public final static String GET_ORDER_INFO = "/service/getOrderInfo";
+    public final static String ADD_ROOM_BYUSER = "/service/addRoomUser";
     public final static String FINROOM = "/user/findRoom";
 
     private static TaskManager mTaskManager;
@@ -145,7 +148,15 @@ public class TaskManager {
         myTask.mTaskId = MyTask.GET_FEE;
         return myTask;
     }
-
+    public MyTask addRoomUser(NetCallBack mCallBack, UserInfo userInfo){
+        MyTask myTask = new MyTask();
+        myTask.mUrl = AppConfig.HTTP+ADD_ROOM_BYUSER;
+        myTask.mCallBack = mCallBack;
+        myTask.mRequestData = userInfo;
+        myTask.mIsEncryption = false;
+        myTask.mTaskId = MyTask.GET_FEE;
+        return myTask;
+    }
     public MyTask getRepair(NetCallBack mCallBack, Repair repair){
         MyTask myTask = new MyTask();
         myTask.mUrl = AppConfig.HTTP+GETREPAIRS;
@@ -153,6 +164,15 @@ public class TaskManager {
         myTask.mRequestData = repair;
         myTask.mIsEncryption = false;
         myTask.mTaskId = MyTask.GET_REPAIR;
+        return myTask;
+    }
+    public MyTask getOrderInfo(NetCallBack mCallBack, List feeUser){
+        MyTask myTask = new MyTask();
+        myTask.mUrl = AppConfig.HTTP+GET_ORDER_INFO;
+        myTask.mCallBack = mCallBack;
+        myTask.entryList = feeUser;
+        myTask.mIsEncryption = false;
+        myTask.mTaskId = MyTask.GET_ORDER_INFO;
         return myTask;
     }
 }

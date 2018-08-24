@@ -1,6 +1,7 @@
 package com.zlin.property.function;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
@@ -8,7 +9,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.CompoundButton;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
@@ -26,12 +29,17 @@ import com.zlin.property.view.CommonPopupWindow;
 import com.zlin.property.view.FuButton;
 import com.zlin.property.view.FuCheckBox;
 import com.zlin.property.view.FuImageView;
+import com.zlin.property.view.FuListView;
 import com.zlin.property.view.FuTextView;
+import com.zlin.property.view.SweetAlert.SweetAlertDialog;
 import com.zlin.property.view.pullToRefresh.PullToRefreshLayout;
 import com.zlin.property.view.pullToRefresh.PullableListView;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by zhanglin03 on 2018/7/10.
@@ -58,7 +66,7 @@ public class FuMineView extends FuUiFrameModel implements OnBannerListener,View.
 
     List<PropertyFee> propertyFeeList;
 
-
+    FuListView lv_room;
     View ll_main_title;
 
     MyAdapter myAdapter;
@@ -68,10 +76,11 @@ public class FuMineView extends FuUiFrameModel implements OnBannerListener,View.
     private CommonPopupWindow.LayoutGravity layoutGravity;
 
     String selectType = AppConfig.PAY_NO;
+    List<Room> roomList;
     public FuMineView(Context cxt, FuEventCallBack callBack) {
         super(cxt, callBack);
     }
-
+    Map<String,PropertyFee> selectFee;
     @Override
     protected void createFuLayout() {
 
@@ -115,10 +124,10 @@ public class FuMineView extends FuUiFrameModel implements OnBannerListener,View.
         btn_has = (FuButton) mFuView.findViewById(R.id.btn_has);
         btn_no = (FuButton)mFuView.findViewById(R.id.btn_no);
         btn_pay = (FuButton)mFuView.findViewById(R.id.btn_pay);
-
+        btn_pay.setOnClickListener(this);
         btn_has.setOnClickListener(this);
         btn_no.setOnClickListener(this);
-
+        selectFee = new HashMap<>();
         lv_body = (PullableListView)mFuView.findViewById(R.id.lv_body);
         initXR();
 
@@ -165,7 +174,9 @@ public class FuMineView extends FuUiFrameModel implements OnBannerListener,View.
 
     public void setPropertyFeeList(List<PropertyFee> propertyFeeList){
         this.propertyFeeList = propertyFeeList;
+        selectFee = new HashMap<>();
         myAdapter.notifyDataSetChanged();
+
     }
 
 
@@ -198,16 +209,31 @@ public class FuMineView extends FuUiFrameModel implements OnBannerListener,View.
             case R.id.iv_right:
                 showMenu();
                 break;
+            case R.id.tv_add:
+                window.getPopupWindow().dismiss();
+                mEventCallBack.EventClick(FuMineFragment.EVENT_ADD_ROOM, null);
+                break;
+            case R.id.tv_switch:
+                window.getPopupWindow().dismiss();
+                showSelect();
+                break;
+            case R.id.btn_pay:
+                mEventCallBack.EventClick(FuMineFragment.EVENT_GET_ORDER_INFO,selectFee);
+                break;
+
         }
     }
+
 
     private void showMenu(){
         window=new CommonPopupWindow(mContext, R.layout.popup_mine, 350, ViewGroup.LayoutParams.WRAP_CONTENT) {
             @Override
             protected void initView() {
                 View view=getContentView();
-                tv_add = (FuTextView)view.findViewById(R.id.tv_add);
+                tv_add   = (FuTextView)view.findViewById(R.id.tv_add);
                 tv_switch = (FuTextView)view.findViewById(R.id.tv_switch);
+                tv_add.setOnClickListener(FuMineView.this);
+                tv_switch.setOnClickListener(FuMineView.this);
             }
 
             @Override
@@ -218,11 +244,36 @@ public class FuMineView extends FuUiFrameModel implements OnBannerListener,View.
         layoutGravity.setHoriGravity(CommonPopupWindow.LayoutGravity.ALIGN_RIGHT);
         window.showBashOfAnchor(ll_main_title, layoutGravity, 0, 0);
 
+
     }
 
 
 
+    private void showSelect(){
+        roomList = userInfo.getRoomList();
+        window=new CommonPopupWindow(mContext, R.layout.dialog_select_room, 350, ViewGroup.LayoutParams.WRAP_CONTENT) {
+            @Override
+            protected void initView() {
+                View view=getContentView();
+                lv_room =(FuListView) view.findViewById(R.id.lv_room);
+                ArrayAdapter adapter = new ArrayAdapter(
+                        mContext, R.layout.item_room_select, roomList);
+                lv_room.setAdapter(adapter);
+            }
 
+            @Override
+            protected void initEvent() {}
+        };
+
+        layoutGravity=new CommonPopupWindow.LayoutGravity(CommonPopupWindow.LayoutGravity.ALIGN_LEFT| CommonPopupWindow.LayoutGravity.TO_BOTTOM);
+        layoutGravity.setVertGravity(CommonPopupWindow.LayoutGravity.TO_BOTTOM);
+        layoutGravity.setHoriGravity(CommonPopupWindow.LayoutGravity.ALIGN_RIGHT);
+        window.showBashOfAnchor(ll_main_title, layoutGravity, 0, 0);
+
+
+
+
+    }
 
     class MyAdapter extends BaseAdapter {
 
@@ -242,7 +293,7 @@ public class FuMineView extends FuUiFrameModel implements OnBannerListener,View.
 
         @Override
         public Object getItem(int position) {
-            return position;
+            return propertyFeeList.get(position);
         }
 
         @Override
@@ -251,7 +302,7 @@ public class FuMineView extends FuUiFrameModel implements OnBannerListener,View.
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
             Holder holder;
             if (convertView == null) {
                 convertView = inflater.inflate(R.layout.fu_mine_item,
@@ -267,7 +318,12 @@ public class FuMineView extends FuUiFrameModel implements OnBannerListener,View.
             } else {
                 holder = (Holder) convertView.getTag();
             }
-
+            holder.cb_item.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    selectFee.put(propertyFeeList.get(position).getId(),propertyFeeList.get(position));
+                }
+            });
             holder.tv_money.setText(propertyFeeList.get(position).getPayMoney().toString());
             holder.tv_time.setText(propertyFeeList.get(position).getBeginDate(),propertyFeeList.get(position).getEndDate());
             if(AppConfig.PAY_NO.equals(selectType))
