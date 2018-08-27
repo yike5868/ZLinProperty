@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -61,6 +62,12 @@ public class FuLoginActivity extends FuParentActivity implements View.OnClickLis
 
     @Bind(R.id.btn_login)
     TextView btn_login;
+
+    @Bind(R.id.rl_title)
+    RelativeLayout rl_title;
+
+    @Bind(R.id.view_split)
+    View view_split;
 
     private View progress;
 
@@ -188,6 +195,8 @@ public class FuLoginActivity extends FuParentActivity implements View.OnClickLis
 
 
     private void initView() {
+        view_split.setVisibility(View.GONE);
+        rl_title.setBackgroundResource(R.color.titleColor);
         tv_right.setVisibility(View.VISIBLE);
         tv_right.setText("注册");
         tv_right.setOnClickListener(this);
@@ -196,6 +205,11 @@ public class FuLoginActivity extends FuParentActivity implements View.OnClickLis
         mName = (LinearLayout) findViewById(R.id.input_layout_name);
         mPsw = (LinearLayout) findViewById(R.id.input_layout_psw);
         btn_login.setOnClickListener(this);
+
+        userInfo = getSP("userInfo",UserInfo.class);
+        if(userInfo !=null){
+            et_username.setText(userInfo.getUserName());
+        }
     }
 
     ValueAnimator animator;

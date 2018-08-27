@@ -84,7 +84,7 @@ public class FuSplishActivity extends FuParentActivity {
                     }
                     version = JSON.parseObject(rspObj.getData().toString(), Version.class);
 
-                    if (version.getVersionCode() < ToolUtil.getVerCode(FuSplishActivity.this)) {
+                    if (version.getVersionCode() > ToolUtil.getVerCode(FuSplishActivity.this)) {
 //                    if (0 < ToolUtil.getVerCode(FuSplishActivity.this)) {
                         handler.sendEmptyMessage(MSG_UPDATE);
                     } else {

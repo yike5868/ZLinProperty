@@ -3,12 +3,15 @@ package com.zlin.property.function;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.alibaba.fastjson.JSON;
+import com.alipay.sdk.app.PayTask;
 import com.zlin.property.FuApp;
+import com.zlin.property.activity.FuAliPayActivity;
 import com.zlin.property.activity.FuMainActivity;
 import com.zlin.property.control.FragmentParent;
 import com.zlin.property.control.FuEventCallBack;
@@ -40,6 +43,8 @@ public class FuMineFragment extends FragmentParent {
     private String pageState = AppConfig.PAY_NO;
     UserInfo userInfo;
     List<PropertyFee> feeList;
+
+    private static final int SDK_PAY_FLAG = 1;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -84,10 +89,30 @@ public class FuMineFragment extends FragmentParent {
                 handler.sendEmptyMessage(MSG_FINISH);
                 break;
             case MyTask.GET_ORDER_INFO:
-
+                aliPay(rspObj.getData().toString());
                 break;
 
         }
+    }
+
+    private void aliPay(final String orderInfo){
+        Runnable payRunnable = new Runnable() {
+
+            @Override
+            public void run() {
+                PayTask alipay = new PayTask(getActivity());
+                Map<String, String> result = alipay.payV2(orderInfo, true);
+                Log.i("msp", result.toString());
+
+                Message msg = new Message();
+                msg.what = SDK_PAY_FLAG;
+                msg.obj = result;
+                handler.sendMessage(msg);
+            }
+        };
+
+        Thread payThread = new Thread(payRunnable);
+        payThread.start();
     }
 
     @Override
@@ -178,6 +203,9 @@ public class FuMineFragment extends FragmentParent {
                 case MSG_FINISH:
                     ((FuMineView) mModel).setPropertyFeeList(feeList);
                     ((FuMineView) mModel).loadFinish();
+                    break;
+                case SDK_PAY_FLAG:
+                    ToastUtil.showToast("发起了支付宝支付！");
                     break;
             }
         }
