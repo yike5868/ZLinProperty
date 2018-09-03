@@ -25,6 +25,8 @@ import com.zlin.property.activity.FuParentActivity;
 import com.zlin.property.control.FuEventCallBack;
 import com.zlin.property.control.FuUiFrameManager;
 import com.zlin.property.control.FuUiFrameModel;
+import com.zlin.property.tools.AppConfig;
+import com.zlin.property.tools.ToolUtil;
 import com.zlin.property.view.FuImageView;
 import com.zlin.property.view.FuTextView;
 import com.zlin.property.view.FuWebView;
@@ -105,6 +107,7 @@ public class FuWebBodyView extends FuUiFrameModel implements View.OnClickListene
                 public void onPageStarted(WebView view, String url, Bitmap favicon) {
                     super.onPageStarted(view, url, favicon);
                     System.out.println("url -> " + url);
+                    ToolUtil.showPopWindowLoading(mContext);
                 }
 
                 @Override
@@ -113,31 +116,25 @@ public class FuWebBodyView extends FuUiFrameModel implements View.OnClickListene
                     isFinish = true;
                     System.out.println(" -> onPageFinished");
                     tv_title.setText(view.getTitle());
-
+                    ToolUtil.hidePopLoading();
                 }
 
                 @Override
                 public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
                     System.out.println("onReceivedError -->> ");
                     super.onReceivedError(view, errorCode, description, failingUrl);
-
+                    ToolUtil.hidePopLoading();
                 }
 
                 @Override
                 public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
                     System.out.println("onReceivedSslError -->>");
                     handler.proceed();
+                    ToolUtil.hidePopLoading();
                 }
                 @Override
                 public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                    if(mContext instanceof FuMainActivity){
-                        Bundle bundle = new Bundle();
-                        bundle.putSerializable("url",url);
-                        ((FuParentActivity) mContext).addFragment( FuUiFrameManager.FU_WEB_VIEW, bundle);
-                    }else{
-                        webView.loadUrl(url);
-                    }
-
+                    goNewPage(view,url);
                     return true;
                 }
             });
@@ -148,7 +145,16 @@ public class FuWebBodyView extends FuUiFrameModel implements View.OnClickListene
         }
 
     }
+    public void goNewPage(WebView view,String url){
+        if(mContext instanceof FuMainActivity){
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("url",url);
+            ((FuParentActivity) mContext).addFragment( FuUiFrameManager.FU_WEB_VIEW, bundle);
+        }else{
+            view.loadUrl(url);
+        }
 
+    }
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -166,6 +172,13 @@ public class FuWebBodyView extends FuUiFrameModel implements View.OnClickListene
         @JavascriptInterface
         public void showLocalBar(String titleColor) {
             System.out.println("showLocalBar ---->>>>>> titleColor -> " + titleColor);
+        }
+        @JavascriptInterface
+        public void jumpToNextPage(String param){
+            if(!param.startsWith("http")){
+                param = AppConfig.HTTP_URL+param;
+            }
+            goNewPage(webView,param);
         }
     }
 
