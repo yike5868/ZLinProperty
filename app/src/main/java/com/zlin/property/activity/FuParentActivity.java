@@ -8,6 +8,7 @@ import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.TypedValue;
 import android.widget.TextView;
 
@@ -16,6 +17,7 @@ import com.zlin.property.Constant;
 import com.zlin.property.FuApp;
 import com.zlin.property.R;
 import com.zlin.property.control.CustomFragmentManager;
+import com.zlin.property.control.FuUiFrameManager;
 import com.zlin.property.tools.StringUtil;
 import com.zlin.property.view.TimePicker.OnDateSetListener;
 import com.zlin.property.view.TimePicker.TimePickerDialog;
@@ -28,6 +30,9 @@ import java.util.Date;
 public class FuParentActivity extends FragmentActivity {
     public CustomFragmentManager mManager;
 
+    protected String getName(){
+        return getClass().getSimpleName();
+    }
     @Override
     protected void onCreate(Bundle bundle) {
 
@@ -158,6 +163,14 @@ public class FuParentActivity extends FragmentActivity {
     }
 
     public void addFragment(int fragmentId, Bundle bundle) {
+        if(getName().equals("FuContentActivity")){
+            CustomFragmentManager.getInstance(getApplicationContext()).addFragment(fragmentId, FuUiFrameManager.FU_WEB_VIEW,bundle);
 
+        }else{
+            CustomFragmentManager.getInstance(getApplicationContext()).addFragment(fragmentId, FuUiFrameManager.FU_WEB_VIEW,bundle);
+
+        }
     }
+
+
 }

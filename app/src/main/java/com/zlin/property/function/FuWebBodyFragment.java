@@ -50,7 +50,7 @@ public class FuWebBodyFragment extends FragmentParent {
     @Override
     public void initData(Bundle bundle) {
         if(bundle == null|| StringUtil.isEmpty(bundle.getString("url")))
-            url = AppConfig.HTTP_PULL;
+            url = AppConfig.VUE_PULL;
         else
             url = bundle.getString("url");
     }

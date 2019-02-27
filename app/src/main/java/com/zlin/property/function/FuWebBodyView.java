@@ -40,6 +40,7 @@ public class FuWebBodyView extends FuUiFrameModel implements View.OnClickListene
     FuWebView webView;
     FuTextView tv_title;
     FuImageView iv_left;
+    String h5param = "1123";
 
     public  boolean isFinish = false;
     public String url;
@@ -114,6 +115,7 @@ public class FuWebBodyView extends FuUiFrameModel implements View.OnClickListene
                 public void onPageFinished(WebView view, String url) {
                     super.onPageFinished(view, url);
                     isFinish = true;
+                    webView.loadUrl("javascript:localInfo('')");
                     System.out.println(" -> onPageFinished");
                     tv_title.setText(view.getTitle());
                     ToolUtil.hidePopLoading();
@@ -134,7 +136,7 @@ public class FuWebBodyView extends FuUiFrameModel implements View.OnClickListene
                 }
                 @Override
                 public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                    goNewPage(view,url);
+                    goNewPage(webView,url);
                     return true;
                 }
             });
@@ -176,7 +178,7 @@ public class FuWebBodyView extends FuUiFrameModel implements View.OnClickListene
         @JavascriptInterface
         public void jumpToNextPage(String param){
             if(!param.startsWith("http")){
-                param = AppConfig.HTTP_URL+param;
+                param = AppConfig.VUE_URL+param;
             }
             goNewPage(webView,param);
         }
